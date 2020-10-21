@@ -9,6 +9,8 @@
 
 
 ## 2. Yee Fu Au
+> email: yfauaa@connect.ust.hk | github: dymani | dev_branch: yfauaa_feature
+> Task: 2 & 6
 
 
 ## 3. Amrutavarsh Sanganabasappa Kinagi
