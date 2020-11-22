@@ -3,12 +3,23 @@
  */
 package comp3111.popnames;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.cell.MapValueFactory;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TableColumn;
+import java.lang.NumberFormatException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Controller {
 
@@ -26,6 +37,9 @@ public class Controller {
 
     @FXML
     private TextField textfieldNameM;
+    
+    @FXML
+    private Button task1Button;
 
     @FXML
     private Button buttonRankF;
@@ -69,7 +83,25 @@ public class Controller {
     @FXML
     private TextArea textAreaConsole;
     
+    @FXML
+    private TextField numRankTextField;
+    
+    @FXML
+    private RadioButton maleRadioButton;
+    
 
+    @FXML
+    private RadioButton femaleRadioButton;
+
+    @FXML
+    private TextField endPeriodTextField;
+
+    @FXML
+    private TextField startPeriodTextField;
+    
+    @FXML
+    private TableView<Map> report1Table;
+    
     /**
      *  Task Zero
      *  To be triggered by the "Summary" button on the Task Zero Tab 
@@ -154,6 +186,71 @@ public class Controller {
     	textAreaConsole.setText(oReport);
     }
     
+    /**
+     *  Task One
+     *  To be triggered by the Generate Report Button in Reporting 1 tab.
+     *  
+     */
+    @FXML
+    void doTask1() {
+    	int numRanks;
+    	int startPeriod;
+    	int endPeriod;
+    	int gender;
+    	try {
+    		// input validation and catches any errors
+    		 	numRanks = Integer.parseInt(numRankTextField.getText());
+    		 	startPeriod = Integer.parseInt(startPeriodTextField.getText());
+    		 	endPeriod = Integer.parseInt(endPeriodTextField.getText());
+    		 	
+    		if (maleRadioButton.isSelected()) {
+    			gender = 0;
+    		} else {
+    			gender = 1;
+    		}
+    		
+    	} catch(NumberFormatException e) {
+    		// some error catching here
+    		return;
+    	}
+    	ArrayList<YearRecords> yearRecordsList = Activity1Query.executeQuery(numRanks, gender, startPeriod, endPeriod);
+    	// clear all the contents of the table view
+    	report1Table.getColumns().clear();
+    	report1Table.getItems().clear();
+    	report1Table.refresh();
 
+    	// initializing the year column
+    	TableColumn<Map,String> yearColumn = new TableColumn<>("Year");
+    	yearColumn.setCellValueFactory(new MapValueFactory<>("year"));
+		report1Table.getColumns().add(yearColumn);
+		
+		int index = 1;
+		for (; index <= numRanks; index++) {
+			TableColumn<Map, String> topColumn = new TableColumn<>("Top " + index);
+			topColumn.setCellValueFactory(new MapValueFactory<>("top" + index));
+			report1Table.getColumns().add(topColumn);
+		}
+		ObservableList<Map<String, Object>> items =
+			    FXCollections.<Map<String, Object>>observableArrayList();
+
+    	for (YearRecords y : yearRecordsList) {
+    		Map<String, Object> item = new HashMap<>();
+    		item.put("year", y.getYear());
+    		index = 1;
+    		for (NameRecord nr : y.getNameRecordList()) {
+    	    	item.put("top" + index, nr.getName());
+    	    	index++;
+    		}
+    		items.add(item);
+    	}
+    	report1Table.getItems().addAll(items);
+
+//    	System.out.println(oReport);
+//    	textAreaConsole.setText(oReport);
+//    	System.out.println("finish executing task 1");
+    	
+    	
+    	
+    }
 }
 

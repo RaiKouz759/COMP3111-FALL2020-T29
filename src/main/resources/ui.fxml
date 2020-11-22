@@ -6,6 +6,7 @@
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
@@ -14,9 +15,9 @@
 
 <VBox prefHeight="679.0" prefWidth="719.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comp3111.popnames.Controller">
   <children>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="437.0" prefWidth="719.0">
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="346.0" prefWidth="719.0">
       <children>
-            <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="350.0" prefWidth="719.0" tabClosingPolicy="UNAVAILABLE">
+            <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="679.0" prefWidth="719.0" tabClosingPolicy="UNAVAILABLE">
               <tabs>
                 <Tab fx:id="tabTaskZero" text="Task Zero">
                   <content>
@@ -35,6 +36,11 @@
                               <Button fx:id="buttonTopF" layoutX="462.0" layoutY="134.0" mnemonicParsing="false" onAction="#doTopF" text="Top 5 (female)" />
                               <Button fx:id="buttonSummary" layoutX="566.0" layoutY="134.0" mnemonicParsing="false" onAction="#doSummary" text="Summary" />
                               <Label layoutX="342.0" layoutY="98.0" text="Range: 1880 - 2019" />
+                              <ScrollPane layoutY="262.0" prefHeight="387.0" prefWidth="719.0">
+                                 <content>
+                                    <TextArea fx:id="textAreaConsole" prefHeight="370.0" prefWidth="719.0" />
+                                 </content>
+                              </ScrollPane>
                            </children>
                         </AnchorPane>
                   </content>
@@ -44,21 +50,25 @@
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="384.0" prefWidth="719.0">
                            <children>
                               <Label layoutX="79.0" layoutY="44.0" />
-                              <TextArea layoutX="96.0" layoutY="24.0" prefHeight="42.0" prefWidth="335.0" text="Generate a brief report in response to the queries on the most popular names registered at birth over a given period." wrapText="true" />
-                              <Label layoutX="96.0" layoutY="100.0" text="Top N (N&gt;=1): " />
-                              <TextField layoutX="178.0" layoutY="96.0" prefHeight="26.0" prefWidth="27.0" text="10" />
-                              <Label layoutX="253.0" layoutY="100.0" text="Gender: " />
-                              <RadioButton layoutX="308.0" layoutY="100.0" mnemonicParsing="false" selected="true" text="Male">
+                              <Label layoutX="101.0" layoutY="35.0" text="Top N (N&gt;=1): " />
+                              <TextField fx:id="numRankTextField" layoutX="183.0" layoutY="31.0" prefHeight="26.0" prefWidth="27.0" text="10" />
+                              <Label layoutX="258.0" layoutY="35.0" text="Gender: " />
+                              <RadioButton fx:id="maleRadioButton" layoutX="313.0" layoutY="35.0" mnemonicParsing="false" selected="true" text="Male">
                                  <toggleGroup>
                                     <ToggleGroup fx:id="T1" />
                                  </toggleGroup>
                               </RadioButton>
-                              <RadioButton layoutX="360.0" layoutY="100.0" mnemonicParsing="false" text="Female" toggleGroup="$T1" />
-                              <Label layoutX="96.0" layoutY="132.0" text="Period (1880 - 2019): " />
-                              <TextField layoutX="276.0" layoutY="126.0" prefHeight="26.0" prefWidth="43.0" text="1945" />
-                              <TextField layoutX="210.0" layoutY="126.0" prefHeight="26.0" prefWidth="43.0" text="1941" />
-                              <Label layoutX="258.0" layoutY="130.0" text="to" />
-                              <Button layoutX="96.0" layoutY="169.0" mnemonicParsing="false" text="REPORT (yet to be implemented)" />
+                              <RadioButton fx:id="femaleRadioButton" layoutX="365.0" layoutY="35.0" mnemonicParsing="false" text="Female" toggleGroup="$T1" />
+                              <Label layoutX="101.0" layoutY="67.0" text="Period (1880 - 2019): " />
+                              <TextField fx:id="endPeriodTextField" layoutX="281.0" layoutY="61.0" prefHeight="26.0" prefWidth="43.0" text="1945" />
+                              <TextField fx:id="startPeriodTextField" layoutX="215.0" layoutY="61.0" prefHeight="26.0" prefWidth="43.0" text="1941" />
+                              <Label layoutX="263.0" layoutY="65.0" text="to" />
+                              <Button fx:id="task1Button" layoutX="101.0" layoutY="104.0" mnemonicParsing="false" onAction="#doTask1" text="GENERATE REPORT" />
+                              <ScrollPane layoutX="-5.0" layoutY="318.0" prefHeight="331.0" prefWidth="726.0">
+                                 <content>
+                                    <TableView fx:id="report1Table" prefHeight="329.0" prefWidth="722.0" />
+                                 </content>
+                              </ScrollPane>
                            </children>
                         </AnchorPane>
                     </content>
@@ -154,11 +164,5 @@
             </TabPane>
       </children>
     </AnchorPane>
-      <Label text="Console" />
-      <ScrollPane prefHeight="387.0" prefWidth="719.0">
-         <content>
-            <TextArea fx:id="textAreaConsole" prefHeight="300.0" prefWidth="718.0" />
-         </content>
-      </ScrollPane>
   </children>
 </VBox>
