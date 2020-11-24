@@ -6,6 +6,7 @@ package comp3111.popnames;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
@@ -16,12 +17,18 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.ChoiceBox;
 import java.lang.NumberFormatException;
+import java.net.URL;
+
+import javafx.scene.layout.VBox;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ResourceBundle;
 
-public class Controller {
+
+public class Controller implements Initializable{
 
     @FXML
     private Tab tabTaskZero;
@@ -89,7 +96,6 @@ public class Controller {
     @FXML
     private RadioButton maleRadioButton;
     
-
     @FXML
     private RadioButton femaleRadioButton;
 
@@ -102,6 +108,20 @@ public class Controller {
     @FXML
     private TableView<Map> report1Table;
     
+    @FXML	
+    private ChoiceBox<String> app2ChoiceBox;
+    
+
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		// TODO Auto-generated method stub
+    	ArrayList<String> list = new ArrayList<String>();
+    	list.add("NK-T5");
+    	list.add("Levenshtein Distance");
+    	ObservableList<String> obList = FXCollections.observableList(list);
+        app2ChoiceBox.setItems(obList);
+        app2ChoiceBox.setValue("NK-T5");
+	}
     /**
      *  Task Zero
      *  To be triggered by the "Summary" button on the Task Zero Tab 
@@ -244,13 +264,9 @@ public class Controller {
     		items.add(item);
     	}
     	report1Table.getItems().addAll(items);
-
-//    	System.out.println(oReport);
-//    	textAreaConsole.setText(oReport);
-//    	System.out.println("finish executing task 1");
-    	
-    	
+    	   	
     	
     }
+
 }
 
