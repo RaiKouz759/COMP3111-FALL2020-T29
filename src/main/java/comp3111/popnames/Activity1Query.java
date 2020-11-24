@@ -32,11 +32,9 @@ public class Activity1Query {
 		// assume that input parameters are valid and have been verified. 
 		// can also get the top 3 results in the period range
 		// what happens when numRanks is 1000? 
+		
 		ArrayList<YearRecords> yearRecordsList = new ArrayList<YearRecords>();
-		String str_gender = "M";
-		if (gender == 1) {
-			str_gender = "F";
-		}
+		String str_gender = Constants.genders[gender];
 		for(int year=startPeriod; year<=endPeriod; year++) {
 			CSVParser fileParser = getFileParser(year);
 			YearRecords yearRecord = new YearRecords(numRanks, year);

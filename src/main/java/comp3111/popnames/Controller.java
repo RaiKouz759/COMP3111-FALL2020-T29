@@ -18,6 +18,8 @@ import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+
 import java.lang.NumberFormatException;
 import java.net.URL;
 
@@ -110,6 +112,38 @@ public class Controller implements Initializable{
     
     @FXML	
     private ChoiceBox<String> app2ChoiceBox;
+    
+    //activity 5 FXML objects
+    @FXML
+    private TextField app2YourName;
+
+    @FXML
+    private RadioButton app2YourGenderM;
+
+    @FXML
+    private RadioButton app2YourGenderF;
+
+    @FXML
+    private TextField app2YOB;
+
+    @FXML
+    private RadioButton app2SoulGenderM;
+
+    @FXML
+    private RadioButton app2SoulGenderF;
+
+    @FXML
+    private RadioButton app2SoulYounger;
+
+    @FXML
+    private RadioButton app2SoulOlder;
+    
+    @FXML
+    private Label app2PredictSentence;
+
+    @FXML
+    private Label app2Answer;
+    // end of activity5 objects
     
 
 	@Override
@@ -231,6 +265,7 @@ public class Controller implements Initializable{
     		} else {
     			gender = 1;
     		}
+
     		
     	} catch(NumberFormatException e) {
     		// some error catching here
@@ -270,6 +305,49 @@ public class Controller implements Initializable{
     	   	
     	
     }
-
+    /**
+     *  Task Five
+     *  To be triggered by the Generate Report Button in Application 2 tab.
+     *  
+     */
+    @FXML
+    void doTask5() {
+    	String name;
+    	int gender;
+    	int prefGender;
+    	int yob;
+    	boolean prefYounger;
+    	try {
+    		// get data from input fields
+    		name = app2YourName.getText();
+    		yob = Integer.parseInt(app2YOB.getText());
+    		if (app2YourGenderM.isSelected()) {
+    			gender = 0;
+    		} else {
+    			gender = 1;
+    		}
+    		if (app2SoulGenderM.isSelected()) {
+    			prefGender = 0;
+    		} else {
+    			prefGender = 1;
+    		}
+    		prefYounger = app2SoulYounger.isSelected();
+    		// input validation
+    		if (Activity5Query.isNameCorrect(name) && Activity5Query.isYOBCorrect(yob)) {
+    			
+    		} else {
+    			System.out.println("Wrong input format");
+    			//output some error statement
+    			return;
+    		}
+    		
+    	} catch(NumberFormatException e) {
+    		//error catching logic here
+    		return;
+    	}
+    	
+    	String oName = Activity5Query.executeQueryNKT5( name, yob, gender, prefGender, prefYounger);
+    	app2Answer.setText(oName);
+    }
 }
 

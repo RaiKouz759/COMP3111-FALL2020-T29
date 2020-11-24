@@ -144,7 +144,7 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TextArea layoutX="66.0" layoutY="226.0" prefHeight="242.0" prefWidth="638.0" text="Develop and implement an online service using empirical data to help make informed decisions on predicting names for compatible pairs.  Sample Scenario of Application: (i) A person seeking advices on identifying the name of a person of a different gender who would become his/her soulmate; (ii) A person seeking advices on identifying the name of a person of the same gender who would become his/her soulmate.&#10;&#10;Input&#10;* iName, iGender, iYOB: Particulars of the person seeking advices&#10;* iGenderMate: Specify the gender of the soulmate to be matched&#10;* iPreference: Specify the preference on having a younger or older soulmate&#10;&#10;Output&#10;* oName: Recommended name of the soulmate according to the NK-T5 Algorithm&#10;* plus, WOW factor on user experience and algorithm design!" wrapText="true" />
+                              <TextArea layoutX="40.0" layoutY="393.0" prefHeight="242.0" prefWidth="638.0" text="Develop and implement an online service using empirical data to help make informed decisions on predicting names for compatible pairs.  Sample Scenario of Application: (i) A person seeking advices on identifying the name of a person of a different gender who would become his/her soulmate; (ii) A person seeking advices on identifying the name of a person of the same gender who would become his/her soulmate.&#10;&#10;Input&#10;* iName, iGender, iYOB: Particulars of the person seeking advices&#10;* iGenderMate: Specify the gender of the soulmate to be matched&#10;* iPreference: Specify the preference on having a younger or older soulmate&#10;&#10;Output&#10;* oName: Recommended name of the soulmate according to the NK-T5 Algorithm&#10;* plus, WOW factor on user experience and algorithm design!" wrapText="true" />
                               <Label alignment="CENTER" layoutX="189.0" layoutY="14.0" prefHeight="27.0" prefWidth="322.0" text="Predict Your Soulmate's Name Today!" AnchorPane.leftAnchor="189.0" AnchorPane.rightAnchor="207.80000000000007">
                                  <font>
                                     <Font name="Cambria Bold" size="18.0" />
@@ -155,17 +155,25 @@
                               <Label layoutX="78.0" layoutY="123.0" text="Year Of Birth : " />
                               <Label alignment="CENTER" layoutX="346.0" layoutY="64.0" prefHeight="18.0" prefWidth="170.0" text="Preferred Soulmate's Gender : " />
                               <Label layoutX="350.0" layoutY="93.0" prefHeight="18.0" prefWidth="149.0" text="Preferred Soulmate's Age :" />
-                              <TextField layoutX="158.0" layoutY="60.0" />
-                              <RadioButton layoutX="158.0" layoutY="94.0" mnemonicParsing="false" selected="true" text="Male" toggleGroup="$T11" />
-                              <RadioButton layoutX="219.0" layoutY="94.0" mnemonicParsing="false" text="Female" toggleGroup="$T11" AnchorPane.leftAnchor="219.0" AnchorPane.rightAnchor="440.20000000000005" />
-                              <TextField layoutX="158.0" layoutY="119.0" />
-                              <RadioButton layoutX="517.0" layoutY="63.0" minWidth="53.0" mnemonicParsing="false" prefHeight="18.0" text="Male" toggleGroup="$T1" />
-                              <RadioButton contentDisplay="CENTER" layoutX="582.0" layoutY="64.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="35.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="90.0" selected="true" text="Female" textAlignment="CENTER" toggleGroup="$T1" />
-                              <RadioButton layoutX="500.0" layoutY="93.0" mnemonicParsing="false" selected="true" text="Younger" toggleGroup="$T111" />
-                              <RadioButton layoutX="582.0" layoutY="93.0" mnemonicParsing="false" text="Older" toggleGroup="$T111" />
+                              <TextField fx:id="app2YourName" layoutX="158.0" layoutY="60.0" />
+                              <RadioButton fx:id="app2YourGenderM" layoutX="158.0" layoutY="94.0" mnemonicParsing="false" selected="true" text="Male" toggleGroup="$T11" />
+                              <RadioButton fx:id="app2YourGenderF" layoutX="219.0" layoutY="94.0" mnemonicParsing="false" text="Female" toggleGroup="$T11" AnchorPane.leftAnchor="219.0" AnchorPane.rightAnchor="440.20000000000005" />
+                              <TextField fx:id="app2YOB" layoutX="158.0" layoutY="119.0" />
+                              <RadioButton fx:id="app2SoulGenderM" layoutX="517.0" layoutY="63.0" minWidth="53.0" mnemonicParsing="false" prefHeight="18.0" text="Male" toggleGroup="$T1" />
+                              <RadioButton fx:id="app2SoulGenderF" contentDisplay="CENTER" layoutX="582.0" layoutY="64.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="35.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="90.0" selected="true" text="Female" textAlignment="CENTER" toggleGroup="$T1" />
+                              <RadioButton fx:id="app2SoulYounger" layoutX="500.0" layoutY="93.0" mnemonicParsing="false" selected="true" text="Younger" toggleGroup="$T111" />
+                              <RadioButton fx:id="app2SoulOlder" layoutX="582.0" layoutY="93.0" mnemonicParsing="false" text="Older" toggleGroup="$T111" />
                               <ChoiceBox fx:id="app2ChoiceBox" layoutX="468.0" layoutY="118.0" prefWidth="150.0" />
                               <Label layoutX="350.0" layoutY="122.0" prefHeight="18.0" prefWidth="149.0" text="Preferred Algorithm : " />
-                              <Button fx:id="app2Button" layoutX="76.0" layoutY="169.0" mnemonicParsing="false" text="GET NAME" />
+                              <Button fx:id="app2Button" layoutX="76.0" layoutY="169.0" mnemonicParsing="false" onAction="#doTask5" text="GET NAME" />
+                              <Label layoutX="88.0" layoutY="145.0" />
+                              <Label layoutX="77.0" layoutY="145.0" text="(1880 - 2019)" />
+                              <Label fx:id="app2PredictSentence" layoutX="38.0" layoutY="356.0" prefHeight="27.0" prefWidth="361.0" text="Your Soulmate's Name is Predicted to be:">
+                                 <font>
+                                    <Font name="System Bold Italic" size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="app2Answer" layoutX="400.0" layoutY="361.0" prefHeight="18.0" prefWidth="202.0" />
                            </children>
                         </AnchorPane>
                     </content>
