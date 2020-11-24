@@ -114,13 +114,16 @@ public class Controller implements Initializable{
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		// TODO Auto-generated method stub
+		
+		// this part is to initialize the choiceBox in activity5
     	ArrayList<String> list = new ArrayList<String>();
     	list.add("NK-T5");
     	list.add("Levenshtein Distance");
     	ObservableList<String> obList = FXCollections.observableList(list);
         app2ChoiceBox.setItems(obList);
         app2ChoiceBox.setValue("NK-T5");
+        // end of initialization of activity5
+        
 	}
     /**
      *  Task Zero
