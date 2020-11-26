@@ -7,6 +7,8 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
@@ -26,7 +28,9 @@ import java.net.URL;
 import javafx.scene.layout.VBox;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.ResourceBundle;
 
 
@@ -112,6 +116,15 @@ public class Controller implements Initializable{
     
     @FXML	
     private ChoiceBox<String> app2ChoiceBox;
+    
+    @FXML
+    private BarChart<String, Integer> rep1BarChart;
+    
+    @FXML
+    private TextArea rep1Comment;
+    
+    @FXML
+    private Label rep1Label;
     
     //activity 5 FXML objects
     @FXML
@@ -272,10 +285,12 @@ public class Controller implements Initializable{
     		return;
     	}
     	ArrayList<YearRecords> yearRecordsList = Activity1Query.executeQuery(numRanks, gender, startPeriod, endPeriod);
-    	// clear all the contents of the table view
+    	// clear all the contents of the table view & bar chart
     	report1Table.getColumns().clear();
     	report1Table.getItems().clear();
     	report1Table.refresh();
+    	rep1BarChart.getData().clear();
+    	rep1BarChart.setVisible(true);
 
     	// initializing the year column
     	TableColumn<Map,String> yearColumn = new TableColumn<>("Year");
@@ -302,7 +317,22 @@ public class Controller implements Initializable{
     		items.add(item);
     	}
     	report1Table.getItems().addAll(items);
-    	   	
+    	
+    	// display bar chart with info. 
+    	rep1BarChart.setVisible(true);
+    	LinkedHashMap<String, Integer> top3Names = Activity1Query.top3Names;
+    	
+    	XYChart.Series<String, Integer> dataSeries = new XYChart.Series<String, Integer>();
+    	dataSeries.setName(Integer.toString(startPeriod) + " - " + Integer.toString(endPeriod));
+        for (Entry<String, Integer> entry : top3Names.entrySet())
+        {
+        	dataSeries.getData().add(new XYChart.Data<String, Integer>(entry.getKey(), entry.getValue()));
+        	
+        }
+        rep1BarChart.getData().add(dataSeries);
+        rep1Comment.setVisible(true);
+    	rep1Comment.setText(Activity1Query.comment);
+    	rep1Label.setVisible(true);
     	
     }
     /**
