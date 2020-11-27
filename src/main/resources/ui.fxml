@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
@@ -47,26 +50,36 @@
                       <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="650.0">
                            <children>
                               <Label layoutX="79.0" layoutY="44.0" prefHeight="18.0" prefWidth="0.0" />
-                              <Label layoutX="26.0" layoutY="48.0" text="Top N (N&gt;=1): " />
-                              <TextField fx:id="numRankTextField" layoutX="108.0" layoutY="44.0" prefHeight="26.0" prefWidth="27.0" text="10" />
-                              <Label layoutX="154.0" layoutY="48.0" text="Gender: " />
-                              <RadioButton fx:id="maleRadioButton" layoutX="209.0" layoutY="48.0" mnemonicParsing="false" selected="true" text="Male">
+                              <Label layoutX="30.0" layoutY="66.0" text="Top N (N&gt;=1): " />
+                              <TextField fx:id="numRankTextField" layoutX="112.0" layoutY="62.0" prefHeight="26.0" prefWidth="36.0" text="10" />
+                              <Label layoutX="158.0" layoutY="66.0" text="Gender: " />
+                              <RadioButton fx:id="maleRadioButton" layoutX="213.0" layoutY="66.0" mnemonicParsing="false" selected="true" text="Male">
                                  <toggleGroup>
                                     <ToggleGroup fx:id="T1" />
                                  </toggleGroup>
                               </RadioButton>
-                              <RadioButton fx:id="femaleRadioButton" layoutX="261.0" layoutY="48.0" mnemonicParsing="false" text="Female" toggleGroup="$T1" />
-                              <Label layoutX="26.0" layoutY="85.0" text="Period (1880 - 2019): " />
-                              <TextField fx:id="endPeriodTextField" layoutX="206.0" layoutY="79.0" prefHeight="26.0" prefWidth="43.0" text="1945" />
-                              <TextField fx:id="startPeriodTextField" layoutX="140.0" layoutY="79.0" prefHeight="26.0" prefWidth="43.0" text="1941" />
-                              <Label layoutX="188.0" layoutY="83.0" text="to" />
-                              <Button fx:id="task1Button" layoutX="26.0" layoutY="117.0" mnemonicParsing="false" onAction="#doTask1" text="GENERATE REPORT" />
+                              <RadioButton fx:id="femaleRadioButton" layoutX="271.0" layoutY="66.0" mnemonicParsing="false" text="Female" toggleGroup="$T1" />
+                              <Label layoutX="30.0" layoutY="103.0" text="Period (1880 - 2019): " />
+                              <TextField fx:id="endPeriodTextField" layoutX="210.0" layoutY="97.0" prefHeight="26.0" prefWidth="43.0" text="1945" />
+                              <TextField fx:id="startPeriodTextField" layoutX="144.0" layoutY="97.0" prefHeight="26.0" prefWidth="43.0" text="1941" />
+                              <Label layoutX="192.0" layoutY="101.0" text="to" />
+                              <Button fx:id="task1Button" layoutX="30.0" layoutY="135.0" mnemonicParsing="false" onAction="#doTask1" text="GENERATE REPORT" />
                               <TableView fx:id="report1Table" layoutX="-2.0" layoutY="313.0" prefHeight="329.0" prefWidth="722.0" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-1.1999999999999318" AnchorPane.topAnchor="313.0" />
                               <Label alignment="CENTER" contentDisplay="CENTER" layoutX="222.0" layoutY="14.0" prefHeight="22.0" prefWidth="276.0" text="Popular Birthnames in History" textAlignment="CENTER" AnchorPane.leftAnchor="222.0" AnchorPane.rightAnchor="221.20000000000005">
                                  <font>
                                     <Font name="Cambria Bold" size="18.0" />
                                  </font>
                               </Label>
+                              <BarChart fx:id="rep1BarChart" animated="false" layoutX="391.0" layoutY="53.0" prefHeight="263.0" prefWidth="313.0" title="            Top 3 Names " visible="false">
+                                <xAxis>
+                                  <CategoryAxis fx:id="rep1XAxis" label="Names" side="BOTTOM" />
+                                </xAxis>
+                                <yAxis>
+                                  <NumberAxis fx:id="rep1YAxis" label="Occurences" side="LEFT" />
+                                </yAxis>
+                              </BarChart>
+                              <TextArea fx:id="rep1Comment" layoutX="25.0" layoutY="210.0" prefHeight="82.0" prefWidth="376.0" wrapText="true" />
+                              <Label fx:id="rep1Label" layoutX="30.0" layoutY="192.0" text="Comments" />
                            </children>
                         </AnchorPane>
                     </content>
@@ -159,8 +172,11 @@
                               <RadioButton fx:id="app2YourGenderM" layoutX="158.0" layoutY="94.0" mnemonicParsing="false" selected="true" text="Male" toggleGroup="$T11" />
                               <RadioButton fx:id="app2YourGenderF" layoutX="219.0" layoutY="94.0" mnemonicParsing="false" text="Female" toggleGroup="$T11" AnchorPane.leftAnchor="219.0" AnchorPane.rightAnchor="440.20000000000005" />
                               <TextField fx:id="app2YOB" layoutX="158.0" layoutY="119.0" />
-                              <RadioButton fx:id="app2SoulGenderM" layoutX="517.0" layoutY="63.0" minWidth="53.0" mnemonicParsing="false" prefHeight="18.0" text="Male" toggleGroup="$T1" />
-                              <RadioButton fx:id="app2SoulGenderF" contentDisplay="CENTER" layoutX="582.0" layoutY="64.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="35.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="90.0" selected="true" text="Female" textAlignment="CENTER" toggleGroup="$T1" />
+                              <RadioButton fx:id="app2SoulGenderM" layoutX="517.0" layoutY="63.0" minWidth="53.0" mnemonicParsing="false" prefHeight="18.0" text="Male">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="T2" />
+                                 </toggleGroup></RadioButton>
+                              <RadioButton fx:id="app2SoulGenderF" contentDisplay="CENTER" layoutX="582.0" layoutY="64.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="35.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="90.0" selected="true" text="Female" textAlignment="CENTER" toggleGroup="$T2" />
                               <RadioButton fx:id="app2SoulYounger" layoutX="500.0" layoutY="93.0" mnemonicParsing="false" selected="true" text="Younger" toggleGroup="$T111" />
                               <RadioButton fx:id="app2SoulOlder" layoutX="582.0" layoutY="93.0" mnemonicParsing="false" text="Older" toggleGroup="$T111" />
                               <ChoiceBox fx:id="app2ChoiceBox" layoutX="468.0" layoutY="118.0" prefWidth="150.0" />
