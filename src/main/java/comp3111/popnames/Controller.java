@@ -334,6 +334,18 @@ public class Controller implements Initializable{
     	rep1Comment.setText(Activity1Query.comment);
     	rep1Label.setVisible(true);
     	
+    	//testing stuff
+    	try {
+			boolean done = Utility.storeHistory("testing storing funciton");
+	    	if (done) {
+	    		System.out.println("saved file");
+	    	}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+
     }
     /**
      *  Task Five
