@@ -76,7 +76,28 @@ public class Controller implements Initializable{
     private Tab tabReport2;
 
     @FXML
+    private TextField task2TextName;
+
+    @FXML
     private ToggleGroup T11;
+
+    @FXML
+    private RadioButton task2RadioMale;
+
+    @FXML
+    private RadioButton task2RadioFemale;
+
+    @FXML
+    private TextField task2TextStartPeriod;
+
+    @FXML
+    private TextField task2TextEndPeriod;
+
+    @FXML
+    private Button task2ButtonGenerate;
+
+    @FXML
+    private TableView<Map> task2TableResult;
 
     @FXML
     private Tab tabReport3;
@@ -347,6 +368,75 @@ public class Controller implements Initializable{
     	
 
     }
+
+    /**
+     *  Task Two
+     *  To be triggered by the Generate Report Button in Reporting 2 tab.
+     *  
+     */
+    @FXML
+    void doTask2() {
+        System.out.println("Begin task 2");
+        String name;
+        int gender;
+        int startPeriod;
+        int endPeriod;
+        try {
+            name = task2TextName.getText();
+            startPeriod = Integer.parseInt(task2TextStartPeriod.getText());
+            endPeriod = Integer.parseInt(task2TextEndPeriod.getText());
+            if (task2RadioMale.isSelected()) {
+                gender = 0;
+            } else {
+                gender = 1;
+            }
+        } catch(NumberFormatException e) {
+            // some error catching here
+            return;
+        }
+        System.out.println("Task 2 inputs: " + name + " " + startPeriod + " " + endPeriod + " " + gender);
+        ArrayList<RankRecord> rankRecords = Activity2Query.executeQuery(name, gender, startPeriod, endPeriod);
+        
+        task2TableResult.getColumns().clear();
+        task2TableResult.getItems().clear();
+        task2TableResult.refresh();
+
+        TableColumn<Map,String> yearColumn = new TableColumn<>("Year");
+        yearColumn.setCellValueFactory(new MapValueFactory<>("year"));
+        task2TableResult.getColumns().add(yearColumn);
+        
+        TableColumn<Map, String> rankColumn = new TableColumn<>("Rank");
+        rankColumn.setCellValueFactory(new MapValueFactory<>("rank"));
+        task2TableResult.getColumns().add(rankColumn);
+
+        TableColumn<Map, String> countColumn = new TableColumn<>("Count");
+        countColumn.setCellValueFactory(new MapValueFactory<>("count"));
+        task2TableResult.getColumns().add(countColumn);
+
+        TableColumn<Map, String> percentageColumn = new TableColumn<>("Percentage");
+        percentageColumn.setCellValueFactory(new MapValueFactory<>("percentage"));
+        task2TableResult.getColumns().add(percentageColumn);
+        
+        ObservableList<Map<String, Object>> items = FXCollections.<Map<String, Object>>observableArrayList();
+
+        for (RankRecord record : rankRecords) {
+            Map<String, Object> item = new HashMap<>();
+            item.put("year", record.getYear());
+            if(record.isValid()) {
+                item.put("rank", record.getRank());
+                item.put("count", record.getCount());
+                item.put("percentage", record.getPercentage());
+            } else {
+                item.put("rank", "NULL");
+                item.put("count", "NULL");
+                item.put("percentage", "NULL");
+            }            
+            items.add(item);
+            System.out.println("Item added: " + record.getYear() + " " + record.getRank() + " " + record.getCount() + " " + record.getPercentage() + " ");
+        }
+        task2TableResult.getItems().addAll(items);
+    }
+
     /**
      *  Task Five
      *  To be triggered by the Generate Report Button in Application 2 tab.
