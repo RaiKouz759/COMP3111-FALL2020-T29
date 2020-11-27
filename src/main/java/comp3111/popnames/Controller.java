@@ -21,11 +21,15 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.VBox;
+import javafx.scene.layout.Region;
+import javafx.scene.text.Text;
 
 import java.lang.NumberFormatException;
 import java.net.URL;
 
-import javafx.scene.layout.VBox;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -135,7 +139,7 @@ public class Controller implements Initializable{
     @FXML
     private TableView<Map> report1Table;
     
-    @FXML	
+    @FXML   
     private ChoiceBox<String> app2ChoiceBox;
     
     @FXML
@@ -180,19 +184,19 @@ public class Controller implements Initializable{
     // end of activity5 objects
     
 
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		
-		// this part is to initialize the choiceBox in activity5
-    	ArrayList<String> list = new ArrayList<String>();
-    	list.add("NK-T5");
-    	list.add("Levenshtein Distance");
-    	ObservableList<String> obList = FXCollections.observableList(list);
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        
+        // this part is to initialize the choiceBox in activity5
+        ArrayList<String> list = new ArrayList<String>();
+        list.add("NK-T5");
+        list.add("Levenshtein Distance");
+        ObservableList<String> obList = FXCollections.observableList(list);
         app2ChoiceBox.setItems(obList);
         app2ChoiceBox.setValue("NK-T5");
         // end of initialization of activity5
         
-	}
+    }
     /**
      *  Task Zero
      *  To be triggered by the "Summary" button on the Task Zero Tab 
@@ -200,9 +204,9 @@ public class Controller implements Initializable{
      */
     @FXML
     void doSummary() {
-    	int year = Integer.parseInt(textfieldYear.getText());
-    	String oReport = AnalyzeNames.getSummary(year);
-    	textAreaConsole.setText(oReport);
+        int year = Integer.parseInt(textfieldYear.getText());
+        String oReport = AnalyzeNames.getSummary(year);
+        textAreaConsole.setText(oReport);
     }
 
   
@@ -213,15 +217,15 @@ public class Controller implements Initializable{
      */
     @FXML
     void doRankF() {
-    	String oReport = "";
-    	String iNameF = textfieldNameF.getText();
-    	int iYear = Integer.parseInt(textfieldYear.getText());
-    	int oRank = AnalyzeNames.getRank(iYear, iNameF, "F");
-    	if (oRank == -1)
-    		oReport = String.format("The name %s (female) has not been ranked in the year %d.\n", iNameF, iYear);
-    	else
-    		oReport = String.format("Rank of %s (female) in year %d is #%d.\n", iNameF, iYear, oRank);
-    	textAreaConsole.setText(oReport);
+        String oReport = "";
+        String iNameF = textfieldNameF.getText();
+        int iYear = Integer.parseInt(textfieldYear.getText());
+        int oRank = AnalyzeNames.getRank(iYear, iNameF, "F");
+        if (oRank == -1)
+            oReport = String.format("The name %s (female) has not been ranked in the year %d.\n", iNameF, iYear);
+        else
+            oReport = String.format("Rank of %s (female) in year %d is #%d.\n", iNameF, iYear, oRank);
+        textAreaConsole.setText(oReport);
     }
 
   
@@ -232,15 +236,15 @@ public class Controller implements Initializable{
      */
     @FXML
     void doRankM() {
-    	String oReport = "";
-    	String iNameM = textfieldNameM.getText();
-    	int iYear = Integer.parseInt(textfieldYear.getText());
-    	int oRank = AnalyzeNames.getRank(iYear, iNameM, "M");
-    	if (oRank == -1)
-    		oReport = String.format("The name %s (male) has not been ranked in the year %d.\n", iNameM, iYear);
-    	else
-    		oReport = String.format("Rank of %s (male) in year %d is #%d.\n", iNameM, iYear, oRank);
-    	textAreaConsole.setText(oReport);
+        String oReport = "";
+        String iNameM = textfieldNameM.getText();
+        int iYear = Integer.parseInt(textfieldYear.getText());
+        int oRank = AnalyzeNames.getRank(iYear, iNameM, "M");
+        if (oRank == -1)
+            oReport = String.format("The name %s (male) has not been ranked in the year %d.\n", iNameM, iYear);
+        else
+            oReport = String.format("Rank of %s (male) in year %d is #%d.\n", iNameM, iYear, oRank);
+        textAreaConsole.setText(oReport);
     }
 
 
@@ -251,13 +255,13 @@ public class Controller implements Initializable{
      */
     @FXML
     void doTopF() {
-    	String oReport = "";
-    	final int topN = 5;
-    	int iYear = Integer.parseInt(textfieldYear.getText());
-    	oReport = String.format("Top %d most popular names (female) in the year %d:\n", topN, iYear);
-    	for (int i=1; i<=topN; i++)
-    		oReport += String.format("#%d: %s\n", i, AnalyzeNames.getName(iYear, i, "F"));
-    	textAreaConsole.setText(oReport);
+        String oReport = "";
+        final int topN = 5;
+        int iYear = Integer.parseInt(textfieldYear.getText());
+        oReport = String.format("Top %d most popular names (female) in the year %d:\n", topN, iYear);
+        for (int i=1; i<=topN; i++)
+            oReport += String.format("#%d: %s\n", i, AnalyzeNames.getName(iYear, i, "F"));
+        textAreaConsole.setText(oReport);
     }
 
 
@@ -268,13 +272,13 @@ public class Controller implements Initializable{
      */
     @FXML
     void doTopM() {
-    	String oReport = "";
-    	final int topN = 5;
-    	int iYear = Integer.parseInt(textfieldYear.getText());
-    	oReport = String.format("Top %d most popular names (male) in the year %d:\n", topN, iYear);
-    	for (int i=1; i<=topN; i++)
-    		oReport += String.format("#%d: %s\n", i, AnalyzeNames.getName(iYear, i, "M"));
-    	textAreaConsole.setText(oReport);
+        String oReport = "";
+        final int topN = 5;
+        int iYear = Integer.parseInt(textfieldYear.getText());
+        oReport = String.format("Top %d most popular names (male) in the year %d:\n", topN, iYear);
+        for (int i=1; i<=topN; i++)
+            oReport += String.format("#%d: %s\n", i, AnalyzeNames.getName(iYear, i, "M"));
+        textAreaConsole.setText(oReport);
     }
     
     /**
@@ -284,88 +288,88 @@ public class Controller implements Initializable{
      */
     @FXML
     void doTask1() {
-    	int numRanks;
-    	int startPeriod;
-    	int endPeriod;
-    	int gender;
-    	try {
-    		// input validation and catches any errors
-    		 	numRanks = Integer.parseInt(numRankTextField.getText());
-    		 	startPeriod = Integer.parseInt(startPeriodTextField.getText());
-    		 	endPeriod = Integer.parseInt(endPeriodTextField.getText());
-    		 	
-    		if (maleRadioButton.isSelected()) {
-    			gender = 0;
-    		} else {
-    			gender = 1;
-    		}
+        int numRanks;
+        int startPeriod;
+        int endPeriod;
+        int gender;
+        try {
+            // input validation and catches any errors
+                numRanks = Integer.parseInt(numRankTextField.getText());
+                startPeriod = Integer.parseInt(startPeriodTextField.getText());
+                endPeriod = Integer.parseInt(endPeriodTextField.getText());
+                
+            if (maleRadioButton.isSelected()) {
+                gender = 0;
+            } else {
+                gender = 1;
+            }
 
-    		
-    	} catch(NumberFormatException e) {
-    		// some error catching here
-    		return;
-    	}
-    	ArrayList<YearRecords> yearRecordsList = Activity1Query.executeQuery(numRanks, gender, startPeriod, endPeriod);
-    	// clear all the contents of the table view & bar chart
-    	report1Table.getColumns().clear();
-    	report1Table.getItems().clear();
-    	report1Table.refresh();
-    	rep1BarChart.getData().clear();
-    	rep1BarChart.setVisible(true);
+            
+        } catch(NumberFormatException e) {
+            // some error catching here
+            return;
+        }
+        ArrayList<YearRecords> yearRecordsList = Activity1Query.executeQuery(numRanks, gender, startPeriod, endPeriod);
+        // clear all the contents of the table view & bar chart
+        report1Table.getColumns().clear();
+        report1Table.getItems().clear();
+        report1Table.refresh();
+        rep1BarChart.getData().clear();
+        rep1BarChart.setVisible(true);
 
-    	// initializing the year column
-    	TableColumn<Map,String> yearColumn = new TableColumn<>("Year");
-    	yearColumn.setCellValueFactory(new MapValueFactory<>("year"));
-		report1Table.getColumns().add(yearColumn);
-		
-		int index = 1;
-		for (; index <= numRanks; index++) {
-			TableColumn<Map, String> topColumn = new TableColumn<>("Top " + index);
-			topColumn.setCellValueFactory(new MapValueFactory<>("top" + index));
-			report1Table.getColumns().add(topColumn);
-		}
-		ObservableList<Map<String, Object>> items =
-			    FXCollections.<Map<String, Object>>observableArrayList();
+        // initializing the year column
+        TableColumn<Map,String> yearColumn = new TableColumn<>("Year");
+        yearColumn.setCellValueFactory(new MapValueFactory<>("year"));
+        report1Table.getColumns().add(yearColumn);
+        
+        int index = 1;
+        for (; index <= numRanks; index++) {
+            TableColumn<Map, String> topColumn = new TableColumn<>("Top " + index);
+            topColumn.setCellValueFactory(new MapValueFactory<>("top" + index));
+            report1Table.getColumns().add(topColumn);
+        }
+        ObservableList<Map<String, Object>> items =
+                FXCollections.<Map<String, Object>>observableArrayList();
 
-    	for (YearRecords y : yearRecordsList) {
-    		Map<String, Object> item = new HashMap<>();
-    		item.put("year", y.getYear());
-    		index = 1;
-    		for (NameRecord nr : y.getNameRecordList()) {
-    	    	item.put("top" + index, nr.getName());
-    	    	index++;
-    		}
-    		items.add(item);
-    	}
-    	report1Table.getItems().addAll(items);
-    	
-    	// display bar chart with info. 
-    	rep1BarChart.setVisible(true);
-    	LinkedHashMap<String, Integer> top3Names = Activity1Query.top3Names;
-    	
-    	XYChart.Series<String, Integer> dataSeries = new XYChart.Series<String, Integer>();
-    	dataSeries.setName(Integer.toString(startPeriod) + " - " + Integer.toString(endPeriod));
+        for (YearRecords y : yearRecordsList) {
+            Map<String, Object> item = new HashMap<>();
+            item.put("year", y.getYear());
+            index = 1;
+            for (NameRecord nr : y.getNameRecordList()) {
+                item.put("top" + index, nr.getName());
+                index++;
+            }
+            items.add(item);
+        }
+        report1Table.getItems().addAll(items);
+        
+        // display bar chart with info. 
+        rep1BarChart.setVisible(true);
+        LinkedHashMap<String, Integer> top3Names = Activity1Query.top3Names;
+        
+        XYChart.Series<String, Integer> dataSeries = new XYChart.Series<String, Integer>();
+        dataSeries.setName(Integer.toString(startPeriod) + " - " + Integer.toString(endPeriod));
         for (Entry<String, Integer> entry : top3Names.entrySet())
         {
-        	dataSeries.getData().add(new XYChart.Data<String, Integer>(entry.getKey(), entry.getValue()));
-        	
+            dataSeries.getData().add(new XYChart.Data<String, Integer>(entry.getKey(), entry.getValue()));
+            
         }
         rep1BarChart.getData().add(dataSeries);
         rep1Comment.setVisible(true);
-    	rep1Comment.setText(Activity1Query.comment);
-    	rep1Label.setVisible(true);
-    	
-    	//testing stuff
-    	try {
-			boolean done = Utility.storeHistory("testing storing funciton");
-	    	if (done) {
-	    		System.out.println("saved file");
-	    	}
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	
+        rep1Comment.setText(Activity1Query.comment);
+        rep1Label.setVisible(true);
+        
+        //testing stuff
+        try {
+            boolean done = Utility.storeHistory("testing storing funciton");
+            if (done) {
+                System.out.println("saved file");
+            }
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
 
     }
 
@@ -376,27 +380,56 @@ public class Controller implements Initializable{
      */
     @FXML
     void doTask2() {
-        System.out.println("Begin task 2");
+        //System.out.println("Begin task 2");
         String name;
         int gender;
         int startPeriod;
         int endPeriod;
-        try {
-            name = task2TextName.getText();
-            startPeriod = Integer.parseInt(task2TextStartPeriod.getText());
-            endPeriod = Integer.parseInt(task2TextEndPeriod.getText());
-            if (task2RadioMale.isSelected()) {
-                gender = 0;
-            } else {
-                gender = 1;
-            }
-        } catch(NumberFormatException e) {
-            // some error catching here
+        name = task2TextName.getText();
+        if(name.equals("")){
+            showWarning("Invalid Name", "Please enter a name.");
             return;
         }
-        System.out.println("Task 2 inputs: " + name + " " + startPeriod + " " + endPeriod + " " + gender);
-        ArrayList<RankRecord> rankRecords = Activity2Query.executeQuery(name, gender, startPeriod, endPeriod);
-        
+        try {
+            startPeriod = Integer.parseInt(task2TextStartPeriod.getText());
+            endPeriod = Integer.parseInt(task2TextEndPeriod.getText());
+        } catch(NumberFormatException e) {
+            showWarning("Invalid Period", "Period must be integers.");
+            return;
+        }      
+        if (task2RadioMale.isSelected()) {
+            gender = 0;
+        } else if (task2RadioFemale.isSelected()) {
+            gender = 1;
+        } else {
+            showWarning("Invalid Gender", "Please choose one gender.");
+            return;
+        }
+        //System.out.println("Task 2 inputs: " + name + " " + startPeriod + " " + endPeriod + " " + gender);
+        ArrayList<RankRecord> rankRecords;
+        try {
+            rankRecords = Activity2Query.executeQuery(name, gender, startPeriod, endPeriod);
+        } catch(NumberFormatException e) {
+            switch(e.getMessage()) {
+                case "length":
+                    showWarning("Invalid Name", "Name must contain only 2 to 15 characters.");
+                    break;
+                case "char":
+                    showWarning("Invalid Name", "Name must contain only letters.");
+                    break;
+                case "start":
+                    showWarning("Invalid Period", "Starting year must be an integer between 1880 and 2019.");
+                    break;
+                case "end":
+                    showWarning("Invalid Period", "Ending year must be an integer between 1880 and 2019.");
+                    break;
+                case "start end":
+                    showWarning("Invalid Period", "Both starting and ending years must be integers between 1880 and 2019.");
+                    break;
+            }
+            return;
+        }
+
         task2TableResult.getColumns().clear();
         task2TableResult.getItems().clear();
         task2TableResult.refresh();
@@ -432,7 +465,7 @@ public class Controller implements Initializable{
                 item.put("percentage", "NULL");
             }            
             items.add(item);
-            System.out.println("Item added: " + record.getYear() + " " + record.getRank() + " " + record.getCount() + " " + record.getPercentage() + " ");
+            //System.out.println("Item added: " + record.getYear() + " " + record.getRank() + " " + record.getCount() + " " + record.getPercentage() + " ");
         }
         task2TableResult.getItems().addAll(items);
     }
@@ -444,42 +477,51 @@ public class Controller implements Initializable{
      */
     @FXML
     void doTask5() {
-    	String name;
-    	int gender;
-    	int prefGender;
-    	int yob;
-    	boolean prefYounger;
-    	try {
-    		// get data from input fields
-    		name = app2YourName.getText();
-    		yob = Integer.parseInt(app2YOB.getText());
-    		if (app2YourGenderM.isSelected()) {
-    			gender = 0;
-    		} else {
-    			gender = 1;
-    		}
-    		if (app2SoulGenderM.isSelected()) {
-    			prefGender = 0;
-    		} else {
-    			prefGender = 1;
-    		}
-    		prefYounger = app2SoulYounger.isSelected();
-    		// input validation
-    		if (Activity5Query.isNameCorrect(name) && Activity5Query.isYOBCorrect(yob)) {
-    			
-    		} else {
-    			System.out.println("Wrong input format");
-    			//output some error statement
-    			return;
-    		}
-    		
-    	} catch(NumberFormatException e) {
-    		//error catching logic here
-    		return;
-    	}
-    	
-    	String oName = Activity5Query.executeQueryNKT5( name, yob, gender, prefGender, prefYounger);
-    	app2Answer.setText(oName);
+        String name;
+        int gender;
+        int prefGender;
+        int yob;
+        boolean prefYounger;
+        try {
+            // get data from input fields
+            name = app2YourName.getText();
+            yob = Integer.parseInt(app2YOB.getText());
+            if (app2YourGenderM.isSelected()) {
+                gender = 0;
+            } else {
+                gender = 1;
+            }
+            if (app2SoulGenderM.isSelected()) {
+                prefGender = 0;
+            } else {
+                prefGender = 1;
+            }
+            prefYounger = app2SoulYounger.isSelected();
+            // input validation
+            if (Activity5Query.isNameCorrect(name) && Activity5Query.isYOBCorrect(yob)) {
+                
+            } else {
+                System.out.println("Wrong input format");
+                //output some error statement
+                return;
+            }
+            
+        } catch(NumberFormatException e) {
+            //error catching logic here
+            return;
+        }
+        
+        String oName = Activity5Query.executeQueryNKT5( name, yob, gender, prefGender, prefYounger);
+        app2Answer.setText(oName);
+    }
+
+    private static void showWarning(String header, String message) {
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setTitle("Warning");
+        alert.setHeaderText(header);
+        alert.setContentText(message);
+        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+        alert.showAndWait();
     }
 }
 
