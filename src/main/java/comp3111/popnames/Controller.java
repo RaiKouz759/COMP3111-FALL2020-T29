@@ -3,14 +3,19 @@
  */
 package comp3111.popnames;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
@@ -36,6 +41,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
+import java.io.File;
+
 
 
 public class Controller implements Initializable{
@@ -182,7 +189,20 @@ public class Controller implements Initializable{
     @FXML
     private Label app2Answer;
     // end of activity5 objects
+
+    @FXML
+    private ChoiceBox<String> historyChoice;
+
+    @FXML
+    private TextArea historyText;
     
+    public ObservableList<String> log_obList;
+    
+    @FXML
+    private Tab historyTab;
+
+    @FXML
+    private TabPane tabpane;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -196,6 +216,75 @@ public class Controller implements Initializable{
         app2ChoiceBox.setValue("NK-T5");
         // end of initialization of activity5
         
+        tabpane.getSelectionModel().selectedItemProperty().addListener((ChangeListener<? super Tab>) new ChangeListener<Tab>() { 
+			@Override
+			public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
+				// TODO Auto-generated method stub
+				if(newValue.equals(historyTab)) {
+			        // initialize contents of history tab
+					String filePath = new File("").getAbsolutePath();
+					filePath = filePath.concat("/src/main/resources/logs");
+					
+					// create directory if it does not exists
+					new File(filePath).mkdirs();
+					File dir = new File(filePath);
+					File[] directoryListing = dir.listFiles();
+					if (directoryListing != null) {
+				        ArrayList<String> log_list = new ArrayList<String>();
+					    for (File child : directoryListing) {
+					      log_list.add(child.getName());
+					    }
+				        log_obList = FXCollections.observableList(log_list);
+				        log_obList.addListener(new ListChangeListener<String> () {
+			
+							@Override
+							public void onChanged(Change<? extends String> c) {
+								// TODO Auto-generated method stub
+								 System.out.println("adding" + c); 
+							     historyChoice.getItems().setAll(log_obList);
+							}
+				        	
+				            });
+				        historyChoice.setItems(log_obList);
+				        if (log_obList.size() > 0) {
+				        	historyChoice.setValue(log_obList.get(0));
+				        }
+					  } else {
+					    // Handle the case where dir is not really a directory.
+					    // Checking dir.isDirectory() above would not be sufficient
+					    // to avoid race conditions with another process that deletes
+					    // directories.
+						  showWarning("Error", "Error initializing the history tab");
+					  }
+				}
+				
+			}
+        });
+
+        
+    }
+    @FXML
+    void clickHistory() {
+    	if (historyTab.isSelected()) {
+    		String filePath = new File("").getAbsolutePath();
+    		filePath = filePath.concat("/src/main/resources/logs");
+    		
+    		// create directory if it does not exists
+    		new File(filePath).mkdirs();
+    		File dir = new File(filePath);
+    		File[] directoryListing = dir.listFiles();
+    		if (directoryListing != null) {
+    	        ArrayList<String> log_list = new ArrayList<String>();
+    		    for (File child : directoryListing) {
+    		      log_list.add(child.getName());
+    		    }
+    	        log_obList = FXCollections.observableList(log_list);
+    	        historyChoice.setItems(log_obList);
+    	        if (log_obList.size() > 0) {
+	        	historyChoice.setValue(log_obList.get(0));
+	        }
+    	}
+    }
     }
     /**
      *  Task Zero
@@ -371,16 +460,16 @@ public class Controller implements Initializable{
         
         //testing stuff
         try {
-            boolean done = Utility.storeHistory("testing storing funciton");
-            if (done) {
+            String done = Utility.storeHistory("testing storing function");
+            if (!done.equals("error")) {
                 System.out.println("saved file");
+//                log_obList.add(done);
             }
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         
-
     }
 
     /**
