@@ -11,7 +11,21 @@ public class Activity2Query {
 		return file.getCSVParser(false);
 	}
 
-	private static boolean checkYear(int year) {
+	public static boolean checkNameLength(String name) {
+		return (name.length() >= 2) && (name.length() <= 15);
+	}
+
+	public static boolean checkNameCharacter(String name) {
+		char[] chars = name.toCharArray();
+		for (char c : chars) {
+			if (!Character.isLetter(c)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+	public static boolean checkYear(int year) {
 		return (year >= 1880) && (year <= 2019);
 	}
 	
@@ -21,11 +35,17 @@ public class Activity2Query {
 		CSVParser fileParser = getFileParser(year);
 		int genderTotal = 0;
 		int currentRank = 0;
+		int currentLine = 0;
+		int currentCount = 0;
 		for (CSVRecord record : fileParser) {
-			if(record.get(1).equals(str_gender)){
-				++currentRank;
+			if (record.get(1).equals(str_gender)) {
+				++currentLine;
+				if(currentLine == 1 || Integer.parseInt(record.get(2)) < currentCount){
+					currentRank = currentLine;
+					currentCount = Integer.parseInt(record.get(2));
+				}				
 				genderTotal += Integer.parseInt(record.get(2));
-				if (record.get(0).equals(name)) {
+				if (record.get(0).replaceAll("[^a-zA-Z]", "").equalsIgnoreCase(name)) {
 					rankRecord.set(currentRank, Integer.parseInt(record.get(2)));
 				}
 			}
@@ -35,7 +55,13 @@ public class Activity2Query {
 	}
 
 	public static ArrayList<RankRecord> executeQuery(String name, int gender, int startPeriod, int endPeriod) {
-		if(checkYear(startPeriod)) {
+		if (!checkNameLength(name)) {
+			throw new NumberFormatException("length"); 
+		}
+		if (!checkNameCharacter(name)) {
+			throw new NumberFormatException("char"); 
+		}
+		if (checkYear(startPeriod)) {
 			if(!checkYear(endPeriod))
 				throw new NumberFormatException("end"); 
 		} else {

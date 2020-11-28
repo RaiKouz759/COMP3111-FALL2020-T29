@@ -380,7 +380,6 @@ public class Controller implements Initializable{
      */
     @FXML
     void doTask2() {
-        //System.out.println("Begin task 2");
         String name;
         int gender;
         int startPeriod;
@@ -405,27 +404,20 @@ public class Controller implements Initializable{
             showWarning("Invalid Gender", "Please choose one gender.");
             return;
         }
-        //System.out.println("Task 2 inputs: " + name + " " + startPeriod + " " + endPeriod + " " + gender);
         ArrayList<RankRecord> rankRecords;
         try {
             rankRecords = Activity2Query.executeQuery(name, gender, startPeriod, endPeriod);
         } catch(NumberFormatException e) {
-            switch(e.getMessage()) {
-                case "length":
-                    showWarning("Invalid Name", "Name must contain only 2 to 15 characters.");
-                    break;
-                case "char":
-                    showWarning("Invalid Name", "Name must contain only letters.");
-                    break;
-                case "start":
-                    showWarning("Invalid Period", "Starting year must be an integer between 1880 and 2019.");
-                    break;
-                case "end":
-                    showWarning("Invalid Period", "Ending year must be an integer between 1880 and 2019.");
-                    break;
-                case "start end":
-                    showWarning("Invalid Period", "Both starting and ending years must be integers between 1880 and 2019.");
-                    break;
+            if(e.getMessage().equals("length")) {
+                showWarning("Invalid Name", "Name must contain only 2 to 15 characters.");
+            } else if(e.getMessage().equals("char")) {
+                showWarning("Invalid Name", "Name must contain only letters.");
+            } else if(e.getMessage().equals("start")) {
+                showWarning("Invalid Period", "Starting year must be an integer between 1880 and 2019.");
+            } else if(e.getMessage().equals("end")) {
+                showWarning("Invalid Period", "Ending year must be an integer between 1880 and 2019.");
+            } else if(e.getMessage().equals("start end")) {
+                showWarning("Invalid Period", "Both starting and ending years must be integers between 1880 and 2019.");
             }
             return;
         }
@@ -465,7 +457,6 @@ public class Controller implements Initializable{
                 item.put("percentage", "NULL");
             }            
             items.add(item);
-            //System.out.println("Item added: " + record.getYear() + " " + record.getRank() + " " + record.getCount() + " " + record.getPercentage() + " ");
         }
         task2TableResult.getItems().addAll(items);
     }
