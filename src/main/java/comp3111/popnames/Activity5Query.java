@@ -55,10 +55,10 @@ public class Activity5Query {
 		
 		// calculate oYOB, take care about edge values
 		int oYOB = yob;
-		if (prefYounger && yob > 1880) {
-			oYOB = yob - 1;
-		} else if (!prefYounger && yob < 2019) {
+		if (prefYounger && yob < 2019) {
 			oYOB = yob + 1;
+		} else if (!prefYounger && yob > 1880) {
+			oYOB = yob - 1;
 		}
 		
 		// get name of oRank in the year oYOB with preferred gender, if does not exist, get the highest rank
