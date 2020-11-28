@@ -307,8 +307,18 @@ public class Controller implements Initializable{
             
         } catch(NumberFormatException e) {
             // some error catching here
+        	showWarning("Invalid Input Format", "Please only enter numbers.");
             return;
         }
+        if (!Activity1Query.isNumOfResultsCorrect(numRanks)) {
+        	showWarning("Invalid Input", "Please enter an N that is >= 1. ");
+        	return;
+        }
+        if (!Activity1Query.isPeriodCorrect(startPeriod, endPeriod)) {
+        	showWarning("Invalid Input", "Start and End periods must be within the boundaries stated.");
+        	return;
+        }
+        
         ArrayList<YearRecords> yearRecordsList = Activity1Query.executeQuery(numRanks, gender, startPeriod, endPeriod);
         // clear all the contents of the table view & bar chart
         report1Table.getColumns().clear();
@@ -489,16 +499,18 @@ public class Controller implements Initializable{
             }
             prefYounger = app2SoulYounger.isSelected();
             // input validation
-            if (Activity5Query.isNameCorrect(name) && Activity5Query.isYOBCorrect(yob)) {
-                
-            } else {
-                System.out.println("Wrong input format");
-                //output some error statement
+            if (!Activity5Query.isNameCorrect(name)) {
+            	showWarning("Invalid Input", "Please only enter letters for your name.");
                 return;
+            } 
+            if (!Activity5Query.isYOBCorrect(yob)){
+            	showWarning("Invalid Input", "Please only enter year of births that are within the boundaries stated.");
+            	return;
             }
             
         } catch(NumberFormatException e) {
             //error catching logic here
+        	showWarning("Invalid Input Format", "Please only enter numbers for YOB.");
             return;
         }
         
