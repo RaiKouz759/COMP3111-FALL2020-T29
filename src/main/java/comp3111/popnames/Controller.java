@@ -108,6 +108,15 @@ public class Controller {
     @FXML
     private Button t4_gr;
     
+    @FXML
+    private RadioButton t4_nkt4;
+
+    @FXML
+    private ToggleGroup T4_algorithm;
+
+    @FXML
+    private RadioButton t4_jaro;
+    
     
     //Task Four
     
@@ -118,7 +127,14 @@ public class Controller {
     	int dYOB = Integer.parseInt(t4_dyob.getText());
     	int mYOB = Integer.parseInt(t4_myob.getText());
     	int vYear = Integer.parseInt(t4_vyear.getText());
-    	String Report = Task4.NK_T4(dName, dYOB, mName, mYOB, vYear);
+    	String choice = "";
+    	if (this.T4_algorithm.getSelectedToggle().equals(this.t4_nkt4)){
+    		choice = "NK-T4";
+    	}
+    	else if (this.T4_algorithm.getSelectedToggle().equals(this.t4_jaro)) {
+    		choice = "Jaro";
+    	}
+    	String Report = Task4.recommendation(dName, dYOB, mName, mYOB, vYear, choice);
     	textAreaConsole.setText(Report);
     }
     

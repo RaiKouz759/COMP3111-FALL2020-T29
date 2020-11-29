@@ -134,12 +134,18 @@
                               <TextField fx:id="t4_dyob" layoutX="479.0" layoutY="34.0" />
                               <TextField fx:id="t4_myob" layoutX="479.0" layoutY="74.0" />
                               <TextField fx:id="t4_vyear" layoutX="199.0" layoutY="118.0" />
-                              <Button fx:id="t4_gr" layoutX="199.0" layoutY="167.0" mnemonicParsing="false" onAction="#t4_generate_recommendation" prefHeight="27.0" prefWidth="160.0" text="Get Recommendation" />
+                              <Button fx:id="t4_gr" layoutX="199.0" layoutY="246.0" mnemonicParsing="false" onAction="#t4_generate_recommendation" prefHeight="27.0" prefWidth="160.0" text="Get Recommendation" />
                               <Label layoutX="125.0" layoutY="39.0" text="Dad name" />
                               <Label layoutX="401.0" layoutY="39.0" text="year of birth:" />
                               <Label layoutX="121.0" layoutY="79.0" text="Mom Name" />
                               <Label layoutX="401.0" layoutY="79.0" text="year of birth:" />
                               <Label layoutX="117.0" layoutY="123.0" text="Vintage Year:" />
+                              <RadioButton fx:id="t4_nkt4" layoutX="401.0" layoutY="150.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="136.0" selected="true" text="NK-T4 algorithm">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="T4_algorithm" />
+                                 </toggleGroup></RadioButton>
+                              <RadioButton fx:id="t4_jaro" layoutX="401.0" layoutY="176.0" mnemonicParsing="false" text="Jaro Distance" toggleGroup="$T4_algorithm" />
+                              <Label layoutX="401.0" layoutY="123.0" text="Choose Algorithm" />
                            </children>
                         </AnchorPane>
                     </content>
