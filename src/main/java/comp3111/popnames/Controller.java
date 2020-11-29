@@ -83,7 +83,7 @@ public class Controller implements Initializable{
     private TextField task2TextName;
 
     @FXML
-    private ToggleGroup T11;
+    private ToggleGroup task2Toggle;
 
     @FXML
     private RadioButton task2RadioMale;
@@ -117,6 +117,48 @@ public class Controller implements Initializable{
 
     @FXML
     private Tab tabApp3;
+
+    @FXML
+    private TextField task6TextName1;
+
+    @FXML
+    private ToggleGroup task6Toggle1;
+
+    @FXML
+    private RadioButton task6RadioMale1;
+
+    @FXML
+    private RadioButton task6RadioFemale1;
+
+    @FXML
+    private TextField task6TextYear;
+
+    @FXML
+    private TextField task6TextName2;
+
+    @FXML
+    private ToggleGroup task6Toggle2;
+
+    @FXML
+    private RadioButton task6RadioMale2;
+
+    @FXML
+    private RadioButton task6RadioFemale2;
+
+    @FXML
+    private ToggleGroup task6Toggle3;
+
+    @FXML
+    private RadioButton task6RadioYounger;
+
+    @FXML
+    private RadioButton task6RadioOlder;
+
+    @FXML
+    private Button task6ButtonReport;
+
+    @FXML
+    private Label task6TextResult;
 
     @FXML
     private TextArea textAreaConsole;
@@ -398,11 +440,8 @@ public class Controller implements Initializable{
         }      
         if (task2RadioMale.isSelected()) {
             gender = 0;
-        } else if (task2RadioFemale.isSelected()) {
-            gender = 1;
         } else {
-            showWarning("Invalid Gender", "Please choose one gender.");
-            return;
+            gender = 1;
         }
         ArrayList<RankRecord> rankRecords;
         try {
@@ -504,6 +543,68 @@ public class Controller implements Initializable{
         
         String oName = Activity5Query.executeQueryNKT5( name, yob, gender, prefGender, prefYounger);
         app2Answer.setText(oName);
+    }
+
+    /**
+     *  Task Six
+     *  To be triggered by the Generate Report Button in Reporting 2 tab.
+     *  
+     */
+    @FXML
+    void doTask6() {
+        String name1, name2;
+        int gender1, gender2;
+        int year;
+        boolean isYounger;
+        name1 = task6TextName1.getText();
+        name2 = task6TextName2.getText();
+        if(name1.equals("")){
+            showWarning("Invalid Name", "Please enter your name.");
+            return;
+        }
+        if(name2.equals("")){
+            showWarning("Invalid Name", "Please enter the name of your soulmate.");
+            return;
+        }
+        try {
+            year = Integer.parseInt(task6TextYear.getText());
+        } catch(NumberFormatException e) {
+            showWarning("Invalid Year of Birth", "Your year of birth must be an integer.");
+            return;
+        }      
+        if (task6RadioMale1.isSelected()) {
+            gender1 = 0;
+        } else {
+            gender1 = 1;
+        }
+        if (task6RadioMale2.isSelected()) {
+            gender2 = 0;
+        } else {
+            gender2 = 1;
+        }
+        if (task6RadioYounger.isSelected()) {
+            isYounger = true;
+        } else {
+            isYounger = false;
+        }
+        float score;
+        try {
+            score = Activity6Query.executeQuery(name1, gender1, year, name2, gender2, isYounger);
+        } catch(NumberFormatException e) {
+            if(e.getMessage().equals("length1")) {
+                    showWarning("Invalid Name", "Your name must contain only 2 to 15 characters.");
+            } else if(e.getMessage().equals("length2")) {
+                showWarning("Invalid Name", "The name of your soulmate must contain only 2 to 15 characters.");
+            } else if(e.getMessage().equals("char1")) {
+                showWarning("Invalid Name", "Your name must contain only letters.");
+            } else if(e.getMessage().equals("char2")) {
+                showWarning("Invalid Name", "The name of your soulmate must contain only letters.");
+            } else if(e.getMessage().equals("year")) {
+                showWarning("Invalid Period", "Your year of birth must be an integer between 1880 and 2019.");
+            }
+            return;
+        }
+        task6TextResult.setText("Your score of compatibility is " + score);
     }
 
     private static void showWarning(String header, String message) {
