@@ -3,8 +3,11 @@
  */
 package comp3111.popnames;
 
+import java.io.IOException;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -69,14 +72,84 @@ public class Controller {
     @FXML
     private TextArea textAreaConsole;
     
+    @FXML
+    private TextField task3_year_end;
+
+    @FXML
+    private TextField task3_year_start;
+
+    @FXML
+    private Button task3_report;
+    
+    @FXML
+    private RadioButton t3_f;
+    
+    @FXML
+    private RadioButton t3_m;
+    
+    @FXML
+    private TextField t3_topN;
+    
+    @FXML
+    private TextField t4_dname;
+
+    @FXML
+    private TextField t4_mname;
+
+    @FXML
+    private TextField t4_dyob;
+
+    @FXML
+    private TextField t4_myob;
+
+    @FXML
+    private TextField t4_vyear;
+
+    @FXML
+    private Button t4_gr;
+    
+    
+    //Task Four
+    
+    @FXML
+    void t4_generate_recommendation() {
+    	String dName = t4_dname.getText();
+    	String mName = t4_mname.getText();
+    	int dYOB = Integer.parseInt(t4_dyob.getText());
+    	int mYOB = Integer.parseInt(t4_myob.getText());
+    	int vYear = Integer.parseInt(t4_vyear.getText());
+    	String Report = Task4.NK_T4(dName, dYOB, mName, mYOB, vYear);
+    	textAreaConsole.setText(Report);
+    }
+    
+    
+    // Task Three
+    
+    @FXML
+    void task3_generate_summary() throws IOException {
+    	int year_start = Integer.parseInt(task3_year_start.getText());
+    	int year_end = Integer.parseInt(task3_year_end.getText());
+    	int topN = Integer.parseInt(t3_topN.getText());
+    	String gender = "";
+    	if (this.T111.getSelectedToggle().equals(this.t3_m)) {
+    		gender = "M";
+    	}
+    	else if (this.T111.getSelectedToggle().equals(this.t3_f)) {
+    		gender = "F";
+    	}
+    	String Report = Task3.Summary(year_start, year_end, gender, topN);
+    	textAreaConsole.setText(Report);
+    }
+    
 
     /**
      *  Task Zero
      *  To be triggered by the "Summary" button on the Task Zero Tab 
+     * 
      *  
      */
     @FXML
-    void doSummary() {
+    void doSummary(){
     	int year = Integer.parseInt(textfieldYear.getText());
     	String oReport = AnalyzeNames.getSummary(year);
     	textAreaConsole.setText(oReport);

@@ -101,22 +101,24 @@
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="318.0" prefWidth="719.0">
                                  <children>
                                     <TextArea layoutX="112.0" layoutY="26.0" prefHeight="61.0" prefWidth="355.0" text="Generate a brief report in response to the queries on identifying the names that have shown the largest rise/fall in popularity over a given period.&#10;" wrapText="true" />
-                                    <RadioButton layoutX="290.0" layoutY="104.0" mnemonicParsing="false" text="Female">
+                                    <RadioButton fx:id="t3_f" layoutX="290.0" layoutY="104.0" mnemonicParsing="false" text="Female">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="T111" />
                                        </toggleGroup>
                                     </RadioButton>
-                                    <RadioButton layoutX="225.0" layoutY="104.0" mnemonicParsing="false" selected="true" text="Male">
+                                    <RadioButton fx:id="t3_m" layoutX="225.0" layoutY="104.0" mnemonicParsing="false" selected="true" text="Male">
                                        <toggleGroup>
                                           <ToggleGroup fx:id="T111" />
                                        </toggleGroup>
                                     </RadioButton>
                                     <Label layoutX="112.0" layoutY="104.0" text="Gender of Interest: " />
                                     <Label layoutX="112.0" layoutY="138.0" text="Period (1880 - 2019): " />
-                                    <TextField layoutX="292.0" layoutY="132.0" prefHeight="26.0" prefWidth="43.0" text="1945" />
-                                    <TextField layoutX="226.0" layoutY="132.0" prefHeight="26.0" prefWidth="43.0" text="1941" />
-                                    <Label layoutX="274.0" layoutY="136.0" text="to" />
-                                    <Button layoutX="112.0" layoutY="175.0" mnemonicParsing="false" text="REPORT (yet to be implemented)" />
+                                    <TextField fx:id="task3_year_end" layoutX="310.0" layoutY="133.0" prefHeight="27.0" prefWidth="55.0" text="1945" />
+                                    <TextField fx:id="task3_year_start" layoutX="238.0" layoutY="132.0" prefHeight="26.0" prefWidth="43.0" text="1941" />
+                                    <Label layoutX="290.0" layoutY="138.0" text="to" />
+                                    <Button fx:id="task3_report" layoutX="112.0" layoutY="212.0" mnemonicParsing="false" onAction="#task3_generate_summary" text="REPORT (yet to be implemented)" />
+                                    <TextField fx:id="t3_topN" layoutX="183.0" layoutY="173.0" prefHeight="27.0" prefWidth="55.0" />
+                                    <Label layoutX="112.0" layoutY="178.0" text="Top entries:" />
                                  </children>
                               </AnchorPane>
                            </children>
@@ -127,7 +129,17 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="412.0" prefWidth="719.0">
                            <children>
-                              <TextArea layoutX="40.0" layoutY="26.0" prefHeight="242.0" prefWidth="638.0" text="Develop and implement an online service using empirical data to help make informed decisions on naming their newborn babies.  Sample Scenario of Application: (i) Parents seeking advices on naming their babies; (ii) A couple seeking advices on naming their pets&#10;&#10;Input&#10;* iDadName, iMomName: Names of the baby’s dad and mom&#10;* iDadYOB, iMomYOB: Years of birth of the baby’s dad and mom&#10;* iVintageYear (optional): A year to be chosen from 1880 to 2019; If not chosen, set the value of iVintageYear to 2019&#10;&#10;Output&#10;* oBoyName: Recommended name for baby boy according to the NK-T4 Algorithm&#10;* oGirlName: Recommended name for baby girl according to the NK-T4 Algorithm&#10;* plus, WOW factor on user experience and algorithm design!" wrapText="true" />
+                              <TextField fx:id="t4_dname" layoutX="199.0" layoutY="34.0" />
+                              <TextField fx:id="t4_mname" layoutX="199.0" layoutY="74.0" />
+                              <TextField fx:id="t4_dyob" layoutX="479.0" layoutY="34.0" />
+                              <TextField fx:id="t4_myob" layoutX="479.0" layoutY="74.0" />
+                              <TextField fx:id="t4_vyear" layoutX="199.0" layoutY="118.0" />
+                              <Button fx:id="t4_gr" layoutX="199.0" layoutY="167.0" mnemonicParsing="false" onAction="#t4_generate_recommendation" prefHeight="27.0" prefWidth="160.0" text="Get Recommendation" />
+                              <Label layoutX="125.0" layoutY="39.0" text="Dad name" />
+                              <Label layoutX="401.0" layoutY="39.0" text="year of birth:" />
+                              <Label layoutX="121.0" layoutY="79.0" text="Mom Name" />
+                              <Label layoutX="401.0" layoutY="79.0" text="year of birth:" />
+                              <Label layoutX="117.0" layoutY="123.0" text="Vintage Year:" />
                            </children>
                         </AnchorPane>
                     </content>
