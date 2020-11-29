@@ -1,26 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.BarChart?>
+<?import javafx.scene.chart.CategoryAxis?>
+<?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox prefHeight="679.0" prefWidth="719.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comp3111.popnames.Controller">
+<VBox fx:id="vBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comp3111.popnames.Controller">
   <children>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="437.0" prefWidth="719.0">
+    <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
       <children>
-            <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="350.0" prefWidth="719.0" tabClosingPolicy="UNAVAILABLE">
+            <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="679.0" prefWidth="719.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" VBox.vgrow="ALWAYS">
               <tabs>
                 <Tab fx:id="tabTaskZero" text="Task Zero">
                   <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="221.0" prefWidth="719.0">
+                    <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="221.0" prefWidth="719.0">
                            <children>
                               <Label layoutX="98.0" layoutY="67.0" prefHeight="18.0" prefWidth="87.0" text="Name (female)" />
                               <Label layoutX="98.0" layoutY="98.0" text="Year of Interest" />
@@ -35,30 +40,46 @@
                               <Button fx:id="buttonTopF" layoutX="462.0" layoutY="134.0" mnemonicParsing="false" onAction="#doTopF" text="Top 5 (female)" />
                               <Button fx:id="buttonSummary" layoutX="566.0" layoutY="134.0" mnemonicParsing="false" onAction="#doSummary" text="Summary" />
                               <Label layoutX="342.0" layoutY="98.0" text="Range: 1880 - 2019" />
+                              <TextArea fx:id="textAreaConsole" layoutX="1.0" layoutY="263.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="386.0" prefWidth="717.0" snapToPixel="false" AnchorPane.bottomAnchor="0.20000000000004547" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="0.6000000000000227" />
                            </children>
                         </AnchorPane>
                   </content>
                 </Tab>
                   <Tab fx:id="tabReport1" text="Reporting 1">
                     <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="384.0" prefWidth="719.0">
+                      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="650.0">
                            <children>
-                              <Label layoutX="79.0" layoutY="44.0" />
-                              <TextArea layoutX="96.0" layoutY="24.0" prefHeight="42.0" prefWidth="335.0" text="Generate a brief report in response to the queries on the most popular names registered at birth over a given period." wrapText="true" />
-                              <Label layoutX="96.0" layoutY="100.0" text="Top N (N&gt;=1): " />
-                              <TextField layoutX="178.0" layoutY="96.0" prefHeight="26.0" prefWidth="27.0" text="10" />
-                              <Label layoutX="253.0" layoutY="100.0" text="Gender: " />
-                              <RadioButton layoutX="308.0" layoutY="100.0" mnemonicParsing="false" selected="true" text="Male">
+                              <Label layoutX="79.0" layoutY="44.0" prefHeight="18.0" prefWidth="0.0" />
+                              <Label layoutX="30.0" layoutY="66.0" text="Top N (N&gt;=1): " />
+                              <TextField fx:id="numRankTextField" layoutX="112.0" layoutY="62.0" prefHeight="26.0" prefWidth="36.0" text="10" />
+                              <Label layoutX="158.0" layoutY="66.0" text="Gender: " />
+                              <RadioButton fx:id="maleRadioButton" layoutX="213.0" layoutY="66.0" mnemonicParsing="false" selected="true" text="Male">
                                  <toggleGroup>
                                     <ToggleGroup fx:id="T1" />
                                  </toggleGroup>
                               </RadioButton>
-                              <RadioButton layoutX="360.0" layoutY="100.0" mnemonicParsing="false" text="Female" toggleGroup="$T1" />
-                              <Label layoutX="96.0" layoutY="132.0" text="Period (1880 - 2019): " />
-                              <TextField layoutX="276.0" layoutY="126.0" prefHeight="26.0" prefWidth="43.0" text="1945" />
-                              <TextField layoutX="210.0" layoutY="126.0" prefHeight="26.0" prefWidth="43.0" text="1941" />
-                              <Label layoutX="258.0" layoutY="130.0" text="to" />
-                              <Button layoutX="96.0" layoutY="169.0" mnemonicParsing="false" text="REPORT (yet to be implemented)" />
+                              <RadioButton fx:id="femaleRadioButton" layoutX="271.0" layoutY="66.0" mnemonicParsing="false" text="Female" toggleGroup="$T1" />
+                              <Label layoutX="30.0" layoutY="103.0" text="Period (1880 - 2019): " />
+                              <TextField fx:id="endPeriodTextField" layoutX="210.0" layoutY="97.0" prefHeight="26.0" prefWidth="43.0" text="1945" />
+                              <TextField fx:id="startPeriodTextField" layoutX="144.0" layoutY="97.0" prefHeight="26.0" prefWidth="43.0" text="1941" />
+                              <Label layoutX="192.0" layoutY="101.0" text="to" />
+                              <Button fx:id="task1Button" layoutX="30.0" layoutY="135.0" mnemonicParsing="false" onAction="#doTask1" text="GENERATE REPORT" />
+                              <TableView fx:id="report1Table" layoutX="-2.0" layoutY="313.0" prefHeight="329.0" prefWidth="722.0" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-1.1999999999999318" AnchorPane.topAnchor="313.0" />
+                              <Label alignment="CENTER" contentDisplay="CENTER" layoutX="222.0" layoutY="14.0" prefHeight="22.0" prefWidth="276.0" text="Popular Birthnames in History" textAlignment="CENTER" AnchorPane.leftAnchor="222.0" AnchorPane.rightAnchor="221.20000000000005">
+                                 <font>
+                                    <Font name="Cambria Bold" size="18.0" />
+                                 </font>
+                              </Label>
+                              <BarChart fx:id="rep1BarChart" animated="false" layoutX="391.0" layoutY="53.0" prefHeight="263.0" prefWidth="313.0" title="            Top 3 Names " visible="false">
+                                <xAxis>
+                                  <CategoryAxis fx:id="rep1XAxis" label="Names" side="BOTTOM" />
+                                </xAxis>
+                                <yAxis>
+                                  <NumberAxis fx:id="rep1YAxis" label="Occurences" side="LEFT" />
+                                </yAxis>
+                              </BarChart>
+                              <TextArea fx:id="rep1Comment" layoutX="25.0" layoutY="210.0" prefHeight="82.0" prefWidth="376.0" wrapText="true" />
+                              <Label fx:id="rep1Label" layoutX="30.0" layoutY="192.0" text="Comments" />
                            </children>
                         </AnchorPane>
                     </content>
@@ -69,25 +90,22 @@
                            <children>
                           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="450.0" prefWidth="722.0">
                                  <children>
-                                    <TextArea layoutX="109.0" layoutY="33.0" prefHeight="42.0" prefWidth="335.0" text="Generate a brief report in response to the queries on the popularity of a particular name over a given period." wrapText="true" />
+                                    <Button fx:id="task2ButtonReport" layoutX="108.0" layoutY="169.0" mnemonicParsing="false" onAction="#doTask2" text="Generate Report" />
+                                    <TextArea layoutX="109.0" layoutY="33.0" prefHeight="42.0" prefWidth="335.0" text="Generate a brief report in response to the queries on the popularity of a particular name over a given period." visible="false" wrapText="true" />
                                     <Label layoutX="109.0" layoutY="93.0" text="Name" />
-                                    <TextField layoutX="159.0" layoutY="88.0" prefHeight="26.0" prefWidth="88.0" text="David" />
+                                    <TextField fx:id="task2TextName" layoutX="159.0" layoutY="88.0" prefHeight="26.0" prefWidth="88.0" text="David" />
                                     <Label layoutX="277.0" layoutY="93.0" text="Gender: " />
-                                    <RadioButton layoutX="332.0" layoutY="93.0" mnemonicParsing="false" selected="true" text="Male">
-                                       <toggleGroup>
-                                          <ToggleGroup fx:id="T11" />
-                                       </toggleGroup>
-                                    </RadioButton>
-                                    <RadioButton layoutX="384.0" layoutY="93.0" mnemonicParsing="false" text="Female">
-                                       <toggleGroup>
-                                          <ToggleGroup fx:id="T11" />
-                                       </toggleGroup>
-                                    </RadioButton>
                                     <Label layoutX="109.0" layoutY="129.0" text="Period (1880 - 2019): " />
-                                    <TextField layoutX="289.0" layoutY="123.0" prefHeight="26.0" prefWidth="43.0" text="1945" />
-                                    <TextField layoutX="223.0" layoutY="123.0" prefHeight="26.0" prefWidth="43.0" text="1941" />
+                                    <TextField fx:id="task2TextEndPeriod" layoutX="289.0" layoutY="123.0" prefHeight="26.0" prefWidth="43.0" text="1945" />
+                                    <TextField fx:id="task2TextStartPeriod" layoutX="223.0" layoutY="123.0" prefHeight="26.0" prefWidth="43.0" text="1941" />
                                     <Label layoutX="271.0" layoutY="127.0" text="to" />
-                                    <Button layoutX="108.0" layoutY="169.0" mnemonicParsing="false" text="REPORT (yet to be implemented)" />
+                                    <TableView fx:id="task2TableResult" layoutX="62.0" layoutY="291.0" prefHeight="318.0" prefWidth="610.0" />
+                                    <RadioButton fx:id="task2RadioMale" layoutX="332.0" layoutY="93.0" mnemonicParsing="false" selected="true" text="Male">
+                                       <toggleGroup>
+                                          <ToggleGroup fx:id="task2Toggle" />
+                                       </toggleGroup>
+                                    </RadioButton>
+                                    <RadioButton fx:id="task2RadioFemale" layoutX="408.0" layoutY="92.0" mnemonicParsing="false" text="Female" toggleGroup="$task2Toggle" />
                                  </children>
                               </AnchorPane>
                            </children>
@@ -154,7 +172,42 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TextArea layoutX="40.0" layoutY="27.0" prefHeight="242.0" prefWidth="638.0" text="Develop and implement an online service using empirical data to help make informed decisions on predicting names for compatible pairs.  Sample Scenario of Application: (i) A person seeking advices on identifying the name of a person of a different gender who would become his/her soulmate; (ii) A person seeking advices on identifying the name of a person of the same gender who would become his/her soulmate.&#10;&#10;Input&#10;* iName, iGender, iYOB: Particulars of the person seeking advices&#10;* iGenderMate: Specify the gender of the soulmate to be matched&#10;* iPreference: Specify the preference on having a younger or older soulmate&#10;&#10;Output&#10;* oName: Recommended name of the soulmate according to the NK-T5 Algorithm&#10;* plus, WOW factor on user experience and algorithm design!" wrapText="true" />
+                              <TextArea layoutX="40.0" layoutY="393.0" prefHeight="242.0" prefWidth="638.0" text="Develop and implement an online service using empirical data to help make informed decisions on predicting names for compatible pairs.  Sample Scenario of Application: (i) A person seeking advices on identifying the name of a person of a different gender who would become his/her soulmate; (ii) A person seeking advices on identifying the name of a person of the same gender who would become his/her soulmate.&#10;&#10;Input&#10;* iName, iGender, iYOB: Particulars of the person seeking advices&#10;* iGenderMate: Specify the gender of the soulmate to be matched&#10;* iPreference: Specify the preference on having a younger or older soulmate&#10;&#10;Output&#10;* oName: Recommended name of the soulmate according to the NK-T5 Algorithm&#10;* plus, WOW factor on user experience and algorithm design!" wrapText="true" />
+                              <Label alignment="CENTER" layoutX="189.0" layoutY="14.0" prefHeight="27.0" prefWidth="322.0" text="Predict Your Soulmate's Name Today!" AnchorPane.leftAnchor="189.0" AnchorPane.rightAnchor="207.80000000000007">
+                                 <font>
+                                    <Font name="Cambria Bold" size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="78.0" layoutY="64.0" text="Your Name : " />
+                              <Label layoutX="78.0" layoutY="94.0" text="Gender : " />
+                              <Label layoutX="78.0" layoutY="123.0" text="Year Of Birth : " />
+                              <Label alignment="CENTER" layoutX="346.0" layoutY="64.0" prefHeight="18.0" prefWidth="170.0" text="Preferred Soulmate's Gender : " />
+                              <Label layoutX="350.0" layoutY="93.0" prefHeight="18.0" prefWidth="149.0" text="Preferred Soulmate's Age :" />
+                              <TextField fx:id="app2YourName" layoutX="158.0" layoutY="60.0" />
+                              <RadioButton fx:id="app2YourGenderM" layoutX="158.0" layoutY="94.0" mnemonicParsing="false" selected="true" text="Male">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="T11" />
+                                 </toggleGroup></RadioButton>
+                              <RadioButton fx:id="app2YourGenderF" layoutX="219.0" layoutY="94.0" mnemonicParsing="false" text="Female" toggleGroup="$T11" AnchorPane.leftAnchor="219.0" AnchorPane.rightAnchor="440.20000000000005" />
+                              <TextField fx:id="app2YOB" layoutX="158.0" layoutY="119.0" />
+                              <RadioButton fx:id="app2SoulGenderM" layoutX="517.0" layoutY="63.0" minWidth="53.0" mnemonicParsing="false" prefHeight="18.0" text="Male">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="T2" />
+                                 </toggleGroup></RadioButton>
+                              <RadioButton fx:id="app2SoulGenderF" contentDisplay="CENTER" layoutX="582.0" layoutY="64.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="35.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="90.0" selected="true" text="Female" textAlignment="CENTER" toggleGroup="$T2" />
+                              <RadioButton fx:id="app2SoulYounger" layoutX="500.0" layoutY="93.0" mnemonicParsing="false" selected="true" text="Younger" toggleGroup="$T111" />
+                              <RadioButton fx:id="app2SoulOlder" layoutX="582.0" layoutY="93.0" mnemonicParsing="false" text="Older" toggleGroup="$T111" />
+                              <ChoiceBox fx:id="app2ChoiceBox" layoutX="468.0" layoutY="118.0" prefWidth="150.0" />
+                              <Label layoutX="350.0" layoutY="122.0" prefHeight="18.0" prefWidth="149.0" text="Preferred Algorithm : " />
+                              <Button fx:id="app2Button" layoutX="76.0" layoutY="169.0" mnemonicParsing="false" onAction="#doTask5" text="GET NAME" />
+                              <Label layoutX="88.0" layoutY="145.0" />
+                              <Label layoutX="77.0" layoutY="145.0" text="(1880 - 2019)" />
+                              <Label fx:id="app2PredictSentence" layoutX="38.0" layoutY="356.0" prefHeight="27.0" prefWidth="361.0" text="Your Soulmate's Name is Predicted to be:">
+                                 <font>
+                                    <Font name="System Bold Italic" size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="app2Answer" layoutX="400.0" layoutY="361.0" prefHeight="18.0" prefWidth="202.0" />
                            </children>
                         </AnchorPane>
                     </content>
@@ -163,7 +216,40 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TextArea layoutX="40.0" layoutY="39.0" prefHeight="252.0" prefWidth="581.0" text="Develop and implement an online service using empirical data to help make informed decisions on predicting scores for compatible pairs.  Sample Scenario of Application: (i) A person seeking advices on the chance of engaging in love affairs with someone of a different gender; (ii) A person seeking advices on the chance of engaging in love affairs with someone of the same gender.&#10;&#10;Input&#10;* iName, iGender, iYOB: Particulars of the person seeking advices&#10;* iNameMate, iGenderMate: Specify the name and gender of the person to be matched&#10;* iPreference: Specify the preference on having a younger or older soulmate&#10;&#10;Output&#10;* oScore: Provide a score of compatibility (0%: Not Compatible; 100%: Perfect Match) according to the NK-T6 Algorithm&#10;* plus, WOW factor on user experience and algorithm design!" wrapText="true" />
+                              <TextArea disable="true" layoutX="40.0" layoutY="39.0" prefHeight="252.0" prefWidth="581.0" text="Develop and implement an online service using empirical data to help make informed decisions on predicting scores for compatible pairs.  Sample Scenario of Application: (i) A person seeking advices on the chance of engaging in love affairs with someone of a different gender; (ii) A person seeking advices on the chance of engaging in love affairs with someone of the same gender.&#10;&#10;Input&#10;* iName, iGender, iYOB: Particulars of the person seeking advices&#10;* iNameMate, iGenderMate: Specify the name and gender of the person to be matched&#10;* iPreference: Specify the preference on having a younger or older soulmate&#10;&#10;Output&#10;* oScore: Provide a score of compatibility (0%: Not Compatible; 100%: Perfect Match) according to the NK-T6 Algorithm&#10;* plus, WOW factor on user experience and algorithm design!" visible="false" wrapText="true" />
+                              <Label layoutX="98.0" layoutY="96.0" text="Name:" />
+                              <TextField fx:id="task6TextName1" layoutX="149.0" layoutY="92.0" prefHeight="26.0" prefWidth="88.0" text="David" />
+                              <Label layoutX="416.0" layoutY="93.0" text="Name:" />
+                              <TextField fx:id="task6TextName2" layoutX="467.0" layoutY="89.0" prefHeight="26.0" prefWidth="88.0" text="Mary" />
+                              <Label layoutX="416.0" layoutY="142.0" text="Gender: " />
+                              <Label layoutX="98.0" layoutY="145.0" text="Gender: " />
+                              <Label layoutX="98.0" layoutY="186.0" text="Year of birth (1880-2019):" />
+                              <TextField fx:id="task6TextYear" layoutX="243.0" layoutY="181.0" prefHeight="26.0" prefWidth="88.0" text="2000" />
+                              <Label layoutX="417.0" layoutY="183.0" text="YOB:" />
+                              <Label fx:id="task6TextResult" layoutX="179.0" layoutY="351.0" prefHeight="27.0" prefWidth="361.0" text="Your score of compatibility is">
+                                 <font>
+                                    <Font name="System Bold Italic" size="18.0" />
+                                 </font>
+                              </Label>
+                              <Button fx:id="task6ButtonReport" layoutX="283.0" layoutY="265.0" mnemonicParsing="false" onAction="#doTask6" text="Generate Score" />
+                              <RadioButton fx:id="task6RadioMale1" layoutX="150.0" layoutY="145.0" mnemonicParsing="false" selected="true" text="Male">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="task6Toggle1" />
+                                 </toggleGroup>
+                              </RadioButton>
+                              <RadioButton fx:id="task6RadioFemale1" layoutX="214.0" layoutY="145.0" mnemonicParsing="false" text="Female" toggleGroup="$task6Toggle1" />
+                              <RadioButton fx:id="task6RadioMale2" layoutX="467.0" layoutY="142.0" mnemonicParsing="false" text="Male">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="task6Toggle2" />
+                                 </toggleGroup>
+                              </RadioButton>
+                              <RadioButton fx:id="task6RadioFemale2" layoutX="531.0" layoutY="142.0" mnemonicParsing="false" selected="true" text="Female" toggleGroup="$task6Toggle2" />
+                              <RadioButton fx:id="task6RadioYounger" layoutX="469.0" layoutY="183.0" mnemonicParsing="false" selected="true" text="Younger">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="task6Toggle3" />
+                                 </toggleGroup>
+                              </RadioButton>
+                              <RadioButton fx:id="task6RadioOlder" layoutX="555.0" layoutY="183.0" mnemonicParsing="false" text="Older" toggleGroup="$task6Toggle3" />
                            </children>
                         </AnchorPane>
                     </content>
@@ -172,11 +258,5 @@
             </TabPane>
       </children>
     </AnchorPane>
-      <Label text="Console" />
-      <ScrollPane prefHeight="387.0" prefWidth="719.0">
-         <content>
-            <TextArea fx:id="textAreaConsole" prefHeight="300.0" prefWidth="718.0" />
-         </content>
-      </ScrollPane>
   </children>
 </VBox>

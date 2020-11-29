@@ -4,16 +4,42 @@
 package comp3111.popnames;
 
 import java.io.IOException;
-
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
+import javafx.scene.chart.BarChart;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.cell.MapValueFactory;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.layout.VBox;
+import javafx.scene.layout.Region;
+import javafx.scene.text.Text;
 
-public class Controller {
+import java.lang.NumberFormatException;
+import java.net.URL;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.ResourceBundle;
+
+
+public class Controller implements Initializable{
 
     @FXML
     private Tab tabTaskZero;
@@ -29,6 +55,9 @@ public class Controller {
 
     @FXML
     private TextField textfieldNameM;
+    
+    @FXML
+    private Button task1Button;
 
     @FXML
     private Button buttonRankF;
@@ -52,7 +81,28 @@ public class Controller {
     private Tab tabReport2;
 
     @FXML
-    private ToggleGroup T11;
+    private TextField task2TextName;
+
+    @FXML
+    private ToggleGroup task2Toggle;
+
+    @FXML
+    private RadioButton task2RadioMale;
+
+    @FXML
+    private RadioButton task2RadioFemale;
+
+    @FXML
+    private TextField task2TextStartPeriod;
+
+    @FXML
+    private TextField task2TextEndPeriod;
+
+    @FXML
+    private Button task2ButtonGenerate;
+
+    @FXML
+    private TableView<Map> task2TableResult;
 
     @FXML
     private Tab tabReport3;
@@ -70,8 +120,112 @@ public class Controller {
     private Tab tabApp3;
 
     @FXML
+    private TextField task6TextName1;
+
+    @FXML
+    private ToggleGroup task6Toggle1;
+
+    @FXML
+    private RadioButton task6RadioMale1;
+
+    @FXML
+    private RadioButton task6RadioFemale1;
+
+    @FXML
+    private TextField task6TextYear;
+
+    @FXML
+    private TextField task6TextName2;
+
+    @FXML
+    private ToggleGroup task6Toggle2;
+
+    @FXML
+    private RadioButton task6RadioMale2;
+
+    @FXML
+    private RadioButton task6RadioFemale2;
+
+    @FXML
+    private ToggleGroup task6Toggle3;
+
+    @FXML
+    private RadioButton task6RadioYounger;
+
+    @FXML
+    private RadioButton task6RadioOlder;
+
+    @FXML
+    private Button task6ButtonReport;
+
+    @FXML
+    private Label task6TextResult;
+
+    @FXML
     private TextArea textAreaConsole;
     
+    @FXML
+    private TextField numRankTextField;
+    
+    @FXML
+    private RadioButton maleRadioButton;
+    
+    @FXML
+    private RadioButton femaleRadioButton;
+
+    @FXML
+    private TextField endPeriodTextField;
+
+    @FXML
+    private TextField startPeriodTextField;
+    
+    @FXML
+    private TableView<Map> report1Table;
+    
+    @FXML   
+    private ChoiceBox<String> app2ChoiceBox;
+    
+    @FXML
+    private BarChart<String, Integer> rep1BarChart;
+    
+    @FXML
+    private TextArea rep1Comment;
+    
+    @FXML
+    private Label rep1Label;
+    
+    //activity 5 FXML objects
+    @FXML
+    private TextField app2YourName;
+
+    @FXML
+    private RadioButton app2YourGenderM;
+
+    @FXML
+    private RadioButton app2YourGenderF;
+
+    @FXML
+    private TextField app2YOB;
+
+    @FXML
+    private RadioButton app2SoulGenderM;
+
+    @FXML
+    private RadioButton app2SoulGenderF;
+
+    @FXML
+    private RadioButton app2SoulYounger;
+
+    @FXML
+    private RadioButton app2SoulOlder;
+    
+    @FXML
+    private Label app2PredictSentence;
+
+    @FXML
+    private Label app2Answer;
+    // end of activity5 objects
+
     @FXML
     private TextField task3_year_end;
 
@@ -158,17 +312,29 @@ public class Controller {
     }
     
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        
+        // this part is to initialize the choiceBox in activity5
+        ArrayList<String> list = new ArrayList<String>();
+        list.add("NK-T5");
+        list.add("Levenshtein Distance");
+        ObservableList<String> obList = FXCollections.observableList(list);
+        app2ChoiceBox.setItems(obList);
+        app2ChoiceBox.setValue("NK-T5");
+        // end of initialization of activity5
+        
+    }
     /**
      *  Task Zero
      *  To be triggered by the "Summary" button on the Task Zero Tab 
-     * 
      *  
      */
     @FXML
-    void doSummary(){
-    	int year = Integer.parseInt(textfieldYear.getText());
-    	String oReport = AnalyzeNames.getSummary(year);
-    	textAreaConsole.setText(oReport);
+    void doSummary() {
+        int year = Integer.parseInt(textfieldYear.getText());
+        String oReport = AnalyzeNames.getSummary(year);
+        textAreaConsole.setText(oReport);
     }
 
   
@@ -179,15 +345,15 @@ public class Controller {
      */
     @FXML
     void doRankF() {
-    	String oReport = "";
-    	String iNameF = textfieldNameF.getText();
-    	int iYear = Integer.parseInt(textfieldYear.getText());
-    	int oRank = AnalyzeNames.getRank(iYear, iNameF, "F");
-    	if (oRank == -1)
-    		oReport = String.format("The name %s (female) has not been ranked in the year %d.\n", iNameF, iYear);
-    	else
-    		oReport = String.format("Rank of %s (female) in year %d is #%d.\n", iNameF, iYear, oRank);
-    	textAreaConsole.setText(oReport);
+        String oReport = "";
+        String iNameF = textfieldNameF.getText();
+        int iYear = Integer.parseInt(textfieldYear.getText());
+        int oRank = AnalyzeNames.getRank(iYear, iNameF, "F");
+        if (oRank == -1)
+            oReport = String.format("The name %s (female) has not been ranked in the year %d.\n", iNameF, iYear);
+        else
+            oReport = String.format("Rank of %s (female) in year %d is #%d.\n", iNameF, iYear, oRank);
+        textAreaConsole.setText(oReport);
     }
 
   
@@ -198,15 +364,15 @@ public class Controller {
      */
     @FXML
     void doRankM() {
-    	String oReport = "";
-    	String iNameM = textfieldNameM.getText();
-    	int iYear = Integer.parseInt(textfieldYear.getText());
-    	int oRank = AnalyzeNames.getRank(iYear, iNameM, "M");
-    	if (oRank == -1)
-    		oReport = String.format("The name %s (male) has not been ranked in the year %d.\n", iNameM, iYear);
-    	else
-    		oReport = String.format("Rank of %s (male) in year %d is #%d.\n", iNameM, iYear, oRank);
-    	textAreaConsole.setText(oReport);
+        String oReport = "";
+        String iNameM = textfieldNameM.getText();
+        int iYear = Integer.parseInt(textfieldYear.getText());
+        int oRank = AnalyzeNames.getRank(iYear, iNameM, "M");
+        if (oRank == -1)
+            oReport = String.format("The name %s (male) has not been ranked in the year %d.\n", iNameM, iYear);
+        else
+            oReport = String.format("Rank of %s (male) in year %d is #%d.\n", iNameM, iYear, oRank);
+        textAreaConsole.setText(oReport);
     }
 
 
@@ -217,13 +383,13 @@ public class Controller {
      */
     @FXML
     void doTopF() {
-    	String oReport = "";
-    	final int topN = 5;
-    	int iYear = Integer.parseInt(textfieldYear.getText());
-    	oReport = String.format("Top %d most popular names (female) in the year %d:\n", topN, iYear);
-    	for (int i=1; i<=topN; i++)
-    		oReport += String.format("#%d: %s\n", i, AnalyzeNames.getName(iYear, i, "F"));
-    	textAreaConsole.setText(oReport);
+        String oReport = "";
+        final int topN = 5;
+        int iYear = Integer.parseInt(textfieldYear.getText());
+        oReport = String.format("Top %d most popular names (female) in the year %d:\n", topN, iYear);
+        for (int i=1; i<=topN; i++)
+            oReport += String.format("#%d: %s\n", i, AnalyzeNames.getName(iYear, i, "F"));
+        textAreaConsole.setText(oReport);
     }
 
 
@@ -234,15 +400,306 @@ public class Controller {
      */
     @FXML
     void doTopM() {
-    	String oReport = "";
-    	final int topN = 5;
-    	int iYear = Integer.parseInt(textfieldYear.getText());
-    	oReport = String.format("Top %d most popular names (male) in the year %d:\n", topN, iYear);
-    	for (int i=1; i<=topN; i++)
-    		oReport += String.format("#%d: %s\n", i, AnalyzeNames.getName(iYear, i, "M"));
-    	textAreaConsole.setText(oReport);
+        String oReport = "";
+        final int topN = 5;
+        int iYear = Integer.parseInt(textfieldYear.getText());
+        oReport = String.format("Top %d most popular names (male) in the year %d:\n", topN, iYear);
+        for (int i=1; i<=topN; i++)
+            oReport += String.format("#%d: %s\n", i, AnalyzeNames.getName(iYear, i, "M"));
+        textAreaConsole.setText(oReport);
     }
     
+    /**
+     *  Task One
+     *  To be triggered by the Generate Report Button in Reporting 1 tab.
+     *  
+     */
+    @FXML
+    void doTask1() {
+        int numRanks;
+        int startPeriod;
+        int endPeriod;
+        int gender;
+        try {
+            // input validation and catches any errors
+                numRanks = Integer.parseInt(numRankTextField.getText());
+                startPeriod = Integer.parseInt(startPeriodTextField.getText());
+                endPeriod = Integer.parseInt(endPeriodTextField.getText());
+                
+            if (maleRadioButton.isSelected()) {
+                gender = 0;
+            } else {
+                gender = 1;
+            }
 
+            
+        } catch(NumberFormatException e) {
+            // some error catching here
+            return;
+        }
+        ArrayList<YearRecords> yearRecordsList = Activity1Query.executeQuery(numRanks, gender, startPeriod, endPeriod);
+        // clear all the contents of the table view & bar chart
+        report1Table.getColumns().clear();
+        report1Table.getItems().clear();
+        report1Table.refresh();
+        rep1BarChart.getData().clear();
+        rep1BarChart.setVisible(true);
+
+        // initializing the year column
+        TableColumn<Map,String> yearColumn = new TableColumn<>("Year");
+        yearColumn.setCellValueFactory(new MapValueFactory<>("year"));
+        report1Table.getColumns().add(yearColumn);
+        
+        int index = 1;
+        for (; index <= numRanks; index++) {
+            TableColumn<Map, String> topColumn = new TableColumn<>("Top " + index);
+            topColumn.setCellValueFactory(new MapValueFactory<>("top" + index));
+            report1Table.getColumns().add(topColumn);
+        }
+        ObservableList<Map<String, Object>> items =
+                FXCollections.<Map<String, Object>>observableArrayList();
+
+        for (YearRecords y : yearRecordsList) {
+            Map<String, Object> item = new HashMap<>();
+            item.put("year", y.getYear());
+            index = 1;
+            for (NameRecord nr : y.getNameRecordList()) {
+                item.put("top" + index, nr.getName());
+                index++;
+            }
+            items.add(item);
+        }
+        report1Table.getItems().addAll(items);
+        
+        // display bar chart with info. 
+        rep1BarChart.setVisible(true);
+        LinkedHashMap<String, Integer> top3Names = Activity1Query.top3Names;
+        
+        XYChart.Series<String, Integer> dataSeries = new XYChart.Series<String, Integer>();
+        dataSeries.setName(Integer.toString(startPeriod) + " - " + Integer.toString(endPeriod));
+        for (Entry<String, Integer> entry : top3Names.entrySet())
+        {
+            dataSeries.getData().add(new XYChart.Data<String, Integer>(entry.getKey(), entry.getValue()));
+            
+        }
+        rep1BarChart.getData().add(dataSeries);
+        rep1Comment.setVisible(true);
+        rep1Comment.setText(Activity1Query.comment);
+        rep1Label.setVisible(true);
+        
+        //testing stuff
+        try {
+            boolean done = Utility.storeHistory("testing storing funciton");
+            if (done) {
+                System.out.println("saved file");
+            }
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        
+
+    }
+
+    /**
+     *  Task Two
+     *  To be triggered by the Generate Report Button in Reporting 2 tab.
+     *  
+     */
+    @FXML
+    void doTask2() {
+        String name;
+        int gender;
+        int startPeriod;
+        int endPeriod;
+        name = task2TextName.getText();
+        if(name.equals("")){
+            showWarning("Invalid Name", "Please enter a name.");
+            return;
+        }
+        try {
+            startPeriod = Integer.parseInt(task2TextStartPeriod.getText());
+            endPeriod = Integer.parseInt(task2TextEndPeriod.getText());
+        } catch(NumberFormatException e) {
+            showWarning("Invalid Period", "Period must be integers.");
+            return;
+        }      
+        if (task2RadioMale.isSelected()) {
+            gender = 0;
+        } else {
+            gender = 1;
+        }
+        ArrayList<RankRecord> rankRecords;
+        try {
+            rankRecords = Activity2Query.executeQuery(name, gender, startPeriod, endPeriod);
+        } catch(NumberFormatException e) {
+            if(e.getMessage().equals("length")) {
+                showWarning("Invalid Name", "Name must contain only 2 to 15 characters.");
+            } else if(e.getMessage().equals("char")) {
+                showWarning("Invalid Name", "Name must contain only letters.");
+            } else if(e.getMessage().equals("start")) {
+                showWarning("Invalid Period", "Starting year must be an integer between 1880 and 2019.");
+            } else if(e.getMessage().equals("end")) {
+                showWarning("Invalid Period", "Ending year must be an integer between 1880 and 2019.");
+            } else if(e.getMessage().equals("start end")) {
+                showWarning("Invalid Period", "Both starting and ending years must be integers between 1880 and 2019.");
+            }
+            return;
+        }
+
+        task2TableResult.getColumns().clear();
+        task2TableResult.getItems().clear();
+        task2TableResult.refresh();
+
+        TableColumn<Map,String> yearColumn = new TableColumn<>("Year");
+        yearColumn.setCellValueFactory(new MapValueFactory<>("year"));
+        task2TableResult.getColumns().add(yearColumn);
+        
+        TableColumn<Map, String> rankColumn = new TableColumn<>("Rank");
+        rankColumn.setCellValueFactory(new MapValueFactory<>("rank"));
+        task2TableResult.getColumns().add(rankColumn);
+
+        TableColumn<Map, String> countColumn = new TableColumn<>("Count");
+        countColumn.setCellValueFactory(new MapValueFactory<>("count"));
+        task2TableResult.getColumns().add(countColumn);
+
+        TableColumn<Map, String> percentageColumn = new TableColumn<>("Percentage");
+        percentageColumn.setCellValueFactory(new MapValueFactory<>("percentage"));
+        task2TableResult.getColumns().add(percentageColumn);
+        
+        ObservableList<Map<String, Object>> items = FXCollections.<Map<String, Object>>observableArrayList();
+
+        for (RankRecord record : rankRecords) {
+            Map<String, Object> item = new HashMap<>();
+            item.put("year", record.getYear());
+            if(record.isValid()) {
+                item.put("rank", record.getRank());
+                item.put("count", record.getCount());
+                item.put("percentage", record.getPercentage());
+            } else {
+                item.put("rank", "NULL");
+                item.put("count", "NULL");
+                item.put("percentage", "NULL");
+            }            
+            items.add(item);
+        }
+        task2TableResult.getItems().addAll(items);
+    }
+
+    /**
+     *  Task Five
+     *  To be triggered by the Generate Report Button in Application 2 tab.
+     *  
+     */
+    @FXML
+    void doTask5() {
+        String name;
+        int gender;
+        int prefGender;
+        int yob;
+        boolean prefYounger;
+        try {
+            // get data from input fields
+            name = app2YourName.getText();
+            yob = Integer.parseInt(app2YOB.getText());
+            if (app2YourGenderM.isSelected()) {
+                gender = 0;
+            } else {
+                gender = 1;
+            }
+            if (app2SoulGenderM.isSelected()) {
+                prefGender = 0;
+            } else {
+                prefGender = 1;
+            }
+            prefYounger = app2SoulYounger.isSelected();
+            // input validation
+            if (Activity5Query.isNameCorrect(name) && Activity5Query.isYOBCorrect(yob)) {
+                
+            } else {
+                System.out.println("Wrong input format");
+                //output some error statement
+                return;
+            }
+            
+        } catch(NumberFormatException e) {
+            //error catching logic here
+            return;
+        }
+        
+        String oName = Activity5Query.executeQueryNKT5( name, yob, gender, prefGender, prefYounger);
+        app2Answer.setText(oName);
+    }
+
+    /**
+     *  Task Six
+     *  To be triggered by the Generate Report Button in Reporting 2 tab.
+     *  
+     */
+    @FXML
+    void doTask6() {
+        String name1, name2;
+        int gender1, gender2;
+        int year;
+        boolean isYounger;
+        name1 = task6TextName1.getText();
+        name2 = task6TextName2.getText();
+        if(name1.equals("")){
+            showWarning("Invalid Name", "Please enter your name.");
+            return;
+        }
+        if(name2.equals("")){
+            showWarning("Invalid Name", "Please enter the name of your soulmate.");
+            return;
+        }
+        try {
+            year = Integer.parseInt(task6TextYear.getText());
+        } catch(NumberFormatException e) {
+            showWarning("Invalid Year of Birth", "Your year of birth must be an integer.");
+            return;
+        }      
+        if (task6RadioMale1.isSelected()) {
+            gender1 = 0;
+        } else {
+            gender1 = 1;
+        }
+        if (task6RadioMale2.isSelected()) {
+            gender2 = 0;
+        } else {
+            gender2 = 1;
+        }
+        if (task6RadioYounger.isSelected()) {
+            isYounger = true;
+        } else {
+            isYounger = false;
+        }
+        float score;
+        try {
+            score = Activity6Query.executeQuery(name1, gender1, year, name2, gender2, isYounger);
+        } catch(NumberFormatException e) {
+            if(e.getMessage().equals("length1")) {
+                    showWarning("Invalid Name", "Your name must contain only 2 to 15 characters.");
+            } else if(e.getMessage().equals("length2")) {
+                showWarning("Invalid Name", "The name of your soulmate must contain only 2 to 15 characters.");
+            } else if(e.getMessage().equals("char1")) {
+                showWarning("Invalid Name", "Your name must contain only letters.");
+            } else if(e.getMessage().equals("char2")) {
+                showWarning("Invalid Name", "The name of your soulmate must contain only letters.");
+            } else if(e.getMessage().equals("year")) {
+                showWarning("Invalid Period", "Your year of birth must be an integer between 1880 and 2019.");
+            }
+            return;
+        }
+        task6TextResult.setText("Your score of compatibility is " + score);
+    }
+
+    private static void showWarning(String header, String message) {
+        Alert alert = new Alert(AlertType.WARNING);
+        alert.setTitle("Warning");
+        alert.setHeaderText(header);
+        alert.setContentText(message);
+        alert.getDialogPane().setMinHeight(Region.USE_PREF_SIZE);
+        alert.showAndWait();
+    }
 }
 

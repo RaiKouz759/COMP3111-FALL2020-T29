@@ -33,7 +33,7 @@ public class JavaFXTest extends ApplicationTest {
     
 	@Test
 	public void testButtonRankTrue() {	
-		//clickOn("#tabTaskZero");
+		clickOn("#tabTaskZero");
 		clickOn("#buttonRankM");
 		//sleep(1000);
 		String s1 = t.getText();
@@ -46,7 +46,7 @@ public class JavaFXTest extends ApplicationTest {
 	
 	@Test
 	public void testButtonRankFalse() {	
-		//clickOn("#tabTaskZero");
+		clickOn("#tabTaskZero");
 		clickOn("#buttonRankM");
 		//sleep(1000);
 		String s1 = t.getText();
@@ -59,6 +59,7 @@ public class JavaFXTest extends ApplicationTest {
 	
 	@Test
 	public void testTextAreaConsole() {	
+		clickOn("#tabTaskZero");
 		t.setText("David");
 		String s = t.getText();
 		assertTrue(s.equals("David"));
