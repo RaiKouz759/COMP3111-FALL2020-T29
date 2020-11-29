@@ -159,18 +159,6 @@ public class Activity2JavaFXTest extends ApplicationTest {
 	}
 
 	@Test
-	public void testGenderInvalid() {
-		clickOn("#tabReport2");
-		name.setText("Margaret");
-		start.setText("1880");
-		end.setText("1882");
-		clickOn("#task2ButtonReport");
-		FxAssert.verifyThat("OK", NodeMatchers.isVisible());
-		Node dialogPane = lookup(".dialog-pane").query();
-		from(dialogPane).lookup((Text t) -> t.getText().startsWith("Please choose one gender")).query();
-	}
-
-	@Test
 	public void testPeriodInvlid() {
 		clickOn("#tabReport2");
 		name.setText("Margaret");
