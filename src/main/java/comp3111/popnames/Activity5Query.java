@@ -77,6 +77,7 @@ public class Activity5Query {
 			}
 			if (index == oRank) {
 				oName = re.get(0);
+				break;
 			}
 			index++;
 		}

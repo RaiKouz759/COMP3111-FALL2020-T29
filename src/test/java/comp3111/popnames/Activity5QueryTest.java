@@ -84,7 +84,6 @@ public class Activity5QueryTest {
 		testName = Activity5Query.executeQueryNKT5("Okabe", 1999, 0, 1, true);
 		assertTrue(testName.equals("Emma"));
 		
-		
 	}
 	
 }

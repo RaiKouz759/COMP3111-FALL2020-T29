@@ -3,8 +3,7 @@
  */
 package comp3111.popnames;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import java.io.IOException;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
@@ -90,7 +89,7 @@ public class Controller implements Initializable{
     private TextField task2TextName;
 
     @FXML
-    private ToggleGroup T11;
+    private ToggleGroup task2Toggle;
 
     @FXML
     private RadioButton task2RadioMale;
@@ -124,6 +123,48 @@ public class Controller implements Initializable{
 
     @FXML
     private Tab tabApp3;
+
+    @FXML
+    private TextField task6TextName1;
+
+    @FXML
+    private ToggleGroup task6Toggle1;
+
+    @FXML
+    private RadioButton task6RadioMale1;
+
+    @FXML
+    private RadioButton task6RadioFemale1;
+
+    @FXML
+    private TextField task6TextYear;
+
+    @FXML
+    private TextField task6TextName2;
+
+    @FXML
+    private ToggleGroup task6Toggle2;
+
+    @FXML
+    private RadioButton task6RadioMale2;
+
+    @FXML
+    private RadioButton task6RadioFemale2;
+
+    @FXML
+    private ToggleGroup task6Toggle3;
+
+    @FXML
+    private RadioButton task6RadioYounger;
+
+    @FXML
+    private RadioButton task6RadioOlder;
+
+    @FXML
+    private Button task6ButtonReport;
+
+    @FXML
+    private Label task6TextResult;
 
     @FXML
     private TextArea textAreaConsole;
@@ -195,6 +236,89 @@ public class Controller implements Initializable{
 
     @FXML
     private TextArea historyText;
+    private TextField task3_year_end;
+
+    @FXML
+    private TextField task3_year_start;
+
+    @FXML
+    private Button task3_report;
+    
+    @FXML
+    private RadioButton t3_f;
+    
+    @FXML
+    private RadioButton t3_m;
+    
+    @FXML
+    private TextField t3_topN;
+    
+    @FXML
+    private TextField t4_dname;
+
+    @FXML
+    private TextField t4_mname;
+
+    @FXML
+    private TextField t4_dyob;
+
+    @FXML
+    private TextField t4_myob;
+
+    @FXML
+    private TextField t4_vyear;
+
+    @FXML
+    private Button t4_gr;
+    
+    @FXML
+    private RadioButton t4_nkt4;
+
+    @FXML
+    private ToggleGroup T4_algorithm;
+
+    @FXML
+    private RadioButton t4_jaro;
+    
+    
+    //Task Four
+    
+    @FXML
+    void t4_generate_recommendation() {
+    	String dName = t4_dname.getText();
+    	String mName = t4_mname.getText();
+    	int dYOB = Integer.parseInt(t4_dyob.getText());
+    	int mYOB = Integer.parseInt(t4_myob.getText());
+    	int vYear = Integer.parseInt(t4_vyear.getText());
+    	String choice = "";
+    	if (this.T4_algorithm.getSelectedToggle().equals(this.t4_nkt4)){
+    		choice = "NK-T4";
+    	}
+    	else if (this.T4_algorithm.getSelectedToggle().equals(this.t4_jaro)) {
+    		choice = "Jaro";
+    	}
+    	String Report = Task4.recommendation(dName, dYOB, mName, mYOB, vYear, choice);
+    	textAreaConsole.setText(Report);
+    }
+    
+    
+    // Task Three
+    
+    @FXML
+    void task3_generate_summary() throws IOException {
+    	int year_start = Integer.parseInt(task3_year_start.getText());
+    	int year_end = Integer.parseInt(task3_year_end.getText());
+    	int topN = Integer.parseInt(t3_topN.getText());
+    	String gender = "";
+    	if (this.T111.getSelectedToggle().equals(this.t3_m)) {
+    		gender = "M";
+    	}
+    	else if (this.T111.getSelectedToggle().equals(this.t3_f)) {
+    		gender = "F";
+    	}
+    	String Report = Task3.Summary(year_start, year_end, gender, topN);
+    	textAreaConsole.setText(Report);
+    }
     
     public ObservableList<String> log_obList;
     
@@ -497,11 +621,8 @@ public class Controller implements Initializable{
         }      
         if (task2RadioMale.isSelected()) {
             gender = 0;
-        } else if (task2RadioFemale.isSelected()) {
-            gender = 1;
         } else {
-            showWarning("Invalid Gender", "Please choose one gender.");
-            return;
+            gender = 1;
         }
         ArrayList<RankRecord> rankRecords;
         try {
@@ -605,6 +726,68 @@ public class Controller implements Initializable{
         
         String oName = Activity5Query.executeQueryNKT5( name, yob, gender, prefGender, prefYounger);
         app2Answer.setText(oName);
+    }
+
+    /**
+     *  Task Six
+     *  To be triggered by the Generate Report Button in Reporting 2 tab.
+     *  
+     */
+    @FXML
+    void doTask6() {
+        String name1, name2;
+        int gender1, gender2;
+        int year;
+        boolean isYounger;
+        name1 = task6TextName1.getText();
+        name2 = task6TextName2.getText();
+        if(name1.equals("")){
+            showWarning("Invalid Name", "Please enter your name.");
+            return;
+        }
+        if(name2.equals("")){
+            showWarning("Invalid Name", "Please enter the name of your soulmate.");
+            return;
+        }
+        try {
+            year = Integer.parseInt(task6TextYear.getText());
+        } catch(NumberFormatException e) {
+            showWarning("Invalid Year of Birth", "Your year of birth must be an integer.");
+            return;
+        }      
+        if (task6RadioMale1.isSelected()) {
+            gender1 = 0;
+        } else {
+            gender1 = 1;
+        }
+        if (task6RadioMale2.isSelected()) {
+            gender2 = 0;
+        } else {
+            gender2 = 1;
+        }
+        if (task6RadioYounger.isSelected()) {
+            isYounger = true;
+        } else {
+            isYounger = false;
+        }
+        float score;
+        try {
+            score = Activity6Query.executeQuery(name1, gender1, year, name2, gender2, isYounger);
+        } catch(NumberFormatException e) {
+            if(e.getMessage().equals("length1")) {
+                    showWarning("Invalid Name", "Your name must contain only 2 to 15 characters.");
+            } else if(e.getMessage().equals("length2")) {
+                showWarning("Invalid Name", "The name of your soulmate must contain only 2 to 15 characters.");
+            } else if(e.getMessage().equals("char1")) {
+                showWarning("Invalid Name", "Your name must contain only letters.");
+            } else if(e.getMessage().equals("char2")) {
+                showWarning("Invalid Name", "The name of your soulmate must contain only letters.");
+            } else if(e.getMessage().equals("year")) {
+                showWarning("Invalid Period", "Your year of birth must be an integer between 1880 and 2019.");
+            }
+            return;
+        }
+        task6TextResult.setText("Your score of compatibility is " + score);
     }
 
     private static void showWarning(String header, String message) {
