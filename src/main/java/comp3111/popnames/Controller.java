@@ -4,14 +4,20 @@
 package comp3111.popnames;
 
 import java.io.IOException;
+
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
@@ -25,6 +31,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
 
@@ -37,6 +44,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
+import java.io.File;
+
 
 
 public class Controller implements Initializable{
@@ -193,6 +202,9 @@ public class Controller implements Initializable{
     
     @FXML
     private Label rep1Label;
+
+    @FXML
+    private Rectangle step2Cover;
     
     //activity 5 FXML objects
     @FXML
@@ -224,9 +236,44 @@ public class Controller implements Initializable{
 
     @FXML
     private Label app2Answer;
+    
+    @FXML
+    private Button app2Button;
+    
+    @FXML
+    private RadioButton app2RadioNK;
+
+    @FXML
+    private ToggleGroup T3;
+
+    @FXML
+    private RadioButton app2RadioJaro;
+    
+
+    @FXML
+    private RadioButton step2Radio1;
+
+    @FXML
+    private ToggleGroup T5;
+
+    @FXML
+    private RadioButton step2Radio2;
+
+    @FXML
+    private RadioButton step2Radio3;
+
+    @FXML
+    private Label step2Label;
+
+    @FXML
+    private Button step2Button;
     // end of activity5 objects
 
     @FXML
+    private ChoiceBox<String> historyChoice;
+
+    @FXML
+    private TextArea historyText;
     private TextField task3_year_end;
 
     @FXML
@@ -311,6 +358,13 @@ public class Controller implements Initializable{
     	textAreaConsole.setText(Report);
     }
     
+    public ObservableList<String> log_obList;
+    
+    @FXML
+    private Tab historyTab;
+
+    @FXML
+    private TabPane tabpane;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -324,6 +378,76 @@ public class Controller implements Initializable{
         app2ChoiceBox.setValue("NK-T5");
         // end of initialization of activity5
         
+//        tabpane.getSelectionModel().selectedItemProperty().addListener((ChangeListener<? super Tab>) new ChangeListener<Tab>() { 
+//			@Override
+//			public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
+//				// TODO Auto-generated method stub
+//				if(newValue.equals(historyTab)) {
+//			        // initialize contents of history tab
+//					String filePath = new File("").getAbsolutePath();
+//					filePath = filePath.concat("/src/main/resources/logs");
+//					
+//					// create directory if it does not exists
+//					new File(filePath).mkdirs();
+//					File dir = new File(filePath);
+//					File[] directoryListing = dir.listFiles();
+//					if (directoryListing != null) {
+//				        ArrayList<String> log_list = new ArrayList<String>();
+//					    for (File child : directoryListing) {
+//					      log_list.add(child.getName());
+//					    }
+//				        log_obList = FXCollections.observableList(log_list);
+//				        log_obList.addListener(new ListChangeListener<String> () {
+//			
+//							@Override
+//							public void onChanged(Change<? extends String> c) {
+//								// TODO Auto-generated method stub
+//								 System.out.println("adding" + c); 
+//							     historyChoice.getItems().setAll(log_obList);
+//							}
+//				        	
+//				            });
+//				        historyChoice.setItems(log_obList);
+//				        if (log_obList.size() > 0) {
+//				        	historyChoice.setValue(log_obList.get(0));
+//				        }
+//					  } else {
+//					    // Handle the case where dir is not really a directory.
+//					    // Checking dir.isDirectory() above would not be sufficient
+//					    // to avoid race conditions with another process that deletes
+//					    // directories.
+//						  showWarning("Error", "Error initializing the history tab");
+//					  }
+//				}
+//				
+//			}
+//
+//        });
+
+        
+    }
+    @FXML
+    void clickHistory() {
+    	if (historyTab.isSelected()) {
+    		String filePath = new File("").getAbsolutePath();
+    		filePath = filePath.concat("/src/main/resources/logs");
+    		
+    		// create directory if it does not exists
+    		new File(filePath).mkdirs();
+    		File dir = new File(filePath);
+    		File[] directoryListing = dir.listFiles();
+    		if (directoryListing != null) {
+    	        ArrayList<String> log_list = new ArrayList<String>();
+    		    for (File child : directoryListing) {
+    		      log_list.add(child.getName());
+    		    }
+    	        log_obList = FXCollections.observableList(log_list);
+    	        historyChoice.setItems(log_obList);
+    	        if (log_obList.size() > 0) {
+	        	historyChoice.setValue(log_obList.get(0));
+	        }
+    	}
+    }
     }
     /**
      *  Task Zero
@@ -435,8 +559,18 @@ public class Controller implements Initializable{
             
         } catch(NumberFormatException e) {
             // some error catching here
+        	showWarning("Invalid Input Format", "Please only enter numbers.");
             return;
         }
+        if (!Activity1Query.isNumOfResultsCorrect(numRanks)) {
+        	showWarning("Invalid Input", "Please enter an N that is >= 1. ");
+        	return;
+        }
+        if (!Activity1Query.isPeriodCorrect(startPeriod, endPeriod)) {
+        	showWarning("Invalid Input", "Start and End periods must be within the boundaries stated.");
+        	return;
+        }
+        
         ArrayList<YearRecords> yearRecordsList = Activity1Query.executeQuery(numRanks, gender, startPeriod, endPeriod);
         // clear all the contents of the table view & bar chart
         report1Table.getColumns().clear();
@@ -489,16 +623,16 @@ public class Controller implements Initializable{
         
         //testing stuff
         try {
-            boolean done = Utility.storeHistory("testing storing funciton");
-            if (done) {
+            String done = Utility.storeHistory("testing storing function");
+            if (!done.equals("error")) {
                 System.out.println("saved file");
+//                log_obList.add(done);
             }
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         
-
     }
 
     /**
@@ -614,20 +748,81 @@ public class Controller implements Initializable{
             }
             prefYounger = app2SoulYounger.isSelected();
             // input validation
-            if (Activity5Query.isNameCorrect(name) && Activity5Query.isYOBCorrect(yob)) {
-                
-            } else {
-                System.out.println("Wrong input format");
-                //output some error statement
+            if (!Activity5Query.isNameCorrect(name)) {
+            	showWarning("Invalid Input", "Please only enter letters for your name.");
                 return;
+            } 
+            if (!Activity5Query.isYOBCorrect(yob)){
+            	showWarning("Invalid Input", "Please only enter year of births that are within the boundaries stated.");
+            	return;
             }
             
         } catch(NumberFormatException e) {
             //error catching logic here
+        	showWarning("Invalid Input Format", "Please only enter numbers for YOB.");
             return;
         }
+        String oName = "undefined";
+        if(app2RadioNK.isSelected()) {
+            oName = Activity5Query.executeQueryNKT5( name, yob, gender, prefGender, prefYounger);
+            app2Answer.setText(oName);
+        }else {
+        	String[] list = new String[3];
+        	list = Activity5Query.executeQueryJaroStepOne(name, yob, gender, prefGender, prefYounger);
+        	app2Button.setDisable(true);
+        	step2Button.setVisible(true);
+        	step2Radio1.setText(list[0]);
+        	step2Radio2.setText(list[1]);
+        	step2Radio3.setText(list[2]);            
+        	step2Radio1.setVisible(true);
+        	step2Radio2.setVisible(true);
+        	step2Radio3.setVisible(true);
+        	step2Label.setVisible(true);
+        	step2Cover.setVisible(true);
+        }
+
+    }
+
+    @FXML
+    void doTask5Part2() {
+        String name;
+        int gender;
+        int prefGender;
+        int yob;
+        boolean prefYounger;
+        String oName = "undefined";
+    	
+        name = app2YourName.getText();
+        yob = Integer.parseInt(app2YOB.getText());
+        prefYounger = app2SoulYounger.isSelected();
+        if (app2YourGenderM.isSelected()) {
+            gender = 0;
+        } else {
+            gender = 1;
+        }
+        if (app2SoulGenderM.isSelected()) {
+            prefGender = 0;
+        } else {
+            prefGender = 1;
+        }
+    	String chosenName;
+        if (step2Radio1.isSelected()) {
+        	chosenName = step2Radio1.getText();
+        } else if(step2Radio2.isSelected()) {
+        	chosenName = step2Radio2.getText();
+        } else {
+        	chosenName = step2Radio3.getText();
+        }
         
-        String oName = Activity5Query.executeQueryNKT5( name, yob, gender, prefGender, prefYounger);
+        oName = Activity5Query.executeQueryJaroStepTwo( chosenName, yob, prefYounger, prefGender);
+    	//clean up
+    	step2Radio1.setVisible(false);
+    	step2Radio2.setVisible(false);
+    	step2Radio3.setVisible(false);      
+    	step2Button.setVisible(false);
+    	app2Button.setDisable(false);
+    	step2Cover.setVisible(false);
+    	step2Label.setVisible(false);
         app2Answer.setText(oName);
     }
 

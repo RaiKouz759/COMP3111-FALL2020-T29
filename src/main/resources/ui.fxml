@@ -15,13 +15,14 @@
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <VBox fx:id="vBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comp3111.popnames.Controller">
   <children>
     <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
       <children>
-            <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="679.0" prefWidth="719.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" VBox.vgrow="ALWAYS">
+            <TabPane fx:id="tabpane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="679.0" prefWidth="719.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" VBox.vgrow="ALWAYS">
               <tabs>
                 <Tab fx:id="tabTaskZero" text="Task Zero">
                   <content>
@@ -197,7 +198,7 @@
                               <RadioButton fx:id="app2SoulGenderF" contentDisplay="CENTER" layoutX="582.0" layoutY="64.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="35.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="90.0" selected="true" text="Female" textAlignment="CENTER" toggleGroup="$T2" />
                               <RadioButton fx:id="app2SoulYounger" layoutX="500.0" layoutY="93.0" mnemonicParsing="false" selected="true" text="Younger" toggleGroup="$T111" />
                               <RadioButton fx:id="app2SoulOlder" layoutX="582.0" layoutY="93.0" mnemonicParsing="false" text="Older" toggleGroup="$T111" />
-                              <ChoiceBox fx:id="app2ChoiceBox" layoutX="468.0" layoutY="118.0" prefWidth="150.0" />
+                              <ChoiceBox fx:id="app2ChoiceBox" layoutX="468.0" layoutY="182.0" prefWidth="150.0" visible="false" />
                               <Label layoutX="350.0" layoutY="122.0" prefHeight="18.0" prefWidth="149.0" text="Preferred Algorithm : " />
                               <Button fx:id="app2Button" layoutX="76.0" layoutY="169.0" mnemonicParsing="false" onAction="#doTask5" text="GET NAME" />
                               <Label layoutX="88.0" layoutY="145.0" />
@@ -207,7 +208,30 @@
                                     <Font name="System Bold Italic" size="18.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="app2Answer" layoutX="400.0" layoutY="361.0" prefHeight="18.0" prefWidth="202.0" />
+                              <Label fx:id="app2Answer" layoutX="399.0" layoutY="356.0" prefHeight="18.0" prefWidth="202.0">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font></Label>
+                              <RadioButton fx:id="app2RadioNK" layoutX="473.0" layoutY="122.0" mnemonicParsing="false" selected="true" text="NK-T5">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="T3" />
+                                 </toggleGroup>
+                              </RadioButton>
+                              <RadioButton fx:id="app2RadioJaro" layoutX="544.0" layoutY="122.0" mnemonicParsing="false" text="Jaro Distance" toggleGroup="$T3" />
+                              <RadioButton fx:id="step2Radio1" layoutX="73.0" layoutY="256.0" mnemonicParsing="false" selected="true" text="RadioButton" visible="false">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="T5" />
+                                 </toggleGroup>
+                              </RadioButton>
+                              <RadioButton fx:id="step2Radio2" layoutX="206.0" layoutY="256.0" mnemonicParsing="false" text="RadioButton" toggleGroup="$T5" visible="false" />
+                              <RadioButton fx:id="step2Radio3" layoutX="331.0" layoutY="256.0" mnemonicParsing="false" text="RadioButton" toggleGroup="$T5" visible="false" />
+                              <Label fx:id="step2Label" layoutX="70.0" layoutY="225.0" text="Choose one of the 3 names." visible="false">
+                                 <font>
+                                    <Font name="System Bold Italic" size="12.0" />
+                                 </font>
+                              </Label>
+                              <Button fx:id="step2Button" layoutX="76.0" layoutY="288.0" mnemonicParsing="false" onAction="#doTask5Part2" text="GET NAME" visible="false" />
+                              <Rectangle fx:id="step2Cover" arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="160.0" layoutX="5.0" layoutY="48.0" stroke="WHITE" strokeType="INSIDE" visible="false" width="709.0" />
                            </children>
                         </AnchorPane>
                     </content>
@@ -250,6 +274,16 @@
                                  </toggleGroup>
                               </RadioButton>
                               <RadioButton fx:id="task6RadioOlder" layoutX="555.0" layoutY="183.0" mnemonicParsing="false" text="Older" toggleGroup="$task6Toggle3" />
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </Tab>
+                  <Tab fx:id="historyTab" onSelectionChanged="#clickHistory" text="History">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <ChoiceBox fx:id="historyChoice" layoutX="523.0" layoutY="72.0" prefWidth="150.0" />
+                              <TextArea fx:id="historyText" layoutX="24.0" layoutY="260.0" prefHeight="234.0" prefWidth="670.0" />
                            </children>
                         </AnchorPane>
                     </content>

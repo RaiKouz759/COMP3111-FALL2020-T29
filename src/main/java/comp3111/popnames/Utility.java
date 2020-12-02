@@ -3,6 +3,8 @@ package comp3111.popnames;
 import org.apache.commons.csv.CSVParser;
 
 import edu.duke.FileResource;
+import javafx.fxml.FXML;
+import javafx.scene.control.ChoiceBox;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -12,6 +14,8 @@ import java.nio.channels.FileLock;
 import java.nio.channels.OverlappingFileLockException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+
+
 
 
 public class Utility {
@@ -27,7 +31,7 @@ public class Utility {
 	     return fr.getCSVParser(false);
 		}
 	
-	public static boolean storeHistory(String history) throws Exception {
+	public static String storeHistory(String history) throws Exception {
 		LocalDate date_today = java.time.LocalDate.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		String str_date = date_today.format(formatter);
@@ -41,7 +45,7 @@ public class Utility {
 		} catch (FileNotFoundException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-			return false;
+			return "error";
 		} 
 		FileChannel channel = file.getChannel();
 		FileLock lock = null;
@@ -51,7 +55,7 @@ public class Utility {
 		}catch(final OverlappingFileLockException e) {
 			file.close();
 			channel.close();
-			return false;
+			return "error";
 		}
 		
 		file.writeBytes(history + "\n");
@@ -59,7 +63,9 @@ public class Utility {
 		
 		file.close();
 		channel.close();
-		return true;
+		
+		
+		return str_date;
 		
 	}
 }
