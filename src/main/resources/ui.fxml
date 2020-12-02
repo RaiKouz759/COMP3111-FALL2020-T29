@@ -173,7 +173,6 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TextArea layoutX="40.0" layoutY="393.0" prefHeight="242.0" prefWidth="638.0" text="Develop and implement an online service using empirical data to help make informed decisions on predicting names for compatible pairs.  Sample Scenario of Application: (i) A person seeking advices on identifying the name of a person of a different gender who would become his/her soulmate; (ii) A person seeking advices on identifying the name of a person of the same gender who would become his/her soulmate.&#10;&#10;Input&#10;* iName, iGender, iYOB: Particulars of the person seeking advices&#10;* iGenderMate: Specify the gender of the soulmate to be matched&#10;* iPreference: Specify the preference on having a younger or older soulmate&#10;&#10;Output&#10;* oName: Recommended name of the soulmate according to the NK-T5 Algorithm&#10;* plus, WOW factor on user experience and algorithm design!" wrapText="true" />
                               <Label alignment="CENTER" layoutX="189.0" layoutY="14.0" prefHeight="27.0" prefWidth="322.0" text="Predict Your Soulmate's Name Today!" AnchorPane.leftAnchor="189.0" AnchorPane.rightAnchor="207.80000000000007">
                                  <font>
                                     <Font name="Cambria Bold" size="18.0" />
@@ -203,14 +202,14 @@
                               <Button fx:id="app2Button" layoutX="76.0" layoutY="169.0" mnemonicParsing="false" onAction="#doTask5" text="GET NAME" />
                               <Label layoutX="88.0" layoutY="145.0" />
                               <Label layoutX="77.0" layoutY="145.0" text="(1880 - 2019)" />
-                              <Label fx:id="app2PredictSentence" layoutX="38.0" layoutY="356.0" prefHeight="27.0" prefWidth="361.0" text="Your Soulmate's Name is Predicted to be:">
+                              <Label fx:id="app2PredictSentence" layoutX="178.0" layoutY="370.0" prefHeight="27.0" prefWidth="361.0" text="Your Soulmate's Name is Predicted to be:">
                                  <font>
                                     <Font name="System Bold Italic" size="18.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="app2Answer" layoutX="399.0" layoutY="356.0" prefHeight="18.0" prefWidth="202.0">
+                              <Label fx:id="app2Answer" alignment="CENTER" layoutX="221.0" layoutY="412.0" prefHeight="74.0" prefWidth="277.0" text="Nikola" textAlignment="CENTER" visible="false">
                                  <font>
-                                    <Font name="System Bold" size="18.0" />
+                                    <Font name="System Bold" size="50.0" />
                                  </font></Label>
                               <RadioButton fx:id="app2RadioNK" layoutX="473.0" layoutY="122.0" mnemonicParsing="false" selected="true" text="NK-T5">
                                  <toggleGroup>
@@ -225,13 +224,16 @@
                               </RadioButton>
                               <RadioButton fx:id="step2Radio2" layoutX="206.0" layoutY="256.0" mnemonicParsing="false" text="RadioButton" toggleGroup="$T5" visible="false" />
                               <RadioButton fx:id="step2Radio3" layoutX="331.0" layoutY="256.0" mnemonicParsing="false" text="RadioButton" toggleGroup="$T5" visible="false" />
-                              <Label fx:id="step2Label" layoutX="70.0" layoutY="225.0" text="Choose one of the 3 names." visible="false">
+                              <Label fx:id="step2Label" layoutX="70.0" layoutY="225.0" text="Choose one of the 6 names." visible="false">
                                  <font>
                                     <Font name="System Bold Italic" size="12.0" />
                                  </font>
                               </Label>
-                              <Button fx:id="step2Button" layoutX="76.0" layoutY="288.0" mnemonicParsing="false" onAction="#doTask5Part2" text="GET NAME" visible="false" />
+                              <Button fx:id="step2Button" layoutX="75.0" layoutY="325.0" mnemonicParsing="false" onAction="#doTask5Part2" text="GET NAME" visible="false" />
                               <Rectangle fx:id="step2Cover" arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="160.0" layoutX="5.0" layoutY="48.0" stroke="WHITE" strokeType="INSIDE" visible="false" width="709.0" />
+                              <RadioButton fx:id="step2Radio4" layoutX="74.0" layoutY="286.0" mnemonicParsing="false" selected="true" text="RadioButton" toggleGroup="$T5" visible="false" />
+                              <RadioButton fx:id="step2Radio5" layoutX="207.0" layoutY="286.0" mnemonicParsing="false" text="RadioButton" toggleGroup="$T5" visible="false" />
+                              <RadioButton fx:id="step2Radio6" layoutX="332.0" layoutY="286.0" mnemonicParsing="false" text="RadioButton" toggleGroup="$T5" visible="false" />
                            </children>
                         </AnchorPane>
                     </content>
@@ -282,8 +284,15 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <ChoiceBox fx:id="historyChoice" layoutX="523.0" layoutY="72.0" prefWidth="150.0" />
-                              <TextArea fx:id="historyText" layoutX="24.0" layoutY="260.0" prefHeight="234.0" prefWidth="670.0" />
+                              <ChoiceBox fx:id="historyChoice" layoutX="535.0" layoutY="85.0" prefWidth="150.0" />
+                              <TextArea fx:id="historyText" layoutX="24.0" layoutY="123.0" prefHeight="234.0" prefWidth="670.0" />
+                              <Label layoutX="219.0" layoutY="32.0" text="History of Queries">
+                                 <font>
+                                    <Font size="28.0" />
+                                 </font>
+                              </Label>
+                              <Button fx:id="historyRerun" layoutX="461.0" layoutY="85.0" mnemonicParsing="false" text="RERUN" />
+                              <TableView fx:id="historyTableView" layoutX="1.0" layoutY="357.0" prefHeight="291.0" prefWidth="719.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-1.0" />
                            </children>
                         </AnchorPane>
                     </content>

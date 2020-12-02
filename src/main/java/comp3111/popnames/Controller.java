@@ -39,12 +39,15 @@ import java.lang.NumberFormatException;
 import java.net.URL;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
+
 import java.io.File;
+import java.io.FileNotFoundException;
 
 
 
@@ -206,6 +209,16 @@ public class Controller implements Initializable{
     @FXML
     private Rectangle step2Cover;
     
+
+    @FXML
+    private RadioButton step2Radio4;
+
+    @FXML
+    private RadioButton step2Radio5;
+
+    @FXML
+    private RadioButton step2Radio6;
+    
     //activity 5 FXML objects
     @FXML
     private TextField app2YourName;
@@ -318,9 +331,15 @@ public class Controller implements Initializable{
     @FXML
     private RadioButton t4_jaro;
     
+    //history elements
+    @FXML
+    private Button historyRerun;
+
+    @FXML
+    private TableView<Map> historyTableView;
+    // end of history 
     
     //Task Four
-    
     @FXML
     void t4_generate_recommendation() {
     	String dName = t4_dname.getText();
@@ -423,6 +442,89 @@ public class Controller implements Initializable{
 //			}
 //
 //        });
+        // display the change in the tableview after selecting the choicebox. 
+        historyChoice.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				System.out.println("entering the changed funciton of the historychoice");
+				// clear the contents of the table
+		        historyTableView.getColumns().clear();
+		        historyTableView.getItems().clear();
+		        historyTableView.refresh();
+		        
+		        // initialize the columns
+		        TableColumn<Map,String> dateTimeColumn = new TableColumn<>("Date & Time");
+		        dateTimeColumn.setCellValueFactory(new MapValueFactory<>("datetime"));
+		        historyTableView.getColumns().add(dateTimeColumn);
+		        
+		        TableColumn<Map,String> taskColumn = new TableColumn<>("Task");
+		        taskColumn.setCellValueFactory(new MapValueFactory<>("task"));
+		        historyTableView.getColumns().add(taskColumn);
+
+		        TableColumn<Map,String> inputColumn = new TableColumn<>("Data Inputs");
+		        inputColumn.setCellValueFactory(new MapValueFactory<>("inputs"));
+		        historyTableView.getColumns().add(inputColumn);
+		        
+		        // add the relavant data to the table rows
+		        try {
+					ArrayList<String> queryList = History.readHistory(newValue);
+					System.out.println(queryList.size());
+					ObservableList<Map<String, Object>> items =
+			                FXCollections.<Map<String, Object>>observableArrayList();
+					
+					//parse the string from the arraylist starting from the most current query date, task, inputs
+					for (int i=queryList.size() - 1; i>=0; i--) {
+						System.out.println("in querylist for loop");
+						Map<String, Object> item = new HashMap<>();
+						String cur = queryList.get(i);
+						ArrayList<String> components = new ArrayList<>(Arrays.asList(cur.split(",[ ]*")));
+						if (components.size() != 3) {
+							System.out.println("Something went wrong");
+							showWarning("Error", "components array is not size 3");
+							return;
+						}
+						item.put("datetime", components.get(0));
+						item.put("task", components.get(1));
+						item.put("inputs", components.get(2));
+						System.out.println("testing component");
+						items.add(item);
+						System.out.println(components.get(2));
+					}
+					
+					historyTableView.getItems().addAll(items);
+					
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+					showWarning("File not found", "File is not found. ");
+					return;
+				}
+		        
+//		        int index = 1;
+//		        for (; index <= numRanks; index++) {
+//		            TableColumn<Map, String> topColumn = new TableColumn<>("Top " + index);
+//		            topColumn.setCellValueFactory(new MapValueFactory<>("top" + index));
+//		            report1Table.getColumns().add(topColumn);
+//		        }
+////		                ObservableList<Map<String, Object>> items =
+//                FXCollections.<Map<String, Object>>observableArrayList();
+//
+//        for (YearRecords y : yearRecordsList) {
+//            Map<String, Object> item = new HashMap<>();
+//            item.put("year", y.getYear());
+//            index = 1;
+//            for (NameRecord nr : y.getNameRecordList()) {
+//                item.put("top" + index, nr.getName());
+//                index++;
+//            }
+//            items.add(item);
+//        }
+//        report1Table.getItems().addAll(items);
+		        
+		        
+			}
+		}
+        );
 
         
     }
@@ -555,7 +657,6 @@ public class Controller implements Initializable{
             } else {
                 gender = 1;
             }
-
             
         } catch(NumberFormatException e) {
             // some error catching here
@@ -621,17 +722,7 @@ public class Controller implements Initializable{
         rep1Comment.setText(Activity1Query.comment);
         rep1Label.setVisible(true);
         
-        //testing stuff
-        try {
-            String done = Utility.storeHistory("testing storing function");
-            if (!done.equals("error")) {
-                System.out.println("saved file");
-//                log_obList.add(done);
-            }
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        
         
     }
 
@@ -767,18 +858,25 @@ public class Controller implements Initializable{
             oName = Activity5Query.executeQueryNKT5( name, yob, gender, prefGender, prefYounger);
             app2Answer.setText(oName);
         }else {
-        	String[] list = new String[3];
+        	ArrayList<String> list = new ArrayList<String>();
         	list = Activity5Query.executeQueryJaroStepOne(name, yob, gender, prefGender, prefYounger);
         	app2Button.setDisable(true);
         	step2Button.setVisible(true);
-        	step2Radio1.setText(list[0]);
-        	step2Radio2.setText(list[1]);
-        	step2Radio3.setText(list[2]);            
+        	step2Radio1.setText(list.get(0));
+        	step2Radio2.setText(list.get(1));
+        	step2Radio3.setText(list.get(2));
+        	step2Radio4.setText(list.get(3));
+        	step2Radio5.setText(list.get(4));
+        	step2Radio6.setText(list.get(5));  
         	step2Radio1.setVisible(true);
         	step2Radio2.setVisible(true);
         	step2Radio3.setVisible(true);
+        	step2Radio4.setVisible(true);
+        	step2Radio5.setVisible(true);
+        	step2Radio6.setVisible(true);
         	step2Label.setVisible(true);
         	step2Cover.setVisible(true);
+        	app2Answer.setVisible(false);
         }
 
     }
@@ -810,20 +908,31 @@ public class Controller implements Initializable{
         	chosenName = step2Radio1.getText();
         } else if(step2Radio2.isSelected()) {
         	chosenName = step2Radio2.getText();
-        } else {
-        	chosenName = step2Radio3.getText();
+        } else if(step2Radio3.isSelected()) {
+        	chosenName = step2Radio2.getText();
+        } else if(step2Radio4.isSelected()) {
+        	chosenName = step2Radio2.getText();
+        }  else if(step2Radio5.isSelected()) {
+        	chosenName = step2Radio2.getText();
+        } else  {
+        	chosenName = step2Radio6.getText();
         }
         
-        oName = Activity5Query.executeQueryJaroStepTwo( chosenName, yob, prefYounger, prefGender);
+        
+        oName = Activity5Query.executeQueryJaroStepTwo( chosenName, name, yob, prefYounger, prefGender);
     	//clean up
     	step2Radio1.setVisible(false);
     	step2Radio2.setVisible(false);
-    	step2Radio3.setVisible(false);      
+    	step2Radio3.setVisible(false);
+    	step2Radio4.setVisible(false);
+    	step2Radio5.setVisible(false);
+    	step2Radio6.setVisible(false);
     	step2Button.setVisible(false);
     	app2Button.setDisable(false);
     	step2Cover.setVisible(false);
     	step2Label.setVisible(false);
         app2Answer.setText(oName);
+        app2Answer.setVisible(true);
     }
 
     /**

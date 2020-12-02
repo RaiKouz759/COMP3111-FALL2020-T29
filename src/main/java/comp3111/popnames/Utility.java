@@ -8,6 +8,7 @@ import javafx.scene.control.ChoiceBox;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
 import java.nio.channels.FileLock; 
@@ -31,41 +32,4 @@ public class Utility {
 	     return fr.getCSVParser(false);
 		}
 	
-	public static String storeHistory(String history) throws Exception {
-		LocalDate date_today = java.time.LocalDate.now();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-		String str_date = date_today.format(formatter);
-		RandomAccessFile file;
-		String filePath = new File("").getAbsolutePath();
-		System.out.println(filePath);
-		filePath = filePath.concat("/src/main/resources/logs");
-		try {
-			new File(filePath).mkdirs();
-			file = new RandomAccessFile(filePath.concat("/" + str_date) + ".txt", "rw");
-		} catch (FileNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-			return "error";
-		} 
-		FileChannel channel = file.getChannel();
-		FileLock lock = null;
-		try {
-			lock = channel.tryLock();
-			
-		}catch(final OverlappingFileLockException e) {
-			file.close();
-			channel.close();
-			return "error";
-		}
-		
-		file.writeBytes(history + "\n");
-		lock.release();
-		
-		file.close();
-		channel.close();
-		
-		
-		return str_date;
-		
-	}
 }
