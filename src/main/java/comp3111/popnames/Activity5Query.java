@@ -2,9 +2,13 @@ package comp3111.popnames;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.TreeMap;
 
 import org.apache.commons.csv.CSVParser;
@@ -108,11 +112,10 @@ public class Activity5Query {
 	 * @param prefYounger
 	 * @return
 	 */
-	public static String[] executeQueryJaroStepOne(String name, int yob, int gender, int prefGender, boolean prefYounger) { 
-		String oName[] = new String[3];
-		String formatted_name = name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();
-		String str_gender = Constants.genders[gender];
+	public static ArrayList<String> executeQueryJaroStepOne(String name, int yob, int gender, int prefGender, boolean prefYounger) { 
+		ArrayList<String> oName = new ArrayList<>();
 		String str_prefGender = Constants.genders[prefGender];
+		Map<Integer, Integer> rand_map = new HashMap<>();
 		
 		int oYOB = yob;
 		if (prefYounger && yob < 2019) {
@@ -121,47 +124,71 @@ public class Activity5Query {
 			oYOB = yob - 1;
 		}
 		
-		// get csv of oYOB and store similarities of all names with user's names
-		Map<Double, String> dscsortedMAP = new TreeMap<Double, String>(new Comparator<Double>() {
+		// get max number of ranks
+		CSVParser fileParser = getFileParser(oYOB);
+		int numRanks = 0;
+		for (CSVRecord re : fileParser) {
+			if (re.get(1).equals(str_prefGender)) {
+				numRanks++;
+			}
+		}
+		
+		// storing the random numbers
+		for (int i=0; i<6; i++) {
+			int random_value = ThreadLocalRandom.current().nextInt(1, numRanks + 1);
+			while (rand_map.containsKey(random_value)) { 
+				random_value = ThreadLocalRandom.current().nextInt(1, numRanks + 1);
+			} 
+			System.out.println(random_value);
+			rand_map.put(random_value, 1);
+			System.out.println(rand_map.get(random_value));
+		}
+		
+		int curr_rank = 1;
+		fileParser = getFileParser(oYOB);
+		for (CSVRecord re : fileParser) {
+			if (re.get(1).equals(str_prefGender)) {
+				curr_rank++; 
+				if (rand_map.containsKey(curr_rank)) {
+					oName.add(re.get(0));
+				}				
+			}
+		}
 
+		return oName;
+	}
+	
+	public static String executeQueryJaroStepTwo(String chosenName, String name, int yob, boolean prefYounger, int prefGender) {
+		String oName = "undefined";
+		String formatted_name = name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();
+		int oYOB = yob;
+		if (prefYounger && yob < 2019) {
+			oYOB = yob + 1;
+		} else if (!prefYounger && yob > 1880) {
+			oYOB = yob - 1;
+		}
+		String pref_Gender = Constants.genders[prefGender];
+		//store the product of the similarities between the chosen name and name. 
+		Map<Double, String> dscsortedMAP = new TreeMap<Double, String>(new Comparator<Double>() {
+		
 			@Override
 			public int compare(Double o1, Double o2) {
 				return o2.compareTo(o1);
 			}
 		});
+		
 		CSVParser fileParser = getFileParser(oYOB);
 		for (CSVRecord re : fileParser) {
-			if (re.get(1).equals(Constants.genders[prefGender])) {
-				dscsortedMAP.put(Algorithm.jaro_distance(formatted_name, re.get(0)), re.get(0));
+			if (re.get(1).equals(pref_Gender)) {
+				double prod_score = Algorithm.jaro_distance(chosenName, re.get(0)) * Algorithm.jaro_distance(formatted_name, re.get(0));
+				dscsortedMAP.put(prod_score, chosenName);
 			}
 		}
-		int index = 0;
 		for (Entry<Double, String> mapData : dscsortedMAP.entrySet()) {
-		    oName[index] = mapData.getValue();
-		    index++;
-		    if (index == 3) {
-		    	break;
-		    }
-		  }
-		return oName;
-	}
-	
-	public static String executeQueryJaroStepTwo(String chosenName, int yob, boolean prefYounger, int prefGender) {
-		
-		int oYOB = yob;
-		if (prefYounger && yob < 2019) {
-			oYOB = yob + 1;
-		} else if (!prefYounger && yob > 1880) {
-			oYOB = yob - 1;
+			oName =  mapData.getValue();
+			break;
 		}
-		String gender = Constants.genders[prefGender];
-		LocalDate date_today = java.time.LocalDate.now();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd");
-		String date_day = date_today.format(formatter);
-		int day = Integer.parseInt(date_day, 10);
-		int rank = AnalyzeNames.getRank(oYOB, chosenName, gender);
-		return AnalyzeNames.getName(oYOB, ((rank - day) % rank) + 1, gender);
-		
+		return oName;		
 	}
 	
 	
