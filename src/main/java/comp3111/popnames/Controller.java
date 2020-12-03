@@ -847,6 +847,10 @@ public class Controller implements Initializable{
             	showWarning("Invalid Input", "Please only enter year of births that are within the boundaries stated.");
             	return;
             }
+            if ( !AnalyzeNames.checkNameLength(name)) {
+            	showWarning("Invalid Input", "Please only enter names of length less than 16 characters.");
+            	return;
+            }
             
         } catch(NumberFormatException e) {
             //error catching logic here
@@ -857,6 +861,7 @@ public class Controller implements Initializable{
         if(app2RadioNK.isSelected()) {
             oName = Activity5Query.executeQueryNKT5( name, yob, gender, prefGender, prefYounger);
             app2Answer.setText(oName);
+            app2Answer.setVisible(true);
         }else {
         	ArrayList<String> list = new ArrayList<String>();
         	list = Activity5Query.executeQueryJaroStepOne(name, yob, gender, prefGender, prefYounger);

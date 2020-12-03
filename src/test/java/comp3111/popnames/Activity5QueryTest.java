@@ -73,6 +73,9 @@ public class Activity5QueryTest {
 		//name is in record, yob is at boundary 1880, female, pref: female, pref: older 
 		testName = Activity5Query.executeQueryNKT5("Anna", 1880, 1, 1, false);
 		assertTrue(testName.equals("Anna"));
+		
+		testName = Activity5Query.executeQueryNKT5("Brandon", 1901, 0, 1, false);
+		assertTrue(testName.equals("Grace"));
 			
 		//name is in record, yob is at normal value, female, pref: male, pref: younger 
 		testName = Activity5Query.executeQueryNKT5("Emily", 1999, 1, 0, true);
@@ -86,37 +89,35 @@ public class Activity5QueryTest {
 		testName = Activity5Query.executeQueryNKT5("Okabe", 1999, 0, 1, true);
 		assertTrue(testName.equals("Emma"));
 		
+		//testing when orank is not found in the case where name is in database
+		testName = Activity5Query.executeQueryNKT5("Zonia", 1910, 1, 1, false);
+		assertTrue(testName.equals("Mary"));
+		
 	}
 	
 	@Test
 	public void testExecuteQueryJaroStepOne() {
 		// assume that inputs are valid.
 		
-		String[] sup_out =  {"Alex", "Alexx", "Allexa"};
-		String[] test_out = Activity5Query.executeQueryJaroStepOne("Alex", 1999, 0, 1, true);
-		assertArrayEquals(test_out, sup_out);
-		
-		String[] sup_out1 =  {"Jante", "Jaen", "Juanye"};
-		String[] test_out1 = Activity5Query.executeQueryJaroStepOne("Jane", 2000, 1, 0, false);
-		assertArrayEquals(test_out1, sup_out1);
-		
-		
+//		String[] sup_out =  {"Alex", "Alexx", "Allexa"};
+		ArrayList<String> test_out = Activity5Query.executeQueryJaroStepOne("Alex", 1999, 0, 1, true);
+		assertTrue(test_out.size() == 6);
+				
 	}
 	
 	@Test
 	public void testExecuteQueryJaroStepTwo() {
+		
+		//executeQueryJaroStepTwo(String chosenName, String name, int yob, boolean prefYounger, int prefGender) John 1999 male female younger jaro starlett
 		// assume that inputs are valid.
-		LocalDate date_today = java.time.LocalDate.now();
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd");
-		String date_day = date_today.format(formatter);
-		int day = Integer.parseInt(date_day, 10);
-		
 
-		int rank = AnalyzeNames.getRank(1999, "Jante" , "M");
-		String o_name = AnalyzeNames.getName(1999, ((rank - day) % rank) + 1, "M");
+		//younger
+		String test_out1 = Activity5Query.executeQueryJaroStepTwo("Starlett", "John", 1999, true, 1);
+		assertTrue(test_out1.equals("Starlett"));
 		
-		String test_out1 = Activity5Query.executeQueryJaroStepTwo("Jante", 2000, false, 0);
-		assertTrue(o_name.equals(test_out1));
+		//older Mary Jake 1900 older male
+		test_out1 = Activity5Query.executeQueryJaroStepTwo("Jake", "Mary", 1900, false, 0);
+		assertTrue(test_out1.equals("Jake"));
 		
 		
 	}

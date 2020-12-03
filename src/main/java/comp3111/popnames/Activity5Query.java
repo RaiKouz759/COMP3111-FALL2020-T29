@@ -161,6 +161,7 @@ public class Activity5Query {
 	public static String executeQueryJaroStepTwo(String chosenName, String name, int yob, boolean prefYounger, int prefGender) {
 		String oName = "undefined";
 		String formatted_name = name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();
+		
 		int oYOB = yob;
 		if (prefYounger && yob < 2019) {
 			oYOB = yob + 1;
