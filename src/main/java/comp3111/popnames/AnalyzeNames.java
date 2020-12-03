@@ -5,11 +5,15 @@ import edu.duke.*;
 
 public class AnalyzeNames {
 
+	/**Returns a CSVParser which you can iterate through. 
+	 * 
+	 * @param year the year for which you want to request the CSVParse of. 
+	 * @return the CSVParser of the year you input. 
+	 */
 	public static CSVParser getFileParser(int year) {
-     FileResource fr = new FileResource(String.format("dataset/yob%s.csv", year));
-     return fr.getCSVParser(false);
+		FileResource fr = new FileResource(String.format("dataset/yob%s.csv", year));
+		return fr.getCSVParser(false);
 	}
- 
 	
 	public static String getSummary(int year) {
 		String oReport = "";	
@@ -47,51 +51,92 @@ public class AnalyzeNames {
 	}
 	
 	
+	public static RankRecord getRankRecord(int year, String name, String gender) {
+		RankRecord rankRecord = new RankRecord(year);
+		CSVParser fileParser = getFileParser(year);
+		int genderTotal = 0;
+		int currentRank = 0;
+		int currentCount = 0;
+		for (CSVRecord record : fileParser) {
+			if (record.get(1).equals(gender)) {
+				++currentRank;
+				currentCount = Integer.parseInt(record.get(2));
+				genderTotal += currentCount;
+				if (record.get(0).replaceAll("[^a-zA-Z]", "").equalsIgnoreCase(name)) {
+					rankRecord.set(currentRank, currentCount);
+				}
+			}
+		}
+		rankRecord.setTotalCount(genderTotal);
+		return rankRecord;
+	}
+
 	 public static int getRank(int year, String name, String gender) {
-	     boolean found = false;
-	     int oRank = 0;
-	 	int rank = 1;
-	     for (CSVRecord rec : getFileParser(year)) {
-	         // Increment rank if gender matches param
-	         if (rec.get(1).equals(gender)) {
-	             // Return rank if name matches param
-	             if (rec.get(0).equals(name)) {
-	             	found = true;
-	             	oRank = rank;
-	             	break;
-	             }
-	             rank++;
-	         }
-	     }
-	     if (found)
-	     	return oRank;
-	     else
-	     	return -1;
+		return getRankRecord(year, name, gender).getRank();
+		/*boolean found = false;
+		int oRank = 0;
+		int rank = 1;
+		 for (CSVRecord rec : getFileParser(year)) {
+			 // Increment rank if gender matches param
+			 if (rec.get(1).equals(gender)) {
+				 // Return rank if name matches param
+				 if (rec.get(0).equals(name)) {
+					found = true;
+					oRank = rank;
+					break;
+				 }
+				 rank++;
+			 }
+		 }
+		 if (found)
+			return oRank;
+		 else
+			return -1;*/
 	 }
 	 
  
 	 public static String getName(int year, int rank, String gender) {
-	 	boolean found = false;
-	     String oName = "";
-	     int currentRank = 0;
-	     
-	     // For every name entry in the CSV file
-	     for (CSVRecord rec : getFileParser(year)) {
-	         // Get its rank if gender matches param
-	         if (rec.get(1).equals(gender)) {
-	             // Get the name whose rank matches param
-	         	currentRank++;
-	            if (currentRank == rank) {
-	             	found = true;
-	             	oName = rec.get(0);
-	                break;
-	            }
-	         }
-	     }     
-	     if (found)
-	     	return oName;
-	     else
-	     	return "information on the name at the specified rank is not available";
+		boolean found = false;
+		 String oName = "";
+		 int currentRank = 0;
+		 
+		 // For every name entry in the CSV file
+		 for (CSVRecord rec : getFileParser(year)) {
+			 // Get its rank if gender matches param
+			 if (rec.get(1).equals(gender)) {
+				 // Get the name whose rank matches param
+				currentRank++;
+				if (currentRank == rank) {
+					found = true;
+					oName = rec.get(0);
+					break;
+				}
+			 }
+		 }     
+		 if (found)
+			return oName;
+		 else
+			return "information on the name at the specified rank is not available";
 	 }
- 
+
+
+	public static boolean checkNameLength(String name) {
+		return (name.length() >= 2) && (name.length() <= 15);
+	}
+
+
+	public static boolean checkNameCharacter(String name) {
+		char[] chars = name.toCharArray();
+		for (char c : chars) {
+			if (!Character.isLetter(c)) {
+				return false;
+			}
+		}
+		return true;
+	}
+
+
+	public static boolean checkYear(int year) {
+		return (year >= 1880) && (year <= 2019);
+	} 
 }
