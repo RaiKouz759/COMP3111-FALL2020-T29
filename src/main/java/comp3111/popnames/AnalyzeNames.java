@@ -51,9 +51,30 @@ public class AnalyzeNames {
 	}
 	
 	
+	public static RankRecord getRankRecord(int year, String name, String gender) {
+		RankRecord rankRecord = new RankRecord(year);
+		CSVParser fileParser = getFileParser(year);
+		int genderTotal = 0;
+		int currentRank = 0;
+		int currentCount = 0;
+		for (CSVRecord record : fileParser) {
+			if (record.get(1).equals(gender)) {
+				++currentRank;
+				currentCount = Integer.parseInt(record.get(2));
+				genderTotal += currentCount;
+				if (record.get(0).replaceAll("[^a-zA-Z]", "").equalsIgnoreCase(name)) {
+					rankRecord.set(currentRank, currentCount);
+				}
+			}
+		}
+		rankRecord.setTotalCount(genderTotal);
+		return rankRecord;
+	}
+
 	 public static int getRank(int year, String name, String gender) {
-		 boolean found = false;
-		 int oRank = 0;
+		return getRankRecord(year, name, gender).getRank();
+		/*boolean found = false;
+		int oRank = 0;
 		int rank = 1;
 		 for (CSVRecord rec : getFileParser(year)) {
 			 // Increment rank if gender matches param
@@ -70,7 +91,7 @@ public class AnalyzeNames {
 		 if (found)
 			return oRank;
 		 else
-			return -1;
+			return -1;*/
 	 }
 	 
  
@@ -98,9 +119,11 @@ public class AnalyzeNames {
 			return "information on the name at the specified rank is not available";
 	 }
 
+
 	public static boolean checkNameLength(String name) {
 		return (name.length() >= 2) && (name.length() <= 15);
 	}
+
 
 	public static boolean checkNameCharacter(String name) {
 		char[] chars = name.toCharArray();
@@ -111,6 +134,7 @@ public class AnalyzeNames {
 		}
 		return true;
 	}
+
 
 	public static boolean checkYear(int year) {
 		return (year >= 1880) && (year <= 2019);
