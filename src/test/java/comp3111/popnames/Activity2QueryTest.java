@@ -2,8 +2,10 @@ package comp3111.popnames;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
+import static junit.framework.TestCase.fail;
 import java.lang.Float;
 import java.util.*;  
+import javafx.util.Pair;
 
 import org.junit.Test;
 
@@ -11,7 +13,7 @@ public class Activity2QueryTest {
 	
 	@Test
 	public void testExecuteQuery() {
-		ArrayList<RankRecord> rankRecords = Activity2Query.executeQuery("Margaret", 1, 1880, 1882);
+		ArrayList<RankRecord> rankRecords = Activity2Query.executeQuery("Margaret", 1, 1880, 1882).getKey();
 		assertTrue(rankRecords.size() == 3);
 		
 		assertTrue(rankRecords.get(0).getYear() == 1880);
@@ -29,7 +31,7 @@ public class Activity2QueryTest {
 		assertTrue(rankRecords.get(2).getCount() == 1821);
 		assertTrue(Float.compare(rankRecords.get(2).getPercentage(), (1821 / (float) 107850)) == 0);
 
-		rankRecords = Activity2Query.executeQuery("David", 0, 1941, 1943);
+		rankRecords = Activity2Query.executeQuery("David", 0, 1941, 1943).getKey();
 		assertTrue(rankRecords.size() == 3);
 		
 		assertTrue(rankRecords.get(0).getYear() == 1941);
@@ -50,27 +52,48 @@ public class Activity2QueryTest {
 
 	@Test
 	public void testExecuteQueryInvalid() {
-		ArrayList<RankRecord> rankRecords;
+		Pair<ArrayList<RankRecord>, String> result;
 		try{
-			rankRecords = Activity2Query.executeQuery("", 1, 1880, 1882);
-		} catch (Exception e) {}
+			result = Activity2Query.executeQuery("", 1, 1880, 1882);
+			fail();
+		} catch (Exception e) {
+			assertTrue(e.getMessage().equals("length"));            
+		}
 		try{
-			rankRecords = Activity2Query.executeQuery("M", 1, 1880, 1882);
-		} catch (Exception e) {}
+			result = Activity2Query.executeQuery("M", 1, 1880, 1882);
+			fail();
+		} catch (Exception e) {
+			assertTrue(e.getMessage().equals("length"));            
+		}
 		try{
-			rankRecords = Activity2Query.executeQuery("Christiandaniels", 1, 1880, 1882);
-		} catch (Exception e) {}
+			result = Activity2Query.executeQuery("Christiandaniels", 1, 1880, 1882);
+			fail();
+		} catch (Exception e) {
+			assertTrue(e.getMessage().equals("length"));            
+		}
 		try{
-			rankRecords = Activity2Query.executeQuery("Margaret*", 1, 1880, 1882);
-		} catch (Exception e) {}
+			result = Activity2Query.executeQuery("Margaret*", 1, 1880, 1882);
+			fail();
+		} catch (Exception e) {
+			assertTrue(e.getMessage().equals("char"));            
+		}
 		try{
-			rankRecords = Activity2Query.executeQuery("Margaret", 1, 1879, 1882);
-		} catch (Exception e) {}
+			result = Activity2Query.executeQuery("Margaret", 1, 1879, 1882);
+			fail();
+		} catch (Exception e) {
+			assertTrue(e.getMessage().equals("start"));            
+		}
 		try{
-			rankRecords = Activity2Query.executeQuery("Margaret", 1, 1880, 2020);
-		} catch (Exception e) {}
+			result = Activity2Query.executeQuery("Margaret", 1, 1880, 2020);
+			fail();
+		} catch (Exception e) {
+			assertTrue(e.getMessage().equals("end"));            
+		}
 		try{
-			rankRecords = Activity2Query.executeQuery("Margaret", 1, 1879, 2020);
-		} catch (Exception e) {}
+			result = Activity2Query.executeQuery("Margaret", 1, 1879, 2020);
+			fail();
+		} catch (Exception e) {
+			assertTrue(e.getMessage().equals("startend"));
+		}
 	}
 }

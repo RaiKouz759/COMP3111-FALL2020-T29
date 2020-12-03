@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.chart.LineChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -34,9 +35,12 @@ import javafx.scene.layout.VBox;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
+import javafx.util.Pair;
 
 import java.lang.NumberFormatException;
 import java.net.URL;
+
+import java.text.DecimalFormat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -114,7 +118,13 @@ public class Controller implements Initializable{
     private Button task2ButtonGenerate;
 
     @FXML
+    private TextArea task2TextResult;
+
+    @FXML
     private TableView<Map> task2TableResult;
+
+    @FXML
+    private LineChart<Integer, Number> task2LineChartResult;
 
     @FXML
     private Tab tabReport3;
@@ -397,6 +407,35 @@ public class Controller implements Initializable{
         app2ChoiceBox.setValue("NK-T5");
         // end of initialization of activity5
         
+        // initialization for activity 2
+        task2TableResult.getColumns().clear();
+        task2TableResult.refresh();
+
+        TableColumn<Map,String> yearColumn = new TableColumn<>("Year");
+        yearColumn.setCellValueFactory(new MapValueFactory<>("year"));
+        yearColumn.setResizable(false);
+        // yearColumn.prefWidthProperty().bind(task2TableResult.widthProperty().multiply(0.2));
+        
+        TableColumn<Map, String> rankColumn = new TableColumn<>("Rank");
+        rankColumn.setCellValueFactory(new MapValueFactory<>("rank"));
+        rankColumn.setResizable(false);
+        // rankColumn.prefWidthProperty().bind(task2TableResult.widthProperty().multiply(0.2));
+        
+        TableColumn<Map, String> countColumn = new TableColumn<>("Count");
+        countColumn.setCellValueFactory(new MapValueFactory<>("count"));
+        countColumn.setResizable(false);
+        // countColumn.prefWidthProperty().bind(task2TableResult.widthProperty().multiply(0.2));
+
+        TableColumn<Map, String> percentageColumn = new TableColumn<>("Percentage");
+        percentageColumn.setCellValueFactory(new MapValueFactory<>("percentage"));
+        percentageColumn.setResizable(false);
+        // percentageColumn.prefWidthProperty().bind(task2TableResult.widthProperty().multiply(0.4));
+        task2TableResult.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        task2TableResult.getColumns().addAll(yearColumn, rankColumn, countColumn, percentageColumn);
+        
+        // end of initializatin for activity 2
+
+
 //        tabpane.getSelectionModel().selectedItemProperty().addListener((ChangeListener<? super Tab>) new ChangeListener<Tab>() { 
 //			@Override
 //			public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
@@ -754,10 +793,10 @@ public class Controller implements Initializable{
         } else {
             gender = 1;
         }
-        ArrayList<RankRecord> rankRecords;
+        Pair<ArrayList<RankRecord>, String> queryResult;
         try {
-            rankRecords = Activity2Query.executeQuery(name, gender, startPeriod, endPeriod);
-        } catch(NumberFormatException e) {
+            queryResult = Activity2Query.executeQuery(name, gender, startPeriod, endPeriod);
+        } catch(RuntimeException e) {
             if(e.getMessage().equals("length")) {
                 showWarning("Invalid Name", "Name must contain only 2 to 15 characters.");
             } else if(e.getMessage().equals("char")) {
@@ -766,41 +805,32 @@ public class Controller implements Initializable{
                 showWarning("Invalid Period", "Starting year must be an integer between 1880 and 2019.");
             } else if(e.getMessage().equals("end")) {
                 showWarning("Invalid Period", "Ending year must be an integer between 1880 and 2019.");
-            } else if(e.getMessage().equals("start end")) {
+            } else if(e.getMessage().equals("startend")) {
                 showWarning("Invalid Period", "Both starting and ending years must be integers between 1880 and 2019.");
             }
             return;
         }
+        ArrayList<RankRecord> rankRecords = queryResult.getKey();
 
-        task2TableResult.getColumns().clear();
+        task2TextResult.setText(queryResult.getValue());
+
         task2TableResult.getItems().clear();
-        task2TableResult.refresh();
-
-        TableColumn<Map,String> yearColumn = new TableColumn<>("Year");
-        yearColumn.setCellValueFactory(new MapValueFactory<>("year"));
-        task2TableResult.getColumns().add(yearColumn);
-        
-        TableColumn<Map, String> rankColumn = new TableColumn<>("Rank");
-        rankColumn.setCellValueFactory(new MapValueFactory<>("rank"));
-        task2TableResult.getColumns().add(rankColumn);
-
-        TableColumn<Map, String> countColumn = new TableColumn<>("Count");
-        countColumn.setCellValueFactory(new MapValueFactory<>("count"));
-        task2TableResult.getColumns().add(countColumn);
-
-        TableColumn<Map, String> percentageColumn = new TableColumn<>("Percentage");
-        percentageColumn.setCellValueFactory(new MapValueFactory<>("percentage"));
-        task2TableResult.getColumns().add(percentageColumn);
-        
         ObservableList<Map<String, Object>> items = FXCollections.<Map<String, Object>>observableArrayList();
 
+        task2LineChartResult.getData().clear();
+        XYChart.Series<Integer, Number> series = new XYChart.Series<>();
+        series.setName(name);
+        
+        DecimalFormat df = new DecimalFormat("0");
+        df.setMaximumFractionDigits(340);
         for (RankRecord record : rankRecords) {
             Map<String, Object> item = new HashMap<>();
             item.put("year", record.getYear());
             if(record.isValid()) {
                 item.put("rank", record.getRank());
                 item.put("count", record.getCount());
-                item.put("percentage", record.getPercentage());
+                item.put("percentage", df.format(AnalyzeNames.round(record.getPercentage() * 100, 5)) + "%");
+                series.getData().add(new XYChart.Data<>(record.getYear(), record.getPercentage() * 100));
             } else {
                 item.put("rank", "NULL");
                 item.put("count", "NULL");
@@ -809,6 +839,8 @@ public class Controller implements Initializable{
             items.add(item);
         }
         task2TableResult.getItems().addAll(items);
+        
+        task2LineChartResult.getData().add(series);
     }
 
     /**
