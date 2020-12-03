@@ -17,11 +17,13 @@ import org.apache.commons.csv.CSVRecord;
 import edu.duke.FileResource;
 
 public class Activity5Query {
-	public static CSVParser getFileParser(int year) {
-	     FileResource fr = new FileResource(String.format("dataset/yob%s.csv", year));
-	     return fr.getCSVParser(false);
-		}
 	
+	/**
+	 * Input validation.
+	 * 
+	 * @param name name of the person querying.
+	 * @return boolean checking if the name has at least one length and that it only contains letters. 
+	 */
 	public static boolean isNameCorrect(String name) {
 		name = name.strip();
 		if (name.length() == 0) {
@@ -30,6 +32,12 @@ public class Activity5Query {
 		return name.chars().allMatch(Character::isLetter);
 	}
 	
+	/**
+	 * Input Validation. 
+	 * 
+	 * @param yob year of birth of the person querying.
+	 * @return boolean if the year is within the range stated.
+	 */
 	public static boolean isYOBCorrect(int yob) {
 		if (yob >=1880 && yob <= 2019) {
 			return true;
@@ -39,6 +47,16 @@ public class Activity5Query {
 		}
 	}
 	
+	/**
+	 * The function to execute NK algorithm. Displays the predicted name based on it.
+	 * 
+	 * @param name name of person querying. 
+	 * @param yob year of birth of person querying.
+	 * @param gender gender of person querying.
+	 * @param prefGender preferred gender of soulmate.
+	 * @param prefYounger whether the user wants his or her soulmate to be younger than him.
+	 * @return the name of predicted soulmate. 
+	 */
 	public static String executeQueryNKT5(String name, int yob, int gender, int prefGender, boolean prefYounger) {
 		/** magic number is 17 & assume that all inputs have been verified. 
 		 */
@@ -49,7 +67,7 @@ public class Activity5Query {
 		String str_prefGender = Constants.genders[prefGender];
 		
 		// go through the csv file with the same yob as user
-		CSVParser fileParser = getFileParser(yob);
+		CSVParser fileParser = AnalyzeNames.getFileParser(yob);
 		int rank = 1;
 		boolean matched = false;
 		for (CSVRecord re : fileParser) {
@@ -73,7 +91,7 @@ public class Activity5Query {
 		}
 		
 		// get name of oRank in the year oYOB with preferred gender, if does not exist, get the highest rank
-		CSVParser fileParser2 = getFileParser(oYOB);
+		CSVParser fileParser2 = AnalyzeNames.getFileParser(oYOB);
 		int index = 1;
 		String oName = "hello";
 		String firstMatch = "kurisu";
@@ -101,16 +119,17 @@ public class Activity5Query {
 		
 	}
 	
-	/**Find a prediction based on jaro distance, takes into account how similar sounding the person's name is to the names in the 
-	 * database, then it shows 3 names and asks the user to select one, the predicted oRank will be that name's oRank - todays day % oRank.
-	 * younger and older will differ by 1 year like before.  
+	/**
+	 * The first step of a two step process. Find a prediction based on jaro distance, takes into account how similar sounding the person's name is to the names in the 
+	 * database. It first shows 6 random names and asks the user to select one, the predicted oName will be the name that is closest to both
+	 * the user and the chosen name. 
 	 * 
-	 * @param name
-	 * @param yob
-	 * @param gender
-	 * @param prefGender
-	 * @param prefYounger
-	 * @return
+	 * @param name name of user.
+	 * @param yob year of birth of user.
+	 * @param gender gender of user.
+	 * @param prefGender preferred gender of soulmate.
+	 * @param prefYounger if the user prefers to have a younger soulmate.
+	 * @return returns an arraylist of random names to be passed to the second step.
 	 */
 	public static ArrayList<String> executeQueryJaroStepOne(String name, int yob, int gender, int prefGender, boolean prefYounger) { 
 		ArrayList<String> oName = new ArrayList<>();
@@ -125,7 +144,7 @@ public class Activity5Query {
 		}
 		
 		// get max number of ranks
-		CSVParser fileParser = getFileParser(oYOB);
+		CSVParser fileParser = AnalyzeNames.getFileParser(oYOB);
 		int numRanks = 0;
 		for (CSVRecord re : fileParser) {
 			if (re.get(1).equals(str_prefGender)) {
@@ -145,7 +164,7 @@ public class Activity5Query {
 		}
 		
 		int curr_rank = 1;
-		fileParser = getFileParser(oYOB);
+		fileParser = AnalyzeNames.getFileParser(oYOB);
 		for (CSVRecord re : fileParser) {
 			if (re.get(1).equals(str_prefGender)) {
 				curr_rank++; 
@@ -158,6 +177,17 @@ public class Activity5Query {
 		return oName;
 	}
 	
+	/**
+	 * The second step of the Jaro algorithm. It takes the chosen name of the user and searches against the database for the name that sounds most similar to both the user and 
+	 * the chosen name.
+	 * 
+	 * @param chosenName chosen name from step one.
+	 * @param name name of the user.
+	 * @param yob year of birth of the user. 
+	 * @param prefYounger boolean of whether the user prefers a younger soulmate.
+	 * @param prefGender whether the user prefers a male or female soulmate
+	 * @return the name of the predicted soulamate. 
+	 */
 	public static String executeQueryJaroStepTwo(String chosenName, String name, int yob, boolean prefYounger, int prefGender) {
 		String oName = "undefined";
 		String formatted_name = name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();
@@ -178,7 +208,7 @@ public class Activity5Query {
 			}
 		});
 		
-		CSVParser fileParser = getFileParser(oYOB);
+		CSVParser fileParser = AnalyzeNames.getFileParser(oYOB);
 		for (CSVRecord re : fileParser) {
 			if (re.get(1).equals(pref_Gender)) {
 				double prod_score = Algorithm.jaro_distance(chosenName, re.get(0)) * Algorithm.jaro_distance(formatted_name, re.get(0));
