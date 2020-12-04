@@ -209,7 +209,7 @@
                                     <TextField fx:id="task3_year_end" layoutX="310.0" layoutY="133.0" prefHeight="27.0" prefWidth="55.0" text="1945" />
                                     <TextField fx:id="task3_year_start" layoutX="238.0" layoutY="132.0" prefHeight="26.0" prefWidth="43.0" text="1941" />
                                     <Label layoutX="290.0" layoutY="138.0" text="to" />
-                                    <Button fx:id="task3_report" layoutX="112.0" layoutY="212.0" mnemonicParsing="false" onAction="#task3_generate_summary" text="REPORT (yet to be implemented)" />
+                                    <Button fx:id="task3_report" layoutX="112.0" layoutY="212.0" mnemonicParsing="false" onAction="#doTask3" text="REPORT (yet to be implemented)" />
                                     <TextField fx:id="t3_topN" layoutX="183.0" layoutY="173.0" prefHeight="27.0" prefWidth="55.0" />
                                     <Label layoutX="112.0" layoutY="178.0" text="Top entries:" />
                                  </children>
@@ -227,7 +227,7 @@
                               <TextField fx:id="t4_dyob" layoutX="479.0" layoutY="34.0" />
                               <TextField fx:id="t4_myob" layoutX="479.0" layoutY="74.0" />
                               <TextField fx:id="t4_vyear" layoutX="199.0" layoutY="118.0" />
-                              <Button fx:id="t4_gr" layoutX="199.0" layoutY="246.0" mnemonicParsing="false" onAction="#t4_generate_recommendation" prefHeight="27.0" prefWidth="160.0" text="Get Recommendation" />
+                              <Button fx:id="t4_gr" layoutX="199.0" layoutY="246.0" mnemonicParsing="false" onAction="#doTask4" prefHeight="27.0" prefWidth="160.0" text="Get Recommendation" />
                               <Label layoutX="125.0" layoutY="39.0" text="Dad name" />
                               <Label layoutX="401.0" layoutY="39.0" text="year of birth:" />
                               <Label layoutX="121.0" layoutY="79.0" text="Mom Name" />
@@ -512,7 +512,7 @@
                                     <Font size="28.0" />
                                  </font>
                               </Label>
-                              <Button fx:id="historyRerun" layoutX="461.0" layoutY="85.0" mnemonicParsing="false" text="RERUN" />
+                              <Button fx:id="historyRerun" layoutX="461.0" layoutY="85.0" mnemonicParsing="false" onAction="#historyRerun" text="RERUN" />
                               <TableView fx:id="historyTableView" layoutX="1.0" layoutY="357.0" prefHeight="291.0" prefWidth="719.0" AnchorPane.bottomAnchor="1.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-1.0" />
                            </children>
                         </AnchorPane>
