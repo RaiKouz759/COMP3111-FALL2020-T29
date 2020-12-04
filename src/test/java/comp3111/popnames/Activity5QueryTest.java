@@ -1,4 +1,4 @@
-/*package comp3111.popnames;
+package comp3111.popnames;
 
 import static org.junit.Assert.*;
 
@@ -122,4 +122,3 @@ public class Activity5QueryTest {
 	}
 	
 }
-*/
