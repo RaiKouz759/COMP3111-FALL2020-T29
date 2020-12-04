@@ -139,4 +139,32 @@ public class AnalyzeNames {
 	public static boolean checkYear(int year) {
 		return (year >= 1880) && (year <= 2019);
 	} 
+
+	static double round(double N, double sig) 
+	{ 
+		int h;
+		double l, a, b, c, d, e, i, j, m, f, g;
+		b = N;
+		c = Math.floor(N);
+  
+		for (i = 0; b >= 1; ++i)
+			b = b / 10;
+
+		d = sig - i;
+		b = N;
+		b = b * Math.pow(10, d);
+		e = b + 0.5;
+		if ((float)e == (float)Math.ceil(b)) {
+			f = (Math.ceil(b));
+			h = (int)(f - 2);
+			if (h % 2 != 0) {
+				e = e - 1;
+			}
+		}
+		j = Math.floor(e);
+		m = Math.pow(10, d);
+		j = j / m;
+		return j;
+	} 
+
 }
