@@ -8,18 +8,19 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * This class focuses on testing the input validation with negative, boundary and valid values. This class also tests valid query executions. 
+ * 
+ * @author Alex
+ *
+ */
 public class Activity1QueryTest {
 	
 	public static final String UTF8_BOM = "\uFEFF";
 
-	@Before
-	public void setUp() throws Exception {
-	}
-
-	@After
-	public void tearDown() throws Exception {
-	}
-
+	/**
+	 * Test period range close to boundary values.
+	 */
 	@Test
 	public void testPeriodWithBoundary() {
 		assertTrue(Activity1Query.isPeriodCorrect(1880, 2019));
@@ -29,12 +30,18 @@ public class Activity1QueryTest {
 		assertTrue(Activity1Query.isPeriodCorrect(1881, 2018));
 	}
 	
+	/**
+	 * Test valid period ranges.
+	 */
 	@Test
 	public void testPeriodWithValidRange() {
 		assertTrue(Activity1Query.isPeriodCorrect(1950, 2000));
 		assertTrue(Activity1Query.isPeriodCorrect(1970, 1980));
 	}
 	
+	/**
+	 * Test invalid period ranges such as negative or very large numbers. 
+	 */
 	@Test
 	public void testPeriodWithInvalidRange() {
 		assertFalse(Activity1Query.isPeriodCorrect(200, 2000));
@@ -44,23 +51,35 @@ public class Activity1QueryTest {
 		assertFalse(Activity1Query.isPeriodCorrect(200, -2000));
 	}
 	
+	/**
+	 * Test for number of ranks that are positive and more than 0. 
+	 */
 	@Test
 	public void testValidNumResults() {
 		assertTrue(Activity1Query.isNumOfResultsCorrect(4));
 		assertTrue(Activity1Query.isNumOfResultsCorrect(200));
 	}
+	/**
+	 * Test for boundary values for the number of ranks.
+	 */
 	@Test
 	public void testBoundaryNumResults() {
 		assertTrue(Activity1Query.isNumOfResultsCorrect(1));
 		assertFalse(Activity1Query.isNumOfResultsCorrect(0));
 		assertTrue(Activity1Query.isNumOfResultsCorrect(2));
 	}
+	/**
+	 * Test for negative inputs for the number of ranks.
+	 */
 	@Test
 	public void testInvalidNumResults() {
 		assertFalse(Activity1Query.isNumOfResultsCorrect(-2));
 		assertFalse(Activity1Query.isNumOfResultsCorrect(-500));
 
 	}
+	/**
+	 * Test for a full execution of the query.
+	 */
 	@Test
 	public void testExecuteQuery() {
 		// input validation is done at controller. 

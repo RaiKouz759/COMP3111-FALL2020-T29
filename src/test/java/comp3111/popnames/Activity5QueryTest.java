@@ -11,15 +11,18 @@ import org.junit.Before;
 import org.junit.Test;
 
 
+/**
+ * This class focuses on testing the functions of the Activity5Query class. Its input validation functions are tested with negative, valid and boundary values.
+ * The execution of the two algorithms are also tested with valid inputs and the output is compared. 
+ * 
+ * @author Alex
+ *
+ */
 public class Activity5QueryTest {
-	@Before
-	public void setUp() throws Exception {
-	}
 
-	@After
-	public void tearDown() throws Exception {
-	}
-
+	/**
+	 * Test for valid names, including all caps and having leading spaces.
+	 */
 	@Test
 	public void testNameValid() {
 		assertTrue(Activity5Query.isNameCorrect("JANE"));
@@ -29,6 +32,9 @@ public class Activity5QueryTest {
 		assertTrue(Activity5Query.isNameCorrect("Bond   "));
 	}
 	
+	/**
+	 * Test for when name is invalid, such as non-letters included in the name.
+	 */
 	@Test
 	public void testNameInvalid() {
 		assertFalse(Activity5Query.isNameCorrect(""));
@@ -42,6 +48,9 @@ public class Activity5QueryTest {
 		assertFalse(Activity5Query.isNameCorrect(" "));
 	}
 	
+	/**
+	 * Test for valid year of births with some boundary values.
+	 */
 	@Test
 	public void testYOBValid() {
 		assertTrue(Activity5Query.isYOBCorrect(1880));
@@ -51,6 +60,9 @@ public class Activity5QueryTest {
 		assertTrue(Activity5Query.isYOBCorrect(1960));
 		
 	}
+	/**
+	 * Test for invalid year of births, including negative and out of range values.
+	 */
 	@Test
 	public void testYOBInvalid() {
 		assertFalse(Activity5Query.isYOBCorrect(1879));
@@ -61,6 +73,9 @@ public class Activity5QueryTest {
 		assertFalse(Activity5Query.isYOBCorrect(0));
 	}
 	
+	/**
+	 * Test of a run of the basic NKT5 algorithm and comparing the output in the UI.
+	 */
 	@Test
 	public void testExecuteQueryNKT5() {
 		// assumed that inputs are valid. validation done in controller
@@ -95,6 +110,9 @@ public class Activity5QueryTest {
 		
 	}
 	
+	/**
+	 * Test for the first part of the jaro algorithm. 
+	 */
 	@Test
 	public void testExecuteQueryJaroStepOne() {
 		// assume that inputs are valid.
@@ -105,6 +123,9 @@ public class Activity5QueryTest {
 				
 	}
 	
+	/**
+	 * Test for the second part of the jaro algorithm, ensuring that the output is consistent. 
+	 */
 	@Test
 	public void testExecuteQueryJaroStepTwo() {
 		
