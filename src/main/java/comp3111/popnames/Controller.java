@@ -604,9 +604,30 @@ public class Controller implements Initializable{
 
     @FXML
     void rerunTask2(String inputs) {
-		/*fill in the elements here
-		
-		*/
+    	ArrayList<String> elements = new ArrayList<>(Arrays.asList(inputs.split(";")));
+		for (String element : elements) {
+			String str[] = element.split(":", 2);
+			switch(str[0]) {
+				case "task2TextName":
+					task2TextName.setText(str[1]);
+					break;
+				case "task2RadioMale":
+					if (str[1].equals("0")) {
+						task2RadioMale.setSelected(true);
+					} else {
+						task2RadioFemale.setSelected(true);
+					}
+					break;
+				case "task2TextStartPeriod":
+					task2TextStartPeriod.setText(str[1]);
+					break;
+				case "task2TextEndPeriod":
+					task2TextEndPeriod.setText(str[1]);
+					break;
+				default:
+					break;
+			}
+		}
 		doTask2();
     }
 
@@ -678,9 +699,58 @@ public class Controller implements Initializable{
 
     @FXML
     void rerunTask6(String inputs) {
-		/*fill in the elements here
-		
-		*/
+		ArrayList<String> elements = new ArrayList<>(Arrays.asList(inputs.split(";")));
+		for (String element : elements) {
+			String str[] = element.split(":", 2);
+			switch(str[0]) {
+				case "task6TextName1":
+					task6TextName1.setText(str[1]);
+					break;
+				case "task6Toggle1":
+					if (str[1].equals("0")) {
+						task6RadioMale1.setSelected(true);
+					} else {
+						task6RadioFemale1.setSelected(true);
+					}
+					break;
+				case "task6TextYear1":
+					task6TextYear1.setText(str[1]);
+					break;
+				case "task6TextName2":
+					task6TextName2.setText(str[1]);
+					break;
+				case "task6Toggle2":
+					if (str[1].equals("0")) {
+						task6RadioMale2.setSelected(true);
+					} else {
+						task6RadioFemale2.setSelected(true);
+					}
+					break;
+				case "task6Toggle3":
+					if (str[1].equals("0")) {
+						task6RadioYounger.setSelected(true);
+					} else if (str[1].equals("1")) {
+						task6RadioOlder.setSelected(true);
+					} else {
+						task6RadioCustom.setSelected(true);
+					}
+					break;
+				case "task6TextYear2":
+					task6TextYear2.setText(str[1]);
+					break;
+				case "task6Toggle4":
+					if (str[1].equals("0")) {
+						task6RadioNKT6.setSelected(true);
+					} else if (str[1].equals("1")) {
+						task6RadioNorm.setSelected(true);
+					} else {
+						task6RadioLinear.setSelected(true);
+					}
+					break;
+				default:
+					break;
+			}
+		}
 		doTask6();
     }
 
@@ -1187,12 +1257,10 @@ public class Controller implements Initializable{
                 task6TextResult.setVisible(false);
                 task6PieChartResult.setVisible(false);
                 task6LineChartResult.setVisible(false);
-                System.out.println("Thread begin1");
-                Activity6Query.prepareLinear(name1, gender1, year1, name2, gender2, year2);
                 
-                System.out.println("Thread begin2");
+                Activity6Query.prepareLinear(name1, gender1, year1, name2, gender2, (task6RadioCustom.isSelected() ? 2 : (isYounger ? 0 : 1)), year2);
+                
                 task6LinTask0 = new Activity6QueryThreadTask(name1, gender1, year1, name2, gender2, year2);
-                System.out.println("Thread begin3");
                 task6LinTask0.setOnFailed(wse -> {
                     System.out.println("Error");
                     task6LinTask0.getException().printStackTrace();
@@ -1211,22 +1279,19 @@ public class Controller implements Initializable{
                         showWarning("Regression Error", "There are not enough data points for regression. Please use the other algorithms.");
                         resetTask6();
                     });
-                    System.out.println("Thread begin4");
                     task6LinTask2.setOnFailed(wse -> {
                         System.out.println("Error");
                         task6LinTask2.getException().printStackTrace();
                         showWarning("Regression Error", "There are not enough data points for regression. Please use the other algorithms.");
                         resetTask6();
                     });
-                    System.out.println("Thread begin5");
                     task6LinTask1.setOnSucceeded(wse -> {
                         //super.succeeded();
                         //task6ProgressBar.progressProperty().unbind();
                         //task6ProgressBar.progressProperty().bind(task6LinTask2.progressProperty());
                         new Thread(task6LinTask2).start();
                     });
-                    System.out.println("Thread begin6");
-
+                    
                     task6LinTask2.setOnSucceeded(wse -> {
                         // super.succeeded();
                         //task6ProgressBar.progressProperty().unbind();
@@ -1235,21 +1300,17 @@ public class Controller implements Initializable{
                     });
 
                     //task6ProgressBar.progressProperty().bind(task6LinTask1.progressProperty());
-                    System.out.println("Thread begin7");
                     
                     //task6ProgressBar.setVisible(true);
-                    System.out.println("Thread begin8");
                     new Thread(task6LinTask1).start();
                 });
 
                 new Thread(task6LinTask0).start();
-                System.out.println("Thread started");
                 return;
             }
-            System.out.println("Thread passed???");
-
         } catch(RuntimeException e) {
-            System.out.println("Thread error");
+            System.out.println("Thread error: " + e.getMessage());
+            e.printStackTrace();
             if(e.getMessage().equals("length1")) {
                 showWarning("Invalid Name", "Your name must contain only 2 to 15 characters.");
             } else if(e.getMessage().equals("length2")) {
@@ -1268,7 +1329,6 @@ public class Controller implements Initializable{
             resetTask6();
             return;
         }
-        System.out.println("Thread passed");
         DecimalFormat df = new DecimalFormat("0");
         df.setMaximumFractionDigits(340);        
         task6TextResult.setText("Your score of compatibility is " + df.format(AnalyzeNames.round(score * 100, 5)) + "%");
@@ -1293,7 +1353,7 @@ public class Controller implements Initializable{
 
     @FXML
     void resetTask6() {
-        task6TextName1.setDisable(false);
+    	task6TextName1.setDisable(false);
         task6RadioMale1.setDisable(false);
         task6RadioFemale1.setDisable(false);
         task6TextYear1.setDisable(false);
@@ -1317,24 +1377,7 @@ public class Controller implements Initializable{
 
     @FXML
     void doTask6AfterThread() {
-        System.out.println("After thread");
-        task6TextName1.setDisable(false);
-        task6RadioMale1.setDisable(false);
-        task6RadioFemale1.setDisable(false);
-        task6TextYear1.setDisable(false);
-        task6TextName2.setDisable(false);
-        task6RadioMale2.setDisable(false);
-        task6RadioFemale2.setDisable(false);
-        task6RadioYounger.setDisable(false);
-        task6RadioOlder.setDisable(false);
-        task6RadioCustom.setDisable(false);
-        task6TextYear2.setDisable(false);
-        task6RadioNKT6.setDisable(false);
-        task6RadioNorm.setDisable(false);
-        task6RadioLinear.setDisable(false);
-        task6ButtonReport.setDisable(false);
-        task6ButtonCancel.setDisable(true);
-        
+        resetTask6();        
 
         String name1, name2;
         int gender1, gender2;
@@ -1418,9 +1461,7 @@ public class Controller implements Initializable{
         task6LineChartResult.getData().add(series1);
         task6LineChartResult.getData().add(series2);
         task6LineChartResult.getData().add(series3);
-        task6LineChartResult.getData().add(series4);
-
-        
+        task6LineChartResult.getData().add(series4);        
     }
 
     private static void showWarning(String header, String message) {
