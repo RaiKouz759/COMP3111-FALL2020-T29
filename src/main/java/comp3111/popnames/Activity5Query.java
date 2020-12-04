@@ -253,18 +253,6 @@ public class Activity5Query {
 			System.out.println("Failed to store query history");
 		}
         
-		// parse the string of inputs and rerun the query
-//		String test_q = "Task 5, app2YourName:%s;app2YourGenderM:%d;app2YOB:%d;app2SoulGenderM:%d;app2SoulYounger:%d;app2RadioNK:%d;chosenName:%s";
-//		ArrayList<String> components = new ArrayList<>(Arrays.asList(test_q.split(",[ ]*")));
-//		String task = components.get(0);
-//		String input_data = components.get(1);
-//		ArrayList<String> inputs = new ArrayList<>(Arrays.asList(input_data.split(";")));
-//		HashMap<String, String> input_map = new HashMap<>();
-//		for (String s : inputs) {
-//			String[] input_pair = s.split(":");
-//			input_map.put(input_pair[0], input_pair[1]);
-//		}
-		
 		
 		return oName;	
 		
