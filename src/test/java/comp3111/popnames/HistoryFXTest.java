@@ -94,7 +94,7 @@ public class HistoryFXTest extends ApplicationTest{
 		// navigate to history tab and select first row
 		clickOn("#historyTab");
 		sleep(20);
-		historyChoice.getSelectionModel().selectFirst();
+//		historyChoice.getSelectionModel().selectFirst();
 		sleep(50);
 		table.getSelectionModel().select(0);
 		clickOn("#historyRerun");	

@@ -51,6 +51,7 @@ import java.text.DecimalFormat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -533,7 +534,7 @@ public class Controller implements Initializable{
     	        log_obList = FXCollections.observableList(log_list);
     	        historyChoice.setItems(log_obList);
     	        if (log_obList.size() > 0) {
-		        	historyChoice.setValue(log_obList.get(0));
+		        	historyChoice.setValue(log_obList.get(log_obList.size()-1));
 		        }
 	    	}
 	    }
