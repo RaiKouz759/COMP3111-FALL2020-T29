@@ -650,9 +650,23 @@ public class Controller implements Initializable{
 
     @FXML
     void rerunTask1(String inputs) {
-		/*fill in the elements here
-
-		*/
+		//fill in the elements here
+// parse the string of inputs and rerun the query
+		ArrayList<String> input_data = new ArrayList<>(Arrays.asList(inputs.split(";")));
+		HashMap<String, String> input_map = new HashMap<>();
+		for (String s : input_data) {
+			String[] input_pair = s.split(":");
+			input_map.put(input_pair[0], input_pair[1]);
+		}
+		numRankTextField.setText(input_map.get("numRankTextField"));
+		if (input_map.get("maleRadioButton").equals("0")) {
+			maleRadioButton.setSelected(true);
+		} else {
+			femaleRadioButton.setSelected(true);
+		}
+		startPeriodTextField.setText(input_map.get("startPeriodTextField"));
+		endPeriodTextField.setText(input_map.get("endPeriodTextField"));
+		
 		doTask1();
     }
 
@@ -689,8 +703,45 @@ public class Controller implements Initializable{
 		/*fill in the elements here
 		
 		*/
-		doTask5();
-		doTask5Part2();
+		ArrayList<String> input_data = new ArrayList<>(Arrays.asList(inputs.split(";")));
+		HashMap<String, String> input_map = new HashMap<>();
+		for (String s : input_data) {
+			String[] input_pair = s.split(":");
+			input_map.put(input_pair[0], input_pair[1]);
+		}
+		app2YourName.setText(input_map.get("app2YourName"));
+		if (input_map.get("app2YourGenderM").equals("0")) {
+			app2YourGenderM.setSelected(true);
+		} else {
+			app2YourGenderF.setSelected(true);
+		}
+		app2YOB.setText(input_map.get("app2YOB"));
+		if (input_map.get("app2SoulGenderM").equals("0")) {
+			app2SoulGenderM.setSelected(true);
+		} else {
+			app2SoulGenderF.setSelected(true);
+		}
+		if (input_map.get("app2SoulYounger").equals("0")) {
+			app2SoulYounger.setSelected(true);
+		} else {
+			app2SoulOlder.setSelected(true);
+		}
+		if (input_map.get("app2RadioNK").equals("1")) {
+			doTask5();
+		} else {
+			app2RadioJaro.setSelected(true);
+			app2Answer.setText(input_map.get("chosenName"));
+			app2Answer.setVisible(true);
+			String query = "Task 5, " + inputs;
+	        try {
+				History.storeHistory(query);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				System.out.println("Failed to store query history");
+			}
+			}
+		
     }
 
     @FXML
