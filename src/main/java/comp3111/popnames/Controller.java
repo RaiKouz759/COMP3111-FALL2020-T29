@@ -1007,7 +1007,7 @@ public class Controller implements Initializable{
         }
         
         
-        oName = Activity5Query.executeQueryJaroStepTwo( chosenName, name, yob, prefYounger, prefGender);
+        oName = Activity5Query.executeQueryJaroStepTwo( chosenName, name, gender, yob, prefYounger, prefGender);
     	//clean up
     	step2Radio1.setVisible(false);
     	step2Radio2.setVisible(false);

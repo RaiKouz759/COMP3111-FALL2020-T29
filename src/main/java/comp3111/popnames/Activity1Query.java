@@ -137,7 +137,7 @@ public class Activity1Query {
         		list.get(0).getValue() + " occurences. \n";
         comment += "The most common first letter for the names in the top ranks is " + mostCommon + " with " + numOccur + " occurences throughout the years. \n";
         
-        String query = String.format("Task 1, %d;%d;%d;%d", numRanks, gender, startPeriod, endPeriod);
+        String query = String.format("Task 1, numRankTextField:%d;maleRadioButton:%d;startPeriodTextField:%d;endPeriodTextField:%d", numRanks, gender, startPeriod, endPeriod);
         
         //saving the query into the history file.
         try {

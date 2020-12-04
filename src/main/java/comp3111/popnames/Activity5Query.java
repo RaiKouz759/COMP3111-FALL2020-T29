@@ -1,8 +1,10 @@
 package comp3111.popnames;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
@@ -114,6 +116,21 @@ public class Activity5Query {
 		if (oName.equals("hello")) {
 			oName = firstMatch;
 		}
+//		String name, int yob, int gender, int prefGender, boolean prefYounger
+		int prefYoung = 0;
+		if (!prefYounger) {
+			prefYoung = 1;
+		}
+		String query = String.format("Task 5, app2YourName:%s;app2YourGenderM:%d;app2YOB:%d;app2SoulGenderM:%d;app2SoulYounger:%d;app2RadioNK:%d", name, gender, yob, prefGender, prefYoung, 1);
+        
+        //saving the query into the history file.
+        try {
+			History.storeHistory(query);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Failed to store query history");
+		}
 		
 		return oName;
 		
@@ -188,7 +205,7 @@ public class Activity5Query {
 	 * @param prefGender whether the user prefers a male or female soulmate
 	 * @return the name of the predicted soulamate. 
 	 */
-	public static String executeQueryJaroStepTwo(String chosenName, String name, int yob, boolean prefYounger, int prefGender) {
+	public static String executeQueryJaroStepTwo(String chosenName, String name, int gender, int yob, boolean prefYounger, int prefGender) {
 		String oName = "undefined";
 		String formatted_name = name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();
 		
@@ -219,7 +236,40 @@ public class Activity5Query {
 			oName =  mapData.getValue();
 			break;
 		}
-		return oName;		
+		
+		// getting inputs to store. gender - 0=male, prefgender -0=Male, app2radionk - 0=not using nk algo
+		int prefYoung = 0;
+		if (!prefYounger) {
+			prefYoung = 1;
+		}
+		String query = String.format("Task 5, app2YourName:%s;app2YourGenderM:%d;app2YOB:%d;app2SoulGenderM:%d;app2SoulYounger:%d;app2RadioNK:%d;chosenName:%s", formatted_name, gender, yob, prefGender, prefYoung, 0, chosenName);
+        
+        //saving the query into the history file.
+        try {
+			History.storeHistory(query);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Failed to store query history");
+		}
+        
+		// parse the string of inputs and rerun the query
+//		String test_q = "Task 5, app2YourName:%s;app2YourGenderM:%d;app2YOB:%d;app2SoulGenderM:%d;app2SoulYounger:%d;app2RadioNK:%d;chosenName:%s";
+//		ArrayList<String> components = new ArrayList<>(Arrays.asList(test_q.split(",[ ]*")));
+//		String task = components.get(0);
+//		String input_data = components.get(1);
+//		ArrayList<String> inputs = new ArrayList<>(Arrays.asList(input_data.split(";")));
+//		HashMap<String, String> input_map = new HashMap<>();
+//		for (String s : inputs) {
+//			String[] input_pair = s.split(":");
+//			input_map.put(input_pair[0], input_pair[1]);
+//		}
+		
+		
+		return oName;	
+		
+
+
 	}
 	
 	
