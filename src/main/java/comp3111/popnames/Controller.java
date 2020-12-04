@@ -450,52 +450,6 @@ public class Controller implements Initializable{
         // end of initialization for activity 6
 
 
-//        tabpane.getSelectionModel().selectedItemProperty().addListener((ChangeListener<? super Tab>) new ChangeListener<Tab>() { 
-//			@Override
-//			public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
-//				// TODO Auto-generated method stub
-//				if(newValue.equals(historyTab)) {
-//			        // initialize contents of history tab
-//					String filePath = new File("").getAbsolutePath();
-//					filePath = filePath.concat("/src/main/resources/logs");
-//					
-//					// create directory if it does not exists
-//					new File(filePath).mkdirs();
-//					File dir = new File(filePath);
-//					File[] directoryListing = dir.listFiles();
-//					if (directoryListing != null) {
-//				        ArrayList<String> log_list = new ArrayList<String>();
-//					    for (File child : directoryListing) {
-//					      log_list.add(child.getName());
-//					    }
-//				        log_obList = FXCollections.observableList(log_list);
-//				        log_obList.addListener(new ListChangeListener<String> () {
-//			
-//							@Override
-//							public void onChanged(Change<? extends String> c) {
-//								// TODO Auto-generated method stub
-//								 System.out.println("adding" + c); 
-//							     historyChoice.getItems().setAll(log_obList);
-//							}
-//				        	
-//				            });
-//				        historyChoice.setItems(log_obList);
-//				        if (log_obList.size() > 0) {
-//				        	historyChoice.setValue(log_obList.get(0));
-//				        }
-//					  } else {
-//					    // Handle the case where dir is not really a directory.
-//					    // Checking dir.isDirectory() above would not be sufficient
-//					    // to avoid race conditions with another process that deletes
-//					    // directories.
-//						  showWarning("Error", "Error initializing the history tab");
-//					  }
-//				}
-//				
-//			}
-//
-//        });
-
         historyTableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         // display the change in the tableview after selecting the choicebox. 
         historyChoice.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
@@ -553,29 +507,7 @@ public class Controller implements Initializable{
 					e.printStackTrace();
 					showWarning("File not found", "File is not found. ");
 					return;
-				}
-		        
-//		        int index = 1;
-//		        for (; index <= numRanks; index++) {
-//		            TableColumn<Map, String> topColumn = new TableColumn<>("Top " + index);
-//		            topColumn.setCellValueFactory(new MapValueFactory<>("top" + index));
-//		            report1Table.getColumns().add(topColumn);
-//		        }
-////		                ObservableList<Map<String, Object>> items =
-//                FXCollections.<Map<String, Object>>observableArrayList();
-//
-//        for (YearRecords y : yearRecordsList) {
-//            Map<String, Object> item = new HashMap<>();
-//            item.put("year", y.getYear());
-//            index = 1;
-//            for (NameRecord nr : y.getNameRecordList()) {
-//                item.put("top" + index, nr.getName());
-//                index++;
-//            }
-//            items.add(item);
-//        }
-//        report1Table.getItems().addAll(items);
-		        
+				}		        
 		        
 			}
 		}
