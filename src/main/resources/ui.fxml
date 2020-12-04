@@ -98,91 +98,87 @@
                   <content>
                         <AnchorPane>
                            <children>
-                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="647.0" prefWidth="722.0">
+                              <VBox spacing="20.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="30.0">
                                  <children>
-                                    <VBox spacing="20.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="30.0">
+                                    <StackPane>
                                        <children>
-                                          <StackPane>
+                                          <Label alignment="CENTER" contentDisplay="CENTER" text="Popularity History of Your Name" textAlignment="CENTER">
+                                             <font>
+                                                <Font name="Cambria Bold" size="18.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </StackPane>
+                                    <HBox spacing="30.0">
+                                       <children>
+                                          <VBox spacing="10.0">
                                              <children>
-                                                <Label alignment="CENTER" contentDisplay="CENTER" text="Popularity History of Your Name" textAlignment="CENTER">
-                                                   <font>
-                                                      <Font name="Cambria Bold" size="18.0" />
-                                                   </font>
-                                                </Label>
-                                             </children>
-                                          </StackPane>
-                                          <HBox spacing="30.0">
-                                             <children>
-                                                <VBox spacing="10.0">
+                                                <HBox spacing="10.0">
                                                    <children>
-                                                      <HBox spacing="10.0">
-                                                         <children>
-                                                            <Label text="Name:" />
-                                                            <TextField fx:id="task2TextName" prefHeight="26.0" prefWidth="88.0" text="David" />
-                                                         </children>
-                                                      </HBox>
-                                                      <HBox spacing="10.0">
-                                                         <children>
-                                                            <Label text="Gender: " />
-                                                            <RadioButton fx:id="task2RadioMale" mnemonicParsing="false" selected="true" text="Male">
-                                                               <toggleGroup>
-                                                                  <ToggleGroup fx:id="task2Toggle" />
-                                                               </toggleGroup>
-                                                            </RadioButton>
-                                                            <RadioButton fx:id="task2RadioFemale" mnemonicParsing="false" text="Female" toggleGroup="$task2Toggle" />
-                                                         </children>
-                                                      </HBox>
-                                                      <HBox spacing="10.0">
-                                                         <children>
-                                                            <StackPane>
-                                                               <children>
-                                                                  <Label text="Period (1880 - 2019): " />
-                                                               </children>
-                                                            </StackPane>
-                                                            <TextField fx:id="task2TextStartPeriod" prefHeight="26.0" prefWidth="43.0" text="1941" />
-                                                            <StackPane>
-                                                               <children>
-                                                                  <Label text="to" />
-                                                               </children>
-                                                            </StackPane>
-                                                            <TextField fx:id="task2TextEndPeriod" prefHeight="26.0" prefWidth="43.0" text="1945" />
-                                                         </children>
-                                                      </HBox>
+                                                      <Label text="Name:" />
+                                                      <TextField fx:id="task2TextName" prefHeight="26.0" prefWidth="88.0" text="David" />
+                                                   </children>
+                                                </HBox>
+                                                <HBox spacing="10.0">
+                                                   <children>
+                                                      <Label text="Gender: " />
+                                                      <RadioButton fx:id="task2RadioMale" mnemonicParsing="false" selected="true" text="Male">
+                                                         <toggleGroup>
+                                                            <ToggleGroup fx:id="task2Toggle" />
+                                                         </toggleGroup>
+                                                      </RadioButton>
+                                                      <RadioButton fx:id="task2RadioFemale" mnemonicParsing="false" text="Female" toggleGroup="$task2Toggle" />
+                                                   </children>
+                                                </HBox>
+                                                <HBox spacing="10.0">
+                                                   <children>
                                                       <StackPane>
                                                          <children>
-                                                            <Button fx:id="task2ButtonReport" mnemonicParsing="false" onAction="#doTask2" text="Generate Report" />
+                                                            <Label text="Period (1880 - 2019): " />
                                                          </children>
                                                       </StackPane>
-                                                      <TextArea fx:id="task2TextResult" editable="false" prefHeight="138.0" prefWidth="166.0" promptText="Result" wrapText="true" VBox.vgrow="NEVER">
-                                                         <VBox.margin>
-                                                            <Insets top="10.0" />
-                                                         </VBox.margin>
-                                                      </TextArea>
+                                                      <TextField fx:id="task2TextStartPeriod" prefHeight="26.0" prefWidth="43.0" text="1941" />
+                                                      <StackPane>
+                                                         <children>
+                                                            <Label text="to" />
+                                                         </children>
+                                                      </StackPane>
+                                                      <TextField fx:id="task2TextEndPeriod" prefHeight="26.0" prefWidth="43.0" text="1945" />
                                                    </children>
-                                                </VBox>
-                                                <StackPane HBox.hgrow="ALWAYS">
+                                                </HBox>
+                                                <StackPane>
                                                    <children>
-                                                      <TableView fx:id="task2TableResult" />
+                                                      <Button fx:id="task2ButtonReport" mnemonicParsing="false" onAction="#doTask2" text="Generate Report" />
                                                    </children>
                                                 </StackPane>
+                                                <TextArea fx:id="task2TextResult" editable="false" prefHeight="138.0" prefWidth="166.0" promptText="Result" wrapText="true" VBox.vgrow="NEVER">
+                                                   <VBox.margin>
+                                                      <Insets top="10.0" />
+                                                   </VBox.margin>
+                                                </TextArea>
                                              </children>
-                                          </HBox>
-                                          <StackPane>
+                                          </VBox>
+                                          <StackPane HBox.hgrow="ALWAYS">
                                              <children>
-                                                <LineChart fx:id="task2LineChartResult" legendSide="RIGHT">
-                                                  <xAxis>
-                                                    <NumberAxis forceZeroInRange="false" label="Year" lowerBound="1880.0" side="BOTTOM" upperBound="2019.0" />
-                                                  </xAxis>
-                                                  <yAxis>
-                                                    <NumberAxis label="Frequency (%)" side="LEFT" />
-                                                  </yAxis>
-                                                </LineChart>
+                                                <TableView fx:id="task2TableResult" />
                                              </children>
                                           </StackPane>
                                        </children>
-                                    </VBox>
+                                    </HBox>
+                                    <StackPane>
+                                       <children>
+                                          <LineChart fx:id="task2LineChartResult" legendSide="RIGHT">
+                                            <xAxis>
+                                              <NumberAxis forceZeroInRange="false" label="Year" lowerBound="1880.0" side="BOTTOM" upperBound="2019.0" />
+                                            </xAxis>
+                                            <yAxis>
+                                              <NumberAxis label="Frequency (%)" side="LEFT" />
+                                            </yAxis>
+                                          </LineChart>
+                                       </children>
+                                    </StackPane>
                                  </children>
-                              </AnchorPane>
+                              </VBox>
                            </children>
                         </AnchorPane>
                   </content>
@@ -479,7 +475,7 @@
                                                       <Insets />
                                                    </StackPane.margin>
                                                    <children>
-                                                      <ProgressBar fx:id="task6ProgressBar" prefWidth="286.0" progress="0.0" />
+                                                      <ProgressBar fx:id="task6ProgressBar" prefWidth="286.0" progress="0.0" visible="false" />
                                                    </children>
                                                 </StackPane>
                                              </children>

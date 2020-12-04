@@ -8,6 +8,7 @@ import java.lang.Math;
 import java.util.TreeMap;
 import java.util.Comparator;
 import java.util.Map.Entry;
+import java.io.IOException;
 import javafx.util.Pair;
 
 public class Activity6Query {
@@ -89,17 +90,20 @@ public class Activity6Query {
 			double percent = oRank / (double) genderCount;
 			double percentMate = oRankMate / (double) genderMateCount;
 			double diff = Math.abs(percent - percentMate);
+			saveHistory(iName, iGender, iYOB, iNameMate, iGenderMate, (isYounger ? 0 : 1), oYOB, 1);
 			return (float)(1 - Math.sqrt(1 - (diff - 1) * (diff - 1)));
 		}
+		saveHistory(iName, iGender, iYOB, iNameMate, iGenderMate, (isYounger ? 0 : 1), oYOB, 0);
 		return 1 - Math.abs(oRank - oRankMate) / (float)oRank;
 	}
 
-	public static boolean prepareLinear(String iName, int iGender, int iYOB, String iNameMate, int iGenderMate, int iYOBMate) {
+	public static boolean prepareLinear(String iName, int iGender, int iYOB, String iNameMate, int iGenderMate, int preference, int iYOBMate) {
 		try {
 			validate(iName, iYOB, iNameMate, iYOBMate);
 		} catch(Exception e) {
 			throw e;
 		}
+		saveHistory(iName, iGender, iYOB, iNameMate, iGenderMate, preference, iYOBMate, 2);
 		return true;
 	}
 
@@ -114,5 +118,16 @@ public class Activity6Query {
 		Double angle = Math.atan(result1.getKey()) - Math.atan(result2.getKey());
 		Double score = Math.cos(angle) / 2 + 0.5;
 		return new Pair<Double, ArrayList<Double>>(score, result);	
+	}
+
+	private static void saveHistory(String name1, int gender1, int year1, String name2, int gender2, int preference, int year2, int algorithm) {
+		String query = String.format("Task 6, task6TextName1:%s;task6Toggle1:%d;task6TextYear1:%d;task6TextName2:%s;task6Toggle2:%d;task6Toggle3:%d;task6TextYear2:%d;task6Toggle4:%d",
+		 name1, gender1, year1, name2, gender2, preference, year2, algorithm);
+		try {
+			History.storeHistory(query);
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("Failed to store query history.");
+		}
 	}
 }

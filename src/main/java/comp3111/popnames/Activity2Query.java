@@ -3,6 +3,7 @@ package comp3111.popnames;
 import org.apache.commons.csv.*;
 
 import edu.duke.FileResource;
+import java.io.IOException;
 import java.util.*;  
 import java.text.DecimalFormat;
 import javafx.util.Pair;
@@ -63,6 +64,15 @@ public class Activity2Query {
 				+ String.valueOf(recordPopular.getYear()) + ".";
 		else
 			result = "The name " + name + " does not appear in our dataset within the given range.";
+
+		String query = String.format("Task 2, task2TextName:%s;task2RadioMale:%d;task2TextStartPeriod:%d;task2TextEndPeriod:%d",
+		 name, gender, startPeriod, endPeriod);
+		try {
+			History.storeHistory(query);
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("Failed to store query history.");
+		}
 		return new Pair<>(rankRecords, result);
 	}
 
