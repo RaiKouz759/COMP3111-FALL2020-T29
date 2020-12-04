@@ -41,7 +41,7 @@ public class Activity2JavaFXTest extends ApplicationTest {
 
     
 	@Test
-	public void testQuery() {	
+	public void testQuery1() {	
 		clickOn("#tabReport2");
 		name.setText("Margaret");
 		clickOn("#task2RadioFemale");
@@ -64,12 +64,15 @@ public class Activity2JavaFXTest extends ApplicationTest {
 		assertTrue(table.getColumns().get(1).getCellObservableValue(2).getValue().equals(6));
 		assertTrue(table.getColumns().get(2).getCellObservableValue(2).getValue().equals(1821));
 		assertTrue(table.getColumns().get(3).getCellObservableValue(2).getValue().equals("1.6885%"));
+	}
 
+	@Test
+	public void testQuery2() {	
+		clickOn("#tabReport2");
 		name.setText("David");
 		clickOn("#task2RadioMale");
 		start.setText("1941");
 		end.setText("1943");
-		//sleep(1000);
 		clickOn("#task2ButtonReport");
 		sleep(500);
 		assertTrue(table.getColumns().get(0).getCellObservableValue(0).getValue().equals(1941));
@@ -87,11 +90,16 @@ public class Activity2JavaFXTest extends ApplicationTest {
 		assertTrue(table.getColumns().get(2).getCellObservableValue(2).getValue().equals(37237));
 		assertTrue(table.getColumns().get(3).getCellObservableValue(2).getValue().equals("2.6097%"));
 
+
+	}
+
+	@Test
+	public void testQuery3() {	
+		clickOn("#tabReport2");
 		name.setText("Dddddddd");
 		clickOn("#task2RadioMale");
 		start.setText("1941");
 		end.setText("1942");
-		//sleep(1000);
 		clickOn("#task2ButtonReport");
 		sleep(500);
 		assertTrue(table.getColumns().get(0).getCellObservableValue(0).getValue().equals(1941));

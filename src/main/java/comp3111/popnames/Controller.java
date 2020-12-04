@@ -986,7 +986,7 @@ public class Controller implements Initializable{
                 showWarning("Invalid Period", "Starting year must be an integer between 1880 and 2019.");
             } else if(e.getMessage().equals("end")) {
                 showWarning("Invalid Period", "Ending year must be an integer between 1880 and 2019.");
-            } else if(e.getMessage().equals("startend")) {
+            } else { // if(e.getMessage().equals("startend")) {
                 showWarning("Invalid Period", "Both starting and ending years must be integers between 1880 and 2019.");
             }
             return;
@@ -1285,6 +1285,7 @@ public class Controller implements Initializable{
                     tasks6Points = task6LinTask0.getValue();
                     task6LinTask1 = new LinearRegressionTask(tasks6Points.getKey());
                     task6LinTask2 = new LinearRegressionTask(tasks6Points.getValue());
+                    /* Checked in task 0
                     task6LinTask1.setOnFailed(wse -> {
                         System.out.println("Error");
                         task6LinTask1.getException().printStackTrace();
@@ -1296,7 +1297,7 @@ public class Controller implements Initializable{
                         task6LinTask2.getException().printStackTrace();
                         showWarning("Regression Error", "There are not enough data points for regression. Please use the other algorithms.");
                         resetTask6();
-                    });
+                    });*/
                     task6LinTask1.setOnSucceeded(wse -> {
                         //super.succeeded();
                         //task6ProgressBar.progressProperty().unbind();
@@ -1410,10 +1411,10 @@ public class Controller implements Initializable{
         }
         if (task6RadioYounger.isSelected()) {
             isYounger = true;
-            year2 = year1 == 2019 ? 2019 : year1 + 1;
+            year2 = year1 + 1;
         } else if (task6RadioOlder.isSelected()) {
             isYounger = false;
-            year2 = year1 == 1880 ? 1880 : year1 - 1;
+            year2 = year1 - 1;
         } else {
             year2 = Integer.parseInt(task6TextYear2.getText());
         }        
