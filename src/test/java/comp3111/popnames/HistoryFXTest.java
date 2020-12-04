@@ -86,6 +86,7 @@ public class HistoryFXTest extends ApplicationTest{
 			channel.close();
 			return;
 		}
+		// add your queries here and then select its index later in table.getSelectionModel().select(index); where index is position from the last write. 
 		file.writeBytes("2020, Task 1, numRankTextField:10;maleRadioButton:0;startPeriodTextField:1941;endPeriodTextField:1945" + "\n");
 		file.writeBytes("2020, Task 5, app2YourName:Zonia;app2YourGenderM:1;app2YOB:1910;app2SoulGenderM:1;app2SoulYounger:1;app2RadioNK:1" + "\n");
 		lock.release();
