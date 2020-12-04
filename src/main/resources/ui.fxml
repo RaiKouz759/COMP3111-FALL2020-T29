@@ -17,11 +17,11 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="vBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comp3111.popnames.Controller">
+<VBox fx:id="vBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="background" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comp3111.popnames.Controller">
   <children>
-    <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="ALWAYS">
+    <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="background" stylesheets="@DarkTheme.css" VBox.vgrow="ALWAYS">
       <children>
-            <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="679.0" prefWidth="719.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" VBox.vgrow="ALWAYS">
+            <TabPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="679.0" prefWidth="719.0" styleClass="background" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" VBox.vgrow="ALWAYS">
               <tabs>
                 <Tab fx:id="tabTaskZero" text="Task Zero">
                   <content>
@@ -51,20 +51,20 @@
                            <children>
                               <Label layoutX="79.0" layoutY="44.0" prefHeight="18.0" prefWidth="0.0" />
                               <Label layoutX="30.0" layoutY="66.0" text="Top N (N&gt;=1): " />
-                              <TextField fx:id="numRankTextField" layoutX="112.0" layoutY="62.0" prefHeight="26.0" prefWidth="36.0" text="10" />
-                              <Label layoutX="158.0" layoutY="66.0" text="Gender: " />
-                              <RadioButton fx:id="maleRadioButton" layoutX="213.0" layoutY="66.0" mnemonicParsing="false" selected="true" text="Male">
+                              <TextField fx:id="numRankTextField" layoutX="131.0" layoutY="59.0" prefHeight="32.0" prefWidth="48.0" text="10" />
+                              <Label layoutX="187.0" layoutY="66.0" text="Gender: " />
+                              <RadioButton fx:id="maleRadioButton" layoutX="255.0" layoutY="66.0" mnemonicParsing="false" selected="true" text="Male">
                                  <toggleGroup>
                                     <ToggleGroup fx:id="T1" />
                                  </toggleGroup>
                               </RadioButton>
-                              <RadioButton fx:id="femaleRadioButton" layoutX="271.0" layoutY="66.0" mnemonicParsing="false" text="Female" toggleGroup="$T1" />
+                              <RadioButton fx:id="femaleRadioButton" layoutX="338.0" layoutY="66.0" mnemonicParsing="false" text="Female" toggleGroup="$T1" />
                               <Label layoutX="30.0" layoutY="103.0" text="Period (1880 - 2019): " />
-                              <TextField fx:id="endPeriodTextField" layoutX="210.0" layoutY="97.0" prefHeight="26.0" prefWidth="43.0" text="1945" />
-                              <TextField fx:id="startPeriodTextField" layoutX="144.0" layoutY="97.0" prefHeight="26.0" prefWidth="43.0" text="1941" />
-                              <Label layoutX="192.0" layoutY="101.0" text="to" />
-                              <Button fx:id="task1Button" layoutX="30.0" layoutY="135.0" mnemonicParsing="false" onAction="#doTask1" text="GENERATE REPORT" />
-                              <TableView fx:id="report1Table" layoutX="-2.0" layoutY="313.0" prefHeight="329.0" prefWidth="722.0" AnchorPane.bottomAnchor="7.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-1.1999999999999318" AnchorPane.topAnchor="313.0" />
+                              <TextField fx:id="endPeriodTextField" layoutX="294.0" layoutY="96.0" prefHeight="32.0" prefWidth="57.0" text="1945" />
+                              <TextField fx:id="startPeriodTextField" layoutX="177.0" layoutY="97.0" prefHeight="32.0" prefWidth="58.0" text="1941" />
+                              <Label layoutX="249.0" layoutY="104.0" text="to" />
+                              <Button fx:id="task1Button" layoutX="33.0" layoutY="146.0" mnemonicParsing="false" onAction="#doTask1" text="GENERATE REPORT" />
+                              <TableView fx:id="report1Table" layoutX="25.0" layoutY="313.0" prefHeight="303.0" prefWidth="670.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="25.0" AnchorPane.rightAnchor="24.0" AnchorPane.topAnchor="313.0" />
                               <Label alignment="CENTER" contentDisplay="CENTER" layoutX="222.0" layoutY="14.0" prefHeight="22.0" prefWidth="276.0" text="Popular Birthnames in History" textAlignment="CENTER" AnchorPane.leftAnchor="222.0" AnchorPane.rightAnchor="221.20000000000005">
                                  <font>
                                     <Font name="Cambria Bold" size="18.0" />
@@ -114,29 +114,51 @@
                 </Tab>
                   <Tab fx:id="tabReport3" text="Reporting 3">
                     <content>
-                        <AnchorPane>
+                        <AnchorPane stylesheets="@DarkTheme.css">
                            <children>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="318.0" prefWidth="719.0">
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="650.0" prefWidth="719.0" styleClass="background">
                                  <children>
-                                    <TextArea layoutX="112.0" layoutY="26.0" prefHeight="61.0" prefWidth="355.0" text="Generate a brief report in response to the queries on identifying the names that have shown the largest rise/fall in popularity over a given period.&#10;" wrapText="true" />
-                                    <RadioButton fx:id="t3_f" layoutX="290.0" layoutY="104.0" mnemonicParsing="false" text="Female">
+                                    <Label layoutX="83.0" layoutY="87.0" prefHeight="41.0" prefWidth="164.0" text="Gender of Interest: ">
+                                       <font>
+                                          <Font name="Cochin" size="18.0" />
+                                       </font></Label>
+                                    <Label layoutX="82.0" layoutY="147.0" text="Period (1880 - 2019): ">
+                                       <font>
+                                          <Font name="Avenir Book" size="18.0" />
+                                       </font></Label>
+                                    <TextField fx:id="task3_year_end" layoutX="387.0" layoutY="138.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="58.0" styleClass="text-field" text="1945">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font></TextField>
+                                    <TextField fx:id="task3_year_start" layoutX="259.0" layoutY="139.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="58.0" styleClass="text-field" text="1941">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font></TextField>
+                                    <Label layoutX="345.0" layoutY="147.0" text="to">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font></Label>
+                                    <Button fx:id="task3_report" layoutX="83.0" layoutY="238.0" mnemonicParsing="false" onAction="#task3_generate_summary" prefHeight="30.0" prefWidth="166.0" text="Generate REPORT">
+                                       <font>
+                                          <Font name="Avenir Book" size="21.0" />
+                                       </font></Button>
+                                    <TextField fx:id="t3_topN" layoutX="259.0" layoutY="178.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="58.0" styleClass="text-field" text="10" />
+                                    <Label layoutX="83.0" layoutY="187.0" text="Top entries (&gt;0): ">
+                                       <font>
+                                          <Font name="Avenir Book" size="18.0" />
+                                       </font></Label>
+                                    <TableView fx:id="task3_table" layoutX="48.0" layoutY="291.0" prefHeight="290.0" prefWidth="627.0" />
+                                    <RadioButton fx:id="t3_m" layoutX="259.0" layoutY="98.0" mnemonicParsing="false" selected="true" styleClass="label-bright" text="Male">
                                        <toggleGroup>
-                                          <ToggleGroup fx:id="T111" />
+                                          <ToggleGroup fx:id="T3_toggle_group" />
                                        </toggleGroup>
                                     </RadioButton>
-                                    <RadioButton fx:id="t3_m" layoutX="225.0" layoutY="104.0" mnemonicParsing="false" selected="true" text="Male">
-                                       <toggleGroup>
-                                          <ToggleGroup fx:id="T111" />
-                                       </toggleGroup>
-                                    </RadioButton>
-                                    <Label layoutX="112.0" layoutY="104.0" text="Gender of Interest: " />
-                                    <Label layoutX="112.0" layoutY="138.0" text="Period (1880 - 2019): " />
-                                    <TextField fx:id="task3_year_end" layoutX="310.0" layoutY="133.0" prefHeight="27.0" prefWidth="55.0" text="1945" />
-                                    <TextField fx:id="task3_year_start" layoutX="238.0" layoutY="132.0" prefHeight="26.0" prefWidth="43.0" text="1941" />
-                                    <Label layoutX="290.0" layoutY="138.0" text="to" />
-                                    <Button fx:id="task3_report" layoutX="112.0" layoutY="212.0" mnemonicParsing="false" onAction="#task3_generate_summary" text="REPORT (yet to be implemented)" />
-                                    <TextField fx:id="t3_topN" layoutX="183.0" layoutY="173.0" prefHeight="27.0" prefWidth="55.0" />
-                                    <Label layoutX="112.0" layoutY="178.0" text="Top entries:" />
+                                    <RadioButton fx:id="t3_f" layoutX="385.0" layoutY="99.0" mnemonicParsing="false" styleClass="label-bright" text="Female" toggleGroup="$T3_toggle_group" />
+                                    <Label layoutX="81.0" layoutY="23.0" prefHeight="54.0" prefWidth="337.0" styleClass="label-header" text="Trend in popularity of names">
+                                       <font>
+                                          <Font name="System Bold" size="13.0" />
+                                       </font>
+                                    </Label>
                                  </children>
                               </AnchorPane>
                            </children>
@@ -147,23 +169,24 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="412.0" prefWidth="719.0">
                            <children>
-                              <TextField fx:id="t4_dname" layoutX="199.0" layoutY="34.0" />
-                              <TextField fx:id="t4_mname" layoutX="199.0" layoutY="74.0" />
+                              <TextField fx:id="t4_dname" layoutX="175.0" layoutY="33.0" />
+                              <TextField fx:id="t4_mname" layoutX="175.0" layoutY="74.0" />
                               <TextField fx:id="t4_dyob" layoutX="479.0" layoutY="34.0" />
                               <TextField fx:id="t4_myob" layoutX="479.0" layoutY="74.0" />
-                              <TextField fx:id="t4_vyear" layoutX="199.0" layoutY="118.0" />
-                              <Button fx:id="t4_gr" layoutX="199.0" layoutY="246.0" mnemonicParsing="false" onAction="#t4_generate_recommendation" prefHeight="27.0" prefWidth="160.0" text="Get Recommendation" />
-                              <Label layoutX="125.0" layoutY="39.0" text="Dad name" />
-                              <Label layoutX="401.0" layoutY="39.0" text="year of birth:" />
-                              <Label layoutX="121.0" layoutY="79.0" text="Mom Name" />
-                              <Label layoutX="401.0" layoutY="79.0" text="year of birth:" />
-                              <Label layoutX="117.0" layoutY="123.0" text="Vintage Year:" />
-                              <RadioButton fx:id="t4_nkt4" layoutX="401.0" layoutY="150.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="136.0" selected="true" text="NK-T4 algorithm">
+                              <TextField fx:id="t4_vyear" layoutX="174.0" layoutY="118.0" />
+                              <Button fx:id="t4_gr" layoutX="136.0" layoutY="247.0" mnemonicParsing="false" onAction="#t4_generate_recommendation" prefHeight="56.0" prefWidth="238.0" text="Get Recommendation" />
+                              <Label layoutX="88.0" layoutY="41.0" text="Dad name" />
+                              <Label layoutX="394.0" layoutY="39.0" text="year of birth:" />
+                              <Label layoutX="81.0" layoutY="80.0" text="Mom Name" />
+                              <Label layoutX="394.0" layoutY="80.0" text="year of birth:" />
+                              <Label layoutX="62.0" layoutY="124.0" text="Vintage Year:" />
+                              <RadioButton fx:id="t4_nkt4" layoutX="401.0" layoutY="171.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="136.0" selected="true" text="NK-T4 algorithm">
                                  <toggleGroup>
                                     <ToggleGroup fx:id="T4_algorithm" />
                                  </toggleGroup></RadioButton>
-                              <RadioButton fx:id="t4_jaro" layoutX="401.0" layoutY="176.0" mnemonicParsing="false" text="Jaro Distance" toggleGroup="$T4_algorithm" />
-                              <Label layoutX="401.0" layoutY="123.0" text="Choose Algorithm" />
+                              <RadioButton fx:id="t4_jaro" layoutX="401.0" layoutY="203.0" mnemonicParsing="false" text="Jaro Distance" toggleGroup="$T4_algorithm" />
+                              <Label layoutX="401.0" layoutY="140.0" text="Choose Algorithm" />
+                              <TextArea fx:id="t4_text_output" layoutX="38.0" layoutY="374.0" prefHeight="232.0" prefWidth="631.0" />
                            </children>
                         </AnchorPane>
                     </content>
@@ -195,7 +218,10 @@
                                     <ToggleGroup fx:id="T2" />
                                  </toggleGroup></RadioButton>
                               <RadioButton fx:id="app2SoulGenderF" contentDisplay="CENTER" layoutX="582.0" layoutY="64.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="35.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="90.0" selected="true" text="Female" textAlignment="CENTER" toggleGroup="$T2" />
-                              <RadioButton fx:id="app2SoulYounger" layoutX="500.0" layoutY="93.0" mnemonicParsing="false" selected="true" text="Younger" toggleGroup="$T111" />
+                              <RadioButton fx:id="app2SoulYounger" layoutX="500.0" layoutY="93.0" mnemonicParsing="false" selected="true" text="Younger">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="T111" />
+                                 </toggleGroup></RadioButton>
                               <RadioButton fx:id="app2SoulOlder" layoutX="582.0" layoutY="93.0" mnemonicParsing="false" text="Older" toggleGroup="$T111" />
                               <ChoiceBox fx:id="app2ChoiceBox" layoutX="468.0" layoutY="118.0" prefWidth="150.0" />
                               <Label layoutX="350.0" layoutY="122.0" prefHeight="18.0" prefWidth="149.0" text="Preferred Algorithm : " />

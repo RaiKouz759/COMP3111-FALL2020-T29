@@ -242,7 +242,16 @@ public class Controller implements Initializable{
     private RadioButton t3_m;
     
     @FXML
+    private ToggleGroup T3_toggle_group;
+    
+    @FXML
     private TextField t3_topN;
+    
+    @FXML
+    private TextArea t3_text_output;
+    
+    @FXML
+    private TableView<Map> task3_table;
     
     @FXML
     private TextField t4_dname;
@@ -271,6 +280,9 @@ public class Controller implements Initializable{
     @FXML
     private RadioButton t4_jaro;
     
+    @FXML
+    private TextArea t4_text_output;
+    
     
     //Task Four
     
@@ -289,26 +301,97 @@ public class Controller implements Initializable{
     		choice = "Jaro";
     	}
     	String Report = Task4.recommendation(dName, dYOB, mName, mYOB, vYear, choice);
-    	textAreaConsole.setText(Report);
+    	t4_text_output.setText(Report);
     }
     
     
     // Task Three
     
     @FXML
-    void task3_generate_summary() throws IOException {
-    	int year_start = Integer.parseInt(task3_year_start.getText());
-    	int year_end = Integer.parseInt(task3_year_end.getText());
-    	int topN = Integer.parseInt(t3_topN.getText());
+    void task3_generate_summary() {
+    	task3_table.getColumns().clear();
+    	task3_table.getItems().clear();
+    	task3_table.refresh();
+    	
+    	int year_start;
+    	int year_end;
+    	int topN;
+    	
+    	try {
+    		year_start = Integer.parseInt(task3_year_start.getText());
+        	year_end = Integer.parseInt(task3_year_end.getText());
+        	
+        } catch(NumberFormatException e) {
+            showWarning("Invalid Period", "Period Must be integers.");
+            return;
+        }   
+    	try {
+    		topN = Integer.parseInt(t3_topN.getText());
+        } catch(NumberFormatException e) {
+            showWarning("Invalid Entry", "Top N must be an integer");
+            return;
+        } 
+    	
     	String gender = "";
-    	if (this.T111.getSelectedToggle().equals(this.t3_m)) {
+    	if (this.T3_toggle_group.getSelectedToggle().equals(this.t3_m)) {
     		gender = "M";
     	}
-    	else if (this.T111.getSelectedToggle().equals(this.t3_f)) {
+    	else if (this.T3_toggle_group.getSelectedToggle().equals(this.t3_f)) {
     		gender = "F";
     	}
-    	String Report = Task3.Summary(year_start, year_end, gender, topN);
-    	textAreaConsole.setText(Report);
+    	ArrayList<ArrayList<String>> Report;
+    	
+    	try {
+    		Report = Task3.TopNames(year_start, year_end, gender, topN);
+        } catch(NumberFormatException e) {
+            if(e.getMessage().equals("start")) {
+                showWarning("Invalid Period", "Starting year must be an integer between 1880 and 2019.");
+            } else if(e.getMessage().equals("end")) {
+                showWarning("Invalid Period", "Ending year must be an integer between 1880 and 2019.");
+            } else if(e.getMessage().equals("start end")) {
+                showWarning("Invalid Period", "Both starting and ending years must be integers between 1880 and 2019.");
+            }
+            return;
+        }
+    	
+    	TableColumn<Map,String> nameColumn = new TableColumn<>("Name");
+    	nameColumn.setCellValueFactory(new MapValueFactory<>("name"));
+        task3_table.getColumns().add(nameColumn);
+        
+        TableColumn<Map, String> lrYear = new TableColumn<>("low rank year");
+        lrYear.setCellValueFactory(new MapValueFactory<>("lrYear"));
+        task3_table.getColumns().add(lrYear);
+
+        TableColumn<Map, String> lr = new TableColumn<>("low rank");
+        lr.setCellValueFactory(new MapValueFactory<>("lr"));
+        task3_table.getColumns().add(lr);
+
+        TableColumn<Map, String> hrYear = new TableColumn<>("high rank year");
+        hrYear.setCellValueFactory(new MapValueFactory<>("hrYear"));
+        task3_table.getColumns().add(hrYear);
+        
+        TableColumn<Map, String> hr = new TableColumn<>("high rank");
+        hr.setCellValueFactory(new MapValueFactory<>("hr"));
+        task3_table.getColumns().add(hr);
+        
+        TableColumn<Map, String> trendColumn = new TableColumn<>("Trend");
+        trendColumn.setCellValueFactory(new MapValueFactory<>("trend"));
+        task3_table.getColumns().add(trendColumn);
+        
+        ObservableList<Map<String, Object>> items = FXCollections.<Map<String, Object>>observableArrayList();
+        
+        for (ArrayList<String> record : Report) {
+            Map<String, Object> item = new HashMap<>();
+            item.put("name", record.get(0));
+            item.put("lrYear", record.get(1));
+            item.put("lr", record.get(2));
+            item.put("hrYear", record.get(3));
+            item.put("hr", record.get(4));
+            item.put("trend", record.get(5));    
+            items.add(item);
+        }
+        task3_table.getItems().addAll(items);
+    	
     }
     
 

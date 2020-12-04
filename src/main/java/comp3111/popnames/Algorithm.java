@@ -1,11 +1,7 @@
 package comp3111.popnames;
 
 public class Algorithm {
-	
-	public static int costOfSubstitution(char a, char b) {
-        return a == b ? 0 : 1;
-    }
-	
+
 	// Function to calculate the 
 	// Jaro Similarity of two Strings 
 	static double jaro_distance(String s1, String s2) 
