@@ -22,6 +22,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
@@ -37,6 +38,7 @@ public class HistoryFXTest extends ApplicationTest{
 	private TextField n, start, end;
 	private RadioButton male;
 	private ChoiceBox historyChoice;
+	private Label app2Answer;
 
 	
 	@Override
@@ -56,6 +58,7 @@ public class HistoryFXTest extends ApplicationTest{
 		table = (TableView<Map>)s.lookup("#historyTableView");
 		historyChoice = (ChoiceBox)s.lookup("#historyChoice");
 		table2 = (TableView<Map>)s.lookup("#report1Table");
+		app2Answer = (Label)s.lookup("#app2Answer");
 	}
 	
 	@Test
@@ -83,9 +86,9 @@ public class HistoryFXTest extends ApplicationTest{
 			channel.close();
 			return;
 		}
-		long fileLength = file.length();
-		file.seek(fileLength);
+		// add your queries here and then select its index later in table.getSelectionModel().select(index); where index is position from the last write. 
 		file.writeBytes("2020, Task 1, numRankTextField:10;maleRadioButton:0;startPeriodTextField:1941;endPeriodTextField:1945" + "\n");
+		file.writeBytes("2020, Task 5, app2YourName:Zonia;app2YourGenderM:1;app2YOB:1910;app2SoulGenderM:1;app2SoulYounger:1;app2RadioNK:1" + "\n");
 		lock.release();
 		
 		file.close();
@@ -96,15 +99,18 @@ public class HistoryFXTest extends ApplicationTest{
 		sleep(20);
 //		historyChoice.getSelectionModel().selectFirst();
 		sleep(50);
-		table.getSelectionModel().select(0);
+		table.getSelectionModel().select(1);
 		clickOn("#historyRerun");	
 		sleep(20);
 		assertTrue(table2.getColumns().get(1).getCellObservableValue(0).getValue().equals("James"));
 //		
 //		//navigate back
 		clickOn("#historyTab");
-		table.getSelectionModel().select(1);
+		table.getSelectionModel().select(0);
+		clickOn("#historyRerun");	
 		sleep(20);
+		assertTrue(app2Answer.getText().equals("Mary"));
+		
 	}
 	
 	
