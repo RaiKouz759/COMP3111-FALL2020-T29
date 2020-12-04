@@ -112,11 +112,11 @@ public class Activity5QueryTest {
 		// assume that inputs are valid.
 
 		//younger
-		String test_out1 = Activity5Query.executeQueryJaroStepTwo("Starlett", "John",0, 1999, true, 1);
+		String test_out1 = Activity5Query.executeQueryJaroStepTwo("Starlett", "John", 0, 1999, true, 1);
 		assertTrue(test_out1.equals("Starlett"));
 		
 		//older Mary Jake 1900 older male
-		test_out1 = Activity5Query.executeQueryJaroStepTwo("Jake", "Mary", 1900,1, false, 0);
+		test_out1 = Activity5Query.executeQueryJaroStepTwo("Jake", "Mary", 1, 1900, false, 0);
 		assertTrue(test_out1.equals("Jake"));
 		
 		
