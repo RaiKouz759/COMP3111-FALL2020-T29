@@ -27,6 +27,7 @@ import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableView;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ChoiceBox;
@@ -385,49 +386,11 @@ public class Controller implements Initializable{
     
     //history elements
     @FXML
-    private Button historyRerun;
+    private Button historyButtonRerun;
 
     @FXML
     private TableView<Map> historyTableView;
     // end of history 
-    
-    //Task Four
-    @FXML
-    void t4_generate_recommendation() {
-    	String dName = t4_dname.getText();
-    	String mName = t4_mname.getText();
-    	int dYOB = Integer.parseInt(t4_dyob.getText());
-    	int mYOB = Integer.parseInt(t4_myob.getText());
-    	int vYear = Integer.parseInt(t4_vyear.getText());
-    	String choice = "";
-    	if (this.T4_algorithm.getSelectedToggle().equals(this.t4_nkt4)){
-    		choice = "NK-T4";
-    	}
-    	else if (this.T4_algorithm.getSelectedToggle().equals(this.t4_jaro)) {
-    		choice = "Jaro";
-    	}
-    	String Report = Task4.recommendation(dName, dYOB, mName, mYOB, vYear, choice);
-    	textAreaConsole.setText(Report);
-    }
-    
-    
-    // Task Three
-    
-    @FXML
-    void task3_generate_summary() throws IOException {
-    	int year_start = Integer.parseInt(task3_year_start.getText());
-    	int year_end = Integer.parseInt(task3_year_end.getText());
-    	int topN = Integer.parseInt(t3_topN.getText());
-    	String gender = "";
-    	if (this.T111.getSelectedToggle().equals(this.t3_m)) {
-    		gender = "M";
-    	}
-    	else if (this.T111.getSelectedToggle().equals(this.t3_f)) {
-    		gender = "F";
-    	}
-    	String Report = Task3.Summary(year_start, year_end, gender, topN);
-    	textAreaConsole.setText(Report);
-    }
     
     public ObservableList<String> log_obList;
     
@@ -532,6 +495,8 @@ public class Controller implements Initializable{
 //			}
 //
 //        });
+
+        historyTableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         // display the change in the tableview after selecting the choicebox. 
         historyChoice.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
 
@@ -636,11 +601,106 @@ public class Controller implements Initializable{
     	        log_obList = FXCollections.observableList(log_list);
     	        historyChoice.setItems(log_obList);
     	        if (log_obList.size() > 0) {
-	        	historyChoice.setValue(log_obList.get(0));
-	        }
+		        	historyChoice.setValue(log_obList.get(0));
+		        }
+	    	}
+	    }
+    }
+
+    @FXML
+    void historyRerun() {
+    	if (historyTableView.getSelectionModel().isEmpty()) {
+    		showWarning("Invalid Selection", "Please select one history record to rerun.");
+    		return;
     	}
+    	Map<String, String> entry = historyTableView.getSelectionModel().getSelectedItem();
+    	String task = entry.get("task");
+    	String inputs = entry.get("inputs");
+		switch (task.substring(task.length() - 1)) {
+			case "1":
+				tabpane.getSelectionModel().select(1);
+				rerunTask1(inputs);
+				break;
+			case "2":
+				tabpane.getSelectionModel().select(2);
+				rerunTask2(inputs);
+				break;
+			case "3":
+				tabpane.getSelectionModel().select(3);
+				rerunTask3(inputs);
+				break;
+			case "4":
+				tabpane.getSelectionModel().select(4);
+				rerunTask4(inputs);
+				break;
+			case "5":
+				tabpane.getSelectionModel().select(5);
+				rerunTask5(inputs);
+				break;
+			case "6":
+				tabpane.getSelectionModel().select(6);
+				rerunTask6(inputs);
+				break;
+			default:
+				showWarning("Invalid Task Number", "There is something wrong with this record.");
+				return;
+
+		}
     }
+
+    @FXML
+    void rerunTask1(String inputs) {
+		/*fill in the elements here
+
+		*/
+		doTask1();
     }
+
+    @FXML
+    void rerunTask2(String inputs) {
+		/*fill in the elements here
+		
+		*/
+		doTask2();
+    }
+
+    @FXML
+    void rerunTask3(String inputs) {
+		/*fill in the elements here
+		
+		*/
+		try {
+			doTask3();
+		} catch (Exception e) {
+
+		}
+    }
+
+    @FXML
+    void rerunTask4(String inputs) {
+		/*fill in the elements here
+		
+		*/
+		doTask4();
+    }
+
+    @FXML
+    void rerunTask5(String inputs) {
+		/*fill in the elements here
+		
+		*/
+		doTask5();
+		doTask5Part2();
+    }
+
+    @FXML
+    void rerunTask6(String inputs) {
+		/*fill in the elements here
+		
+		*/
+		doTask6();
+    }
+
     /**
      *  Task Zero
      *  To be triggered by the "Summary" button on the Task Zero Tab 
@@ -894,6 +954,43 @@ public class Controller implements Initializable{
         task2LineChartResult.getData().add(series);
     }
 
+    // Task Three
+    
+    @FXML
+    void doTask3() throws IOException {
+    	int year_start = Integer.parseInt(task3_year_start.getText());
+    	int year_end = Integer.parseInt(task3_year_end.getText());
+    	int topN = Integer.parseInt(t3_topN.getText());
+    	String gender = "";
+    	if (this.T111.getSelectedToggle().equals(this.t3_m)) {
+    		gender = "M";
+    	}
+    	else if (this.T111.getSelectedToggle().equals(this.t3_f)) {
+    		gender = "F";
+    	}
+    	String Report = Task3.Summary(year_start, year_end, gender, topN);
+    	textAreaConsole.setText(Report);
+    }
+
+    //Task Four
+    @FXML
+    void doTask4() {
+    	String dName = t4_dname.getText();
+    	String mName = t4_mname.getText();
+    	int dYOB = Integer.parseInt(t4_dyob.getText());
+    	int mYOB = Integer.parseInt(t4_myob.getText());
+    	int vYear = Integer.parseInt(t4_vyear.getText());
+    	String choice = "";
+    	if (this.T4_algorithm.getSelectedToggle().equals(this.t4_nkt4)){
+    		choice = "NK-T4";
+    	}
+    	else if (this.T4_algorithm.getSelectedToggle().equals(this.t4_jaro)) {
+    		choice = "Jaro";
+    	}
+    	String Report = Task4.recommendation(dName, dYOB, mName, mYOB, vYear, choice);
+    	textAreaConsole.setText(Report);
+    }
+    
     /**
      *  Task Five
      *  To be triggered by the Generate Report Button in Application 2 tab.
