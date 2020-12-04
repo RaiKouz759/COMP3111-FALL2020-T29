@@ -16,6 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.chart.LineChart;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
@@ -27,6 +28,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Alert;
@@ -36,9 +38,13 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
 import javafx.util.Pair;
+import javafx.concurrent.Task;
 
 import java.lang.NumberFormatException;
 import java.net.URL;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ExecutorService;
 
 import java.text.DecimalFormat;
 
@@ -154,7 +160,7 @@ public class Controller implements Initializable{
     private RadioButton task6RadioFemale1;
 
     @FXML
-    private TextField task6TextYear;
+    private TextField task6TextYear1;
 
     @FXML
     private TextField task6TextName2;
@@ -178,10 +184,46 @@ public class Controller implements Initializable{
     private RadioButton task6RadioOlder;
 
     @FXML
+    private RadioButton task6RadioCustom;
+
+    @FXML
+    private TextField task6TextYear2;
+
+    @FXML
+    private ToggleGroup task6Toggle4;
+
+    @FXML
+    private RadioButton task6RadioNKT6;
+
+    @FXML
+    private RadioButton task6RadioNorm;
+
+    @FXML
+    private RadioButton task6RadioLinear;
+
+    @FXML
     private Button task6ButtonReport;
 
     @FXML
+    private Button task6ButtonCancel;
+
+    @FXML
+    private ProgressBar task6ProgressBar;
+
+    @FXML
     private Label task6TextResult;
+
+    @FXML
+    private PieChart task6PieChartResult;
+
+    @FXML
+    private LineChart<Integer, Number> task6LineChartResult;
+
+    Task<Pair<ArrayList<Pair<Double, Double>>, ArrayList<Pair<Double, Double>>>> task6LinTask0;
+    Task<Pair<Double, Double>> task6LinTask1;
+    Task<Pair<Double, Double>> task6LinTask2;
+
+    Pair<ArrayList<Pair<Double, Double>>, ArrayList<Pair<Double, Double>>> tasks6Points = null;
 
     @FXML
     private TextArea textAreaConsole;
@@ -434,6 +476,15 @@ public class Controller implements Initializable{
         task2TableResult.getColumns().addAll(yearColumn, rankColumn, countColumn, percentageColumn);
         
         // end of initializatin for activity 2
+
+        // initialization for activity 6
+
+        task6PieChartResult.setStartAngle(90);
+        task6PieChartResult.setClockwise(true);
+        task6PieChartResult.setVisible(false);
+        resetTask6();
+
+        // end of initialization for activity 6
 
 
 //        tabpane.getSelectionModel().selectedItemProperty().addListener((ChangeListener<? super Tab>) new ChangeListener<Tab>() { 
@@ -976,28 +1027,28 @@ public class Controller implements Initializable{
     void doTask6() {
         String name1, name2;
         int gender1, gender2;
-        int year;
-        boolean isYounger;
+        int year1, year2;
+        boolean isYounger = true;
         name1 = task6TextName1.getText();
         name2 = task6TextName2.getText();
         if(name1.equals("")){
             showWarning("Invalid Name", "Please enter your name.");
             return;
         }
-        if(name2.equals("")){
-            showWarning("Invalid Name", "Please enter the name of your soulmate.");
-            return;
-        }
-        try {
-            year = Integer.parseInt(task6TextYear.getText());
-        } catch(NumberFormatException e) {
-            showWarning("Invalid Year of Birth", "Your year of birth must be an integer.");
-            return;
-        }      
         if (task6RadioMale1.isSelected()) {
             gender1 = 0;
         } else {
             gender1 = 1;
+        }
+        try {
+            year1 = Integer.parseInt(task6TextYear1.getText());
+        } catch(NumberFormatException e) {
+            showWarning("Invalid Year of Birth", "Your year of birth must be an integer.");
+            return;
+        }
+        if(name2.equals("")){
+            showWarning("Invalid Name", "Please enter the name of your soulmate.");
+            return;
         }
         if (task6RadioMale2.isSelected()) {
             gender2 = 0;
@@ -1006,27 +1057,285 @@ public class Controller implements Initializable{
         }
         if (task6RadioYounger.isSelected()) {
             isYounger = true;
-        } else {
+            year2 = year1 == 2019 ? 2019 : year1 + 1;
+        } else if (task6RadioOlder.isSelected()) {
             isYounger = false;
-        }
-        float score;
+            year2 = year1 == 1880 ? 1880 : year1 - 1;
+        } else {
+            if (task6RadioNKT6.isSelected() || task6RadioNorm.isSelected()) {
+                showWarning("Invalid Preference", "Either Younger or Older must be chosen for NK-T6 algorithms.");
+                return;
+            }
+            try {
+                year2 = Integer.parseInt(task6TextYear2.getText());
+            } catch(NumberFormatException e) {
+                showWarning("Invalid Year of Birth", "The year of birth of your soulmate must be an integer.");
+                return;
+            }
+        }        
+        float score = -1;
+        String gender = Constants.genders[gender1];
+        String genderMate = Constants.genders[gender2];
+        ArrayList<Double> linearReg = null;
         try {
-            score = Activity6Query.executeQuery(name1, gender1, year, name2, gender2, isYounger);
-        } catch(NumberFormatException e) {
+            if (task6RadioNKT6.isSelected()) {
+                score = Activity6Query.executeNKT6(name1, gender1, year1, name2, gender2, isYounger, false);
+            } else if (task6RadioNorm.isSelected()) {
+                score = Activity6Query.executeNKT6(name1, gender1, year1, name2, gender2, isYounger, true);
+            } else {
+                task6TextName1.setDisable(true);
+                task6RadioMale1.setDisable(true);
+                task6RadioFemale1.setDisable(true);
+                task6TextYear1.setDisable(true);
+                task6TextName2.setDisable(true);
+                task6RadioMale2.setDisable(true);
+                task6RadioFemale2.setDisable(true);
+                task6RadioYounger.setDisable(true);
+                task6RadioOlder.setDisable(true);
+                task6RadioCustom.setDisable(true);
+                task6TextYear2.setDisable(true);
+                task6RadioNKT6.setDisable(true);
+                task6RadioNorm.setDisable(true);
+                task6RadioLinear.setDisable(true);
+                task6ButtonReport.setDisable(true);
+                task6ButtonCancel.setDisable(false);
+                task6TextResult.setVisible(false);
+                task6PieChartResult.setVisible(false);
+                task6LineChartResult.setVisible(false);
+                System.out.println("Thread begin1");
+                Activity6Query.prepareLinear(name1, gender1, year1, name2, gender2, year2);
+                
+                System.out.println("Thread begin2");
+                task6LinTask0 = new Activity6QueryThreadTask(name1, gender1, year1, name2, gender2, year2);
+                System.out.println("Thread begin3");
+                task6LinTask0.setOnFailed(wse -> {
+                    System.out.println("Error");
+                    task6LinTask0.getException().printStackTrace();
+                    showWarning("Regression Error", "There are not enough data points for regression. Please use the other algorithms.");
+                    resetTask6();
+                });
+                task6LinTask0.setOnSucceeded(wse1 -> {
+                    //task6ProgressBar.progressProperty().unbind();
+                    //task6ProgressBar.progressProperty().bind(task6LinTask2.progressProperty());
+                    tasks6Points = task6LinTask0.getValue();
+                    task6LinTask1 = new LinearRegressionTask(tasks6Points.getKey());
+                    task6LinTask2 = new LinearRegressionTask(tasks6Points.getValue());
+                    task6LinTask1.setOnFailed(wse -> {
+                        System.out.println("Error");
+                        task6LinTask1.getException().printStackTrace();
+                        showWarning("Regression Error", "There are not enough data points for regression. Please use the other algorithms.");
+                        resetTask6();
+                    });
+                    System.out.println("Thread begin4");
+                    task6LinTask2.setOnFailed(wse -> {
+                        System.out.println("Error");
+                        task6LinTask2.getException().printStackTrace();
+                        showWarning("Regression Error", "There are not enough data points for regression. Please use the other algorithms.");
+                        resetTask6();
+                    });
+                    System.out.println("Thread begin5");
+                    task6LinTask1.setOnSucceeded(wse -> {
+                        //super.succeeded();
+                        //task6ProgressBar.progressProperty().unbind();
+                        //task6ProgressBar.progressProperty().bind(task6LinTask2.progressProperty());
+                        new Thread(task6LinTask2).start();
+                    });
+                    System.out.println("Thread begin6");
+
+                    task6LinTask2.setOnSucceeded(wse -> {
+                        // super.succeeded();
+                        //task6ProgressBar.progressProperty().unbind();
+                        //task6ProgressBar.setVisible(false);
+                        doTask6AfterThread();
+                    });
+
+                    //task6ProgressBar.progressProperty().bind(task6LinTask1.progressProperty());
+                    System.out.println("Thread begin7");
+                    
+                    //task6ProgressBar.setVisible(true);
+                    System.out.println("Thread begin8");
+                    new Thread(task6LinTask1).start();
+                });
+
+                new Thread(task6LinTask0).start();
+                System.out.println("Thread started");
+                return;
+            }
+            System.out.println("Thread passed???");
+
+        } catch(RuntimeException e) {
+            System.out.println("Thread error");
             if(e.getMessage().equals("length1")) {
-                    showWarning("Invalid Name", "Your name must contain only 2 to 15 characters.");
+                showWarning("Invalid Name", "Your name must contain only 2 to 15 characters.");
             } else if(e.getMessage().equals("length2")) {
                 showWarning("Invalid Name", "The name of your soulmate must contain only 2 to 15 characters.");
             } else if(e.getMessage().equals("char1")) {
                 showWarning("Invalid Name", "Your name must contain only letters.");
             } else if(e.getMessage().equals("char2")) {
                 showWarning("Invalid Name", "The name of your soulmate must contain only letters.");
-            } else if(e.getMessage().equals("year")) {
-                showWarning("Invalid Period", "Your year of birth must be an integer between 1880 and 2019.");
+            } else if(e.getMessage().equals("year1")) {
+                showWarning("Invalid Year of Birth", "Your year of birth must be an integer between 1880 and 2019.");
+            } else if(e.getMessage().equals("year2")) {
+                showWarning("Invalid Year of Birth", "The year of birth of your soulmate must be an integer between 1880 and 2019.");
+            } else if(e.getMessage().equals("points") || e.getMessage().equals("linear")) {
+                showWarning("Regression Error", "There are not enough data points for regression. Please use the other algorithms.");
             }
+            resetTask6();
             return;
         }
-        task6TextResult.setText("Your score of compatibility is " + score);
+        System.out.println("Thread passed");
+        DecimalFormat df = new DecimalFormat("0");
+        df.setMaximumFractionDigits(340);        
+        task6TextResult.setText("Your score of compatibility is " + df.format(AnalyzeNames.round(score * 100, 5)) + "%");
+        task6TextResult.setVisible(true);
+
+        if (task6RadioNorm.isSelected() || task6RadioLinear.isSelected()) {
+            task6PieChartResult.getData().clear();
+            task6PieChartResult.setVisible(true);
+
+            PieChart.Data sliceScore = new PieChart.Data("Score", score);
+            PieChart.Data sliceSpace = new PieChart.Data("Space"  , 1 - score);
+
+            task6PieChartResult.getData().add(sliceScore);
+            task6PieChartResult.getData().add(sliceSpace);
+
+            sliceSpace.getNode().setStyle("-fx-pie-color: #F4F4F4;");
+        } else {
+            task6PieChartResult.setVisible(false);
+        }
+        task6LineChartResult.setVisible(false);
+    }
+
+    @FXML
+    void resetTask6() {
+        task6TextName1.setDisable(false);
+        task6RadioMale1.setDisable(false);
+        task6RadioFemale1.setDisable(false);
+        task6TextYear1.setDisable(false);
+        task6TextName2.setDisable(false);
+        task6RadioMale2.setDisable(false);
+        task6RadioFemale2.setDisable(false);
+        task6RadioYounger.setDisable(false);
+        task6RadioOlder.setDisable(false);
+        task6RadioCustom.setDisable(false);
+        task6TextYear2.setDisable(false);
+        task6RadioNKT6.setDisable(false);
+        task6RadioNorm.setDisable(false);
+        task6RadioLinear.setDisable(false);
+        task6ButtonReport.setDisable(false);
+        task6ButtonCancel.setDisable(true);
+        task6ProgressBar.setVisible(false);
+        task6TextResult.setVisible(false);
+        task6PieChartResult.setVisible(false);
+        task6LineChartResult.setVisible(false);
+    }
+
+    @FXML
+    void doTask6AfterThread() {
+        System.out.println("After thread");
+        task6TextName1.setDisable(false);
+        task6RadioMale1.setDisable(false);
+        task6RadioFemale1.setDisable(false);
+        task6TextYear1.setDisable(false);
+        task6TextName2.setDisable(false);
+        task6RadioMale2.setDisable(false);
+        task6RadioFemale2.setDisable(false);
+        task6RadioYounger.setDisable(false);
+        task6RadioOlder.setDisable(false);
+        task6RadioCustom.setDisable(false);
+        task6TextYear2.setDisable(false);
+        task6RadioNKT6.setDisable(false);
+        task6RadioNorm.setDisable(false);
+        task6RadioLinear.setDisable(false);
+        task6ButtonReport.setDisable(false);
+        task6ButtonCancel.setDisable(true);
+        
+
+        String name1, name2;
+        int gender1, gender2;
+        int year1, year2;
+        boolean isYounger = true;
+        name1 = task6TextName1.getText();
+        name2 = task6TextName2.getText();
+        if (task6RadioMale1.isSelected()) {
+            gender1 = 0;
+        } else {
+            gender1 = 1;
+        }
+        year1 = Integer.parseInt(task6TextYear1.getText());
+        if (task6RadioMale2.isSelected()) {
+            gender2 = 0;
+        } else {
+            gender2 = 1;
+        }
+        if (task6RadioYounger.isSelected()) {
+            isYounger = true;
+            year2 = year1 == 2019 ? 2019 : year1 + 1;
+        } else if (task6RadioOlder.isSelected()) {
+            isYounger = false;
+            year2 = year1 == 1880 ? 1880 : year1 - 1;
+        } else {
+            year2 = Integer.parseInt(task6TextYear2.getText());
+        }        
+        float score;
+        String gender = Constants.genders[gender1];
+        String genderMate = Constants.genders[gender2];
+        ArrayList<Double> linearReg = null;
+        Pair<Double, ArrayList<Double>> ret = Activity6Query.executeLinear(task6LinTask1.getValue(), task6LinTask2.getValue(), year1, year2);
+        score = (float)ret.getKey().doubleValue();
+        linearReg = ret.getValue();
+
+        DecimalFormat df = new DecimalFormat("0");
+        df.setMaximumFractionDigits(340);        
+        task6TextResult.setText("Your score of compatibility is " + df.format(AnalyzeNames.round(score * 100, 5)) + "%");
+        task6TextResult.setVisible(true);
+
+        task6PieChartResult.getData().clear();
+        task6PieChartResult.setVisible(true);
+
+        PieChart.Data sliceScore = new PieChart.Data("Score", score);
+        PieChart.Data sliceSpace = new PieChart.Data("Space"  , 1 - score);
+
+        task6PieChartResult.getData().add(sliceScore);
+        task6PieChartResult.getData().add(sliceSpace);
+
+        sliceSpace.getNode().setStyle("-fx-pie-color: #F4F4F4;");
+    
+        task6LineChartResult.setVisible(true);
+        task6LineChartResult.getData().clear();
+        XYChart.Series<Integer, Number> series1 = new XYChart.Series<>();
+        XYChart.Series<Integer, Number> series2 = new XYChart.Series<>();
+        XYChart.Series<Integer, Number> series3 = new XYChart.Series<>();
+        XYChart.Series<Integer, Number> series4 = new XYChart.Series<>();
+        series1.setName(name1);
+        series2.setName(name2);
+        series3.setName(name1 + " Regression");
+        series4.setName(name2 + " Regression");
+
+        RankRecord record = null;
+        RankRecord recordMate = null;
+        int startYear = Math.max(year1, year2);
+        for(int year = startYear; year <= 2019; ++year) {
+            record = AnalyzeNames.getRankRecord(year, name1, gender);
+            recordMate = AnalyzeNames.getRankRecord(year, name2, genderMate);
+            if (record.isValid()) {
+                series1.getData().add(new XYChart.Data<Integer, Number>(year, record.getRank()));
+            }
+            if (recordMate.isValid()) {
+                series2.getData().add(new XYChart.Data<Integer, Number>(year, recordMate.getRank()));
+            }
+        }
+        series3.getData().add(new XYChart.Data<Integer, Number>(startYear, linearReg.get(1).doubleValue()));
+        series3.getData().add(new XYChart.Data<Integer, Number>(2019, linearReg.get(0).doubleValue() * (2019 - startYear) + linearReg.get(1).doubleValue()));
+        series4.getData().add(new XYChart.Data<Integer, Number>(Math.max(year1, year2), linearReg.get(3).doubleValue()));
+        series4.getData().add(new XYChart.Data<Integer, Number>(2019, linearReg.get(2).doubleValue() * (2019 - startYear) + linearReg.get(3).doubleValue()));
+        
+        task6LineChartResult.getData().add(series1);
+        task6LineChartResult.getData().add(series2);
+        task6LineChartResult.getData().add(series3);
+        task6LineChartResult.getData().add(series4);
+
+        
     }
 
     private static void showWarning(String header, String message) {

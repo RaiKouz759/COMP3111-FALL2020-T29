@@ -5,9 +5,11 @@
 <?import javafx.scene.chart.CategoryAxis?>
 <?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
@@ -16,7 +18,10 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Rectangle?>
@@ -311,40 +316,187 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <TextArea disable="true" layoutX="40.0" layoutY="39.0" prefHeight="252.0" prefWidth="581.0" text="Develop and implement an online service using empirical data to help make informed decisions on predicting scores for compatible pairs.  Sample Scenario of Application: (i) A person seeking advices on the chance of engaging in love affairs with someone of a different gender; (ii) A person seeking advices on the chance of engaging in love affairs with someone of the same gender.&#10;&#10;Input&#10;* iName, iGender, iYOB: Particulars of the person seeking advices&#10;* iNameMate, iGenderMate: Specify the name and gender of the person to be matched&#10;* iPreference: Specify the preference on having a younger or older soulmate&#10;&#10;Output&#10;* oScore: Provide a score of compatibility (0%: Not Compatible; 100%: Perfect Match) according to the NK-T6 Algorithm&#10;* plus, WOW factor on user experience and algorithm design!" visible="false" wrapText="true" />
-                              <Label layoutX="98.0" layoutY="96.0" text="Name:" />
-                              <TextField fx:id="task6TextName1" layoutX="149.0" layoutY="92.0" prefHeight="26.0" prefWidth="88.0" text="David" />
-                              <Label layoutX="416.0" layoutY="93.0" text="Name:" />
-                              <TextField fx:id="task6TextName2" layoutX="467.0" layoutY="89.0" prefHeight="26.0" prefWidth="88.0" text="Mary" />
-                              <Label layoutX="416.0" layoutY="142.0" text="Gender: " />
-                              <Label layoutX="98.0" layoutY="145.0" text="Gender: " />
-                              <Label layoutX="98.0" layoutY="186.0" text="Year of birth (1880-2019):" />
-                              <TextField fx:id="task6TextYear" layoutX="243.0" layoutY="181.0" prefHeight="26.0" prefWidth="88.0" text="2000" />
-                              <Label layoutX="417.0" layoutY="183.0" text="YOB:" />
-                              <Label fx:id="task6TextResult" layoutX="179.0" layoutY="351.0" prefHeight="27.0" prefWidth="361.0" text="Your score of compatibility is">
-                                 <font>
-                                    <Font name="System Bold Italic" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Button fx:id="task6ButtonReport" layoutX="283.0" layoutY="265.0" mnemonicParsing="false" onAction="#doTask6" text="Generate Score" />
-                              <RadioButton fx:id="task6RadioMale1" layoutX="150.0" layoutY="145.0" mnemonicParsing="false" selected="true" text="Male">
-                                 <toggleGroup>
-                                    <ToggleGroup fx:id="task6Toggle1" />
-                                 </toggleGroup>
-                              </RadioButton>
-                              <RadioButton fx:id="task6RadioFemale1" layoutX="214.0" layoutY="145.0" mnemonicParsing="false" text="Female" toggleGroup="$task6Toggle1" />
-                              <RadioButton fx:id="task6RadioMale2" layoutX="467.0" layoutY="142.0" mnemonicParsing="false" text="Male">
-                                 <toggleGroup>
-                                    <ToggleGroup fx:id="task6Toggle2" />
-                                 </toggleGroup>
-                              </RadioButton>
-                              <RadioButton fx:id="task6RadioFemale2" layoutX="531.0" layoutY="142.0" mnemonicParsing="false" selected="true" text="Female" toggleGroup="$task6Toggle2" />
-                              <RadioButton fx:id="task6RadioYounger" layoutX="469.0" layoutY="183.0" mnemonicParsing="false" selected="true" text="Younger">
-                                 <toggleGroup>
-                                    <ToggleGroup fx:id="task6Toggle3" />
-                                 </toggleGroup>
-                              </RadioButton>
-                              <RadioButton fx:id="task6RadioOlder" layoutX="555.0" layoutY="183.0" mnemonicParsing="false" text="Older" toggleGroup="$task6Toggle3" />
+                              <VBox layoutX="30.0" layoutY="22.0" spacing="20.0" AnchorPane.bottomAnchor="38.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="22.0">
+                                 <children>
+                                    <StackPane>
+                                       <children>
+                                          <Label alignment="CENTER" contentDisplay="CENTER" text="Scores for Compatible Pairs" textAlignment="CENTER">
+                                             <font>
+                                                <Font name="Cambria Bold" size="18.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </StackPane>
+                                    <GridPane>
+                                       <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="449.60003662109375" minWidth="10.0" prefWidth="332.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="460.79998779296875" minWidth="10.0" prefWidth="328.0" />
+                                       </columnConstraints>
+                                       <rowConstraints>
+                                          <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                       </rowConstraints>
+                                       <children>
+                                          <VBox spacing="10.0" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
+                                             <children>
+                                                <HBox spacing="10.0">
+                                                   <children>
+                                                      <StackPane>
+                                                         <children>
+                                                            <Label text="Name:" />
+                                                         </children>
+                                                      </StackPane>
+                                                      <TextField fx:id="task6TextName1" text="David" />
+                                                   </children>
+                                                </HBox>
+                                                <HBox spacing="10.0">
+                                                   <children>
+                                                      <Label text="Gender: " />
+                                                      <RadioButton fx:id="task6RadioMale1" mnemonicParsing="false" selected="true" text="Male">
+                                                         <toggleGroup>
+                                                            <ToggleGroup fx:id="task6Toggle1" />
+                                                         </toggleGroup>
+                                                      </RadioButton>
+                                                      <RadioButton fx:id="task6RadioFemale1" mnemonicParsing="false" text="Female" toggleGroup="$task6Toggle1" />
+                                                   </children>
+                                                </HBox>
+                                                <HBox spacing="10.0">
+                                                   <children>
+                                                      <StackPane>
+                                                         <children>
+                                                            <Label text="Year of birth (1880-2019):" />
+                                                         </children>
+                                                      </StackPane>
+                                                      <TextField fx:id="task6TextYear1" prefWidth="48.0" text="2000" />
+                                                   </children>
+                                                </HBox>
+                                                <Label text="Algorithm:" />
+                                                <HBox alignment="CENTER" spacing="10.0">
+                                                   <children>
+                                                      <RadioButton fx:id="task6RadioNKT6" mnemonicParsing="false" selected="true" text="NK-T6">
+                                                         <toggleGroup>
+                                                            <ToggleGroup fx:id="task6Toggle4" />
+                                                         </toggleGroup>
+                                                      </RadioButton>
+                                                      <RadioButton fx:id="task6RadioNorm" mnemonicParsing="false" text="Normalized NK-T6" toggleGroup="$task6Toggle4" />
+                                                      <RadioButton fx:id="task6RadioLinear" mnemonicParsing="false" text="Linear Regression" toggleGroup="$task6Toggle4" />
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                          </VBox>
+                                          <VBox spacing="10.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
+                                             <children>
+                                                <HBox spacing="10.0">
+                                                   <children>
+                                                      <StackPane HBox.hgrow="NEVER">
+                                                         <children>
+                                                            <Label text="Name:" />
+                                                         </children>
+                                                      </StackPane>
+                                                      <TextField fx:id="task6TextName2" text="Mary" />
+                                                   </children>
+                                                </HBox>
+                                                <HBox spacing="10.0">
+                                                   <children>
+                                                      <Label text="Gender: " />
+                                                      <RadioButton fx:id="task6RadioMale2" mnemonicParsing="false" text="Male">
+                                                         <toggleGroup>
+                                                            <ToggleGroup fx:id="task6Toggle2" />
+                                                         </toggleGroup>
+                                                      </RadioButton>
+                                                      <RadioButton fx:id="task6RadioFemale2" mnemonicParsing="false" selected="true" text="Female" toggleGroup="$task6Toggle2" />
+                                                   </children>
+                                                </HBox>
+                                                <HBox spacing="10.0">
+                                                   <children>
+                                                      <Label text="Age Preference:" />
+                                                      <VBox spacing="10.0">
+                                                         <children>
+                                                            <HBox spacing="10.0">
+                                                               <children>
+                                                                  <RadioButton fx:id="task6RadioYounger" mnemonicParsing="false" selected="true" text="Younger">
+                                                                     <toggleGroup>
+                                                                        <ToggleGroup fx:id="task6Toggle3" />
+                                                                     </toggleGroup>
+                                                                  </RadioButton>
+                                                                  <RadioButton fx:id="task6RadioOlder" mnemonicParsing="false" text="Older" toggleGroup="$task6Toggle3" />
+                                                               </children>
+                                                            </HBox>
+                                                            <HBox spacing="10.0">
+                                                               <children>
+                                                                  <StackPane>
+                                                                     <children>
+                                                                        <RadioButton fx:id="task6RadioCustom" mnemonicParsing="false" text="Custom year of birth (1880-2019):" toggleGroup="$task6Toggle3" />
+                                                                     </children>
+                                                                  </StackPane>
+                                                               </children>
+                                                            </HBox>
+                                                            <TextField fx:id="task6TextYear2" maxWidth="-Infinity" prefWidth="48.0">
+                                                               <VBox.margin>
+                                                                  <Insets left="20.0" />
+                                                               </VBox.margin>
+                                                            </TextField>
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </GridPane>
+                                    <StackPane />
+                                    <HBox>
+                                       <children>
+                                          <StackPane>
+                                             <children>
+                                                <VBox spacing="10.0" StackPane.alignment="CENTER">
+                                                   <children>
+                                                      <StackPane>
+                                                         <children>
+                                                            <Button fx:id="task6ButtonReport" mnemonicParsing="false" onAction="#doTask6" text="Generate Score" />
+                                                         </children>
+                                                      </StackPane>
+                                                      <StackPane>
+                                                         <children>
+                                                            <Button fx:id="task6ButtonCancel" mnemonicParsing="false" text="Cancel" />
+                                                         </children>
+                                                      </StackPane>
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </StackPane>
+                                          <StackPane HBox.hgrow="ALWAYS">
+                                             <children>
+                                                <Label fx:id="task6TextResult" text="Your score of compatibility is" visible="false">
+                                                   <font>
+                                                      <Font name="System Bold Italic" size="18.0" />
+                                                   </font>
+                                                   <StackPane.margin>
+                                                      <Insets />
+                                                   </StackPane.margin>
+                                                </Label>
+                                                <StackPane>
+                                                   <StackPane.margin>
+                                                      <Insets />
+                                                   </StackPane.margin>
+                                                   <children>
+                                                      <ProgressBar fx:id="task6ProgressBar" prefWidth="286.0" progress="0.0" />
+                                                   </children>
+                                                </StackPane>
+                                             </children>
+                                          </StackPane>
+                                          <PieChart fx:id="task6PieChartResult" labelsVisible="false" legendVisible="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="75.0" prefWidth="75.0" HBox.hgrow="NEVER" />
+                                       </children>
+                                    </HBox>
+                                    <LineChart fx:id="task6LineChartResult" legendSide="RIGHT" prefHeight="221.0" prefWidth="659.0" visible="false" VBox.vgrow="ALWAYS">
+                                      <xAxis>
+                                        <NumberAxis forceZeroInRange="false" label="Year" lowerBound="1880.0" side="BOTTOM" upperBound="2019.0" />
+                                      </xAxis>
+                                      <yAxis>
+                                        <NumberAxis label="Rank" side="LEFT" />
+                                      </yAxis>
+                                    </LineChart>
+                                 </children>
+                              </VBox>
                            </children>
                         </AnchorPane>
                     </content>
