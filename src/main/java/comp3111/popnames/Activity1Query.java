@@ -3,6 +3,8 @@ package comp3111.popnames;
 import org.apache.commons.csv.*;
 
 import edu.duke.FileResource;
+
+import java.io.IOException;
 import java.util.*;  
 import java.util.Map.Entry;
 
@@ -116,6 +118,17 @@ public class Activity1Query {
         comment = "From the year " + startPeriod + " to " + endPeriod + ", " + list.get(0).getKey() + " is the most common name with " +
         		list.get(0).getValue() + " occurences. \n";
         comment += "The most common first letter for the names in the top ranks is " + mostCommon + " with " + numOccur + " occurences throughout the years. \n";
+        
+        String query = String.format("Task 1, %d;%d;%d;%d", numRanks, gender, startPeriod, endPeriod);
+        
+        //saving the query into the history file.
+        try {
+			History.storeHistory(query);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			System.out.println("Failed to store query history");
+		}
         
 		return yearRecordsList;
 	}	

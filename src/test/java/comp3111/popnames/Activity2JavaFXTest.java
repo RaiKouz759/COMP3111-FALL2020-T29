@@ -53,17 +53,17 @@ public class Activity2JavaFXTest extends ApplicationTest {
 		assertTrue(table.getColumns().get(0).getCellObservableValue(0).getValue().equals(1880));
 		assertTrue(table.getColumns().get(1).getCellObservableValue(0).getValue().equals(6));
 		assertTrue(table.getColumns().get(2).getCellObservableValue(0).getValue().equals(1578));
-		assertTrue(table.getColumns().get(3).getCellObservableValue(0).getValue().equals(1578 / (float) 90993));
+		assertTrue(table.getColumns().get(3).getCellObservableValue(0).getValue().equals("1.7342%"));
 
 		assertTrue(table.getColumns().get(0).getCellObservableValue(1).getValue().equals(1881));
 		assertTrue(table.getColumns().get(1).getCellObservableValue(1).getValue().equals(5));
 		assertTrue(table.getColumns().get(2).getCellObservableValue(1).getValue().equals(1658));
-		assertTrue(table.getColumns().get(3).getCellObservableValue(1).getValue().equals(1658 / (float) 91954));
+		assertTrue(table.getColumns().get(3).getCellObservableValue(1).getValue().equals("1.8031%"));
 
 		assertTrue(table.getColumns().get(0).getCellObservableValue(2).getValue().equals(1882));
 		assertTrue(table.getColumns().get(1).getCellObservableValue(2).getValue().equals(6));
 		assertTrue(table.getColumns().get(2).getCellObservableValue(2).getValue().equals(1821));
-		assertTrue(table.getColumns().get(3).getCellObservableValue(2).getValue().equals(1821 / (float) 107850));
+		assertTrue(table.getColumns().get(3).getCellObservableValue(2).getValue().equals("1.6885%"));
 
 		name.setText("David");
 		clickOn("#task2RadioMale");
@@ -75,17 +75,17 @@ public class Activity2JavaFXTest extends ApplicationTest {
 		assertTrue(table.getColumns().get(0).getCellObservableValue(0).getValue().equals(1941));
 		assertTrue(table.getColumns().get(1).getCellObservableValue(0).getValue().equals(7));
 		assertTrue(table.getColumns().get(2).getCellObservableValue(0).getValue().equals(30551));
-		assertTrue(table.getColumns().get(3).getCellObservableValue(0).getValue().equals(30551 / (float) 1227941));
+		assertTrue(table.getColumns().get(3).getCellObservableValue(0).getValue().equals("2.488%"));
 
 		assertTrue(table.getColumns().get(0).getCellObservableValue(1).getValue().equals(1942));
 		assertTrue(table.getColumns().get(1).getCellObservableValue(1).getValue().equals(6));
 		assertTrue(table.getColumns().get(2).getCellObservableValue(1).getValue().equals(35892));
-		assertTrue(table.getColumns().get(3).getCellObservableValue(1).getValue().equals(35892 / (float) 1380774));
+		assertTrue(table.getColumns().get(3).getCellObservableValue(1).getValue().equals("2.5994%"));
 
 		assertTrue(table.getColumns().get(0).getCellObservableValue(2).getValue().equals(1943));
 		assertTrue(table.getColumns().get(1).getCellObservableValue(2).getValue().equals(6));
 		assertTrue(table.getColumns().get(2).getCellObservableValue(2).getValue().equals(37237));
-		assertTrue(table.getColumns().get(3).getCellObservableValue(2).getValue().equals(37237 / (float) 1426846));
+		assertTrue(table.getColumns().get(3).getCellObservableValue(2).getValue().equals("2.6097%"));
 
 		name.setText("Dddddddd");
 		clickOn("#task2RadioMale");

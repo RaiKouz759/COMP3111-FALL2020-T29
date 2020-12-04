@@ -4,14 +4,22 @@
 package comp3111.popnames;
 
 import java.io.IOException;
+
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
@@ -20,23 +28,37 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.ProgressBar;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.layout.Region;
 import javafx.scene.text.Text;
+import javafx.util.Pair;
+import javafx.concurrent.Task;
 
 import java.lang.NumberFormatException;
 import java.net.URL;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ExecutorService;
+
+import java.text.DecimalFormat;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.ResourceBundle;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+
 
 
 public class Controller implements Initializable{
@@ -102,7 +124,13 @@ public class Controller implements Initializable{
     private Button task2ButtonGenerate;
 
     @FXML
+    private TextArea task2TextResult;
+
+    @FXML
     private TableView<Map> task2TableResult;
+
+    @FXML
+    private LineChart<Integer, Number> task2LineChartResult;
 
     @FXML
     private Tab tabReport3;
@@ -132,7 +160,7 @@ public class Controller implements Initializable{
     private RadioButton task6RadioFemale1;
 
     @FXML
-    private TextField task6TextYear;
+    private TextField task6TextYear1;
 
     @FXML
     private TextField task6TextName2;
@@ -156,10 +184,46 @@ public class Controller implements Initializable{
     private RadioButton task6RadioOlder;
 
     @FXML
+    private RadioButton task6RadioCustom;
+
+    @FXML
+    private TextField task6TextYear2;
+
+    @FXML
+    private ToggleGroup task6Toggle4;
+
+    @FXML
+    private RadioButton task6RadioNKT6;
+
+    @FXML
+    private RadioButton task6RadioNorm;
+
+    @FXML
+    private RadioButton task6RadioLinear;
+
+    @FXML
     private Button task6ButtonReport;
 
     @FXML
+    private Button task6ButtonCancel;
+
+    @FXML
+    private ProgressBar task6ProgressBar;
+
+    @FXML
     private Label task6TextResult;
+
+    @FXML
+    private PieChart task6PieChartResult;
+
+    @FXML
+    private LineChart<Integer, Number> task6LineChartResult;
+
+    Task<Pair<ArrayList<Pair<Double, Double>>, ArrayList<Pair<Double, Double>>>> task6LinTask0;
+    Task<Pair<Double, Double>> task6LinTask1;
+    Task<Pair<Double, Double>> task6LinTask2;
+
+    Pair<ArrayList<Pair<Double, Double>>, ArrayList<Pair<Double, Double>>> tasks6Points = null;
 
     @FXML
     private TextArea textAreaConsole;
@@ -193,6 +257,19 @@ public class Controller implements Initializable{
     
     @FXML
     private Label rep1Label;
+
+    @FXML
+    private Rectangle step2Cover;
+    
+
+    @FXML
+    private RadioButton step2Radio4;
+
+    @FXML
+    private RadioButton step2Radio5;
+
+    @FXML
+    private RadioButton step2Radio6;
     
     //activity 5 FXML objects
     @FXML
@@ -224,9 +301,44 @@ public class Controller implements Initializable{
 
     @FXML
     private Label app2Answer;
+    
+    @FXML
+    private Button app2Button;
+    
+    @FXML
+    private RadioButton app2RadioNK;
+
+    @FXML
+    private ToggleGroup T3;
+
+    @FXML
+    private RadioButton app2RadioJaro;
+    
+
+    @FXML
+    private RadioButton step2Radio1;
+
+    @FXML
+    private ToggleGroup T5;
+
+    @FXML
+    private RadioButton step2Radio2;
+
+    @FXML
+    private RadioButton step2Radio3;
+
+    @FXML
+    private Label step2Label;
+
+    @FXML
+    private Button step2Button;
     // end of activity5 objects
 
     @FXML
+    private ChoiceBox<String> historyChoice;
+
+    @FXML
+    private TextArea historyText;
     private TextField task3_year_end;
 
     @FXML
@@ -283,9 +395,15 @@ public class Controller implements Initializable{
     @FXML
     private TextArea t4_text_output;
     
+    //history elements
+    @FXML
+    private Button historyRerun;
+
+    @FXML
+    private TableView<Map> historyTableView;
+    // end of history 
     
     //Task Four
-    
     @FXML
     void t4_generate_recommendation() {
     	String dName = t4_dname.getText();
@@ -394,6 +512,13 @@ public class Controller implements Initializable{
     	
     }
     
+    public ObservableList<String> log_obList;
+    
+    @FXML
+    private Tab historyTab;
+
+    @FXML
+    private TabPane tabpane;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -407,6 +532,197 @@ public class Controller implements Initializable{
         app2ChoiceBox.setValue("NK-T5");
         // end of initialization of activity5
         
+        // initialization for activity 2
+        task2TableResult.getColumns().clear();
+        task2TableResult.refresh();
+
+        TableColumn<Map,String> yearColumn = new TableColumn<>("Year");
+        yearColumn.setCellValueFactory(new MapValueFactory<>("year"));
+        yearColumn.setResizable(false);
+        // yearColumn.prefWidthProperty().bind(task2TableResult.widthProperty().multiply(0.2));
+        
+        TableColumn<Map, String> rankColumn = new TableColumn<>("Rank");
+        rankColumn.setCellValueFactory(new MapValueFactory<>("rank"));
+        rankColumn.setResizable(false);
+        // rankColumn.prefWidthProperty().bind(task2TableResult.widthProperty().multiply(0.2));
+        
+        TableColumn<Map, String> countColumn = new TableColumn<>("Count");
+        countColumn.setCellValueFactory(new MapValueFactory<>("count"));
+        countColumn.setResizable(false);
+        // countColumn.prefWidthProperty().bind(task2TableResult.widthProperty().multiply(0.2));
+
+        TableColumn<Map, String> percentageColumn = new TableColumn<>("Percentage");
+        percentageColumn.setCellValueFactory(new MapValueFactory<>("percentage"));
+        percentageColumn.setResizable(false);
+        // percentageColumn.prefWidthProperty().bind(task2TableResult.widthProperty().multiply(0.4));
+        task2TableResult.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        task2TableResult.getColumns().addAll(yearColumn, rankColumn, countColumn, percentageColumn);
+        
+        // end of initializatin for activity 2
+
+        // initialization for activity 6
+
+        task6PieChartResult.setStartAngle(90);
+        task6PieChartResult.setClockwise(true);
+        task6PieChartResult.setVisible(false);
+        resetTask6();
+
+        // end of initialization for activity 6
+
+
+//        tabpane.getSelectionModel().selectedItemProperty().addListener((ChangeListener<? super Tab>) new ChangeListener<Tab>() { 
+//			@Override
+//			public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
+//				// TODO Auto-generated method stub
+//				if(newValue.equals(historyTab)) {
+//			        // initialize contents of history tab
+//					String filePath = new File("").getAbsolutePath();
+//					filePath = filePath.concat("/src/main/resources/logs");
+//					
+//					// create directory if it does not exists
+//					new File(filePath).mkdirs();
+//					File dir = new File(filePath);
+//					File[] directoryListing = dir.listFiles();
+//					if (directoryListing != null) {
+//				        ArrayList<String> log_list = new ArrayList<String>();
+//					    for (File child : directoryListing) {
+//					      log_list.add(child.getName());
+//					    }
+//				        log_obList = FXCollections.observableList(log_list);
+//				        log_obList.addListener(new ListChangeListener<String> () {
+//			
+//							@Override
+//							public void onChanged(Change<? extends String> c) {
+//								// TODO Auto-generated method stub
+//								 System.out.println("adding" + c); 
+//							     historyChoice.getItems().setAll(log_obList);
+//							}
+//				        	
+//				            });
+//				        historyChoice.setItems(log_obList);
+//				        if (log_obList.size() > 0) {
+//				        	historyChoice.setValue(log_obList.get(0));
+//				        }
+//					  } else {
+//					    // Handle the case where dir is not really a directory.
+//					    // Checking dir.isDirectory() above would not be sufficient
+//					    // to avoid race conditions with another process that deletes
+//					    // directories.
+//						  showWarning("Error", "Error initializing the history tab");
+//					  }
+//				}
+//				
+//			}
+//
+//        });
+        // display the change in the tableview after selecting the choicebox. 
+        historyChoice.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
+
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				System.out.println("entering the changed funciton of the historychoice");
+				// clear the contents of the table
+		        historyTableView.getColumns().clear();
+		        historyTableView.getItems().clear();
+		        historyTableView.refresh();
+		        
+		        // initialize the columns
+		        TableColumn<Map,String> dateTimeColumn = new TableColumn<>("Date & Time");
+		        dateTimeColumn.setCellValueFactory(new MapValueFactory<>("datetime"));
+		        historyTableView.getColumns().add(dateTimeColumn);
+		        
+		        TableColumn<Map,String> taskColumn = new TableColumn<>("Task");
+		        taskColumn.setCellValueFactory(new MapValueFactory<>("task"));
+		        historyTableView.getColumns().add(taskColumn);
+
+		        TableColumn<Map,String> inputColumn = new TableColumn<>("Data Inputs");
+		        inputColumn.setCellValueFactory(new MapValueFactory<>("inputs"));
+		        historyTableView.getColumns().add(inputColumn);
+		        
+		        // add the relavant data to the table rows
+		        try {
+					ArrayList<String> queryList = History.readHistory(newValue);
+					System.out.println(queryList.size());
+					ObservableList<Map<String, Object>> items =
+			                FXCollections.<Map<String, Object>>observableArrayList();
+					
+					//parse the string from the arraylist starting from the most current query date, task, inputs
+					for (int i=queryList.size() - 1; i>=0; i--) {
+						System.out.println("in querylist for loop");
+						Map<String, Object> item = new HashMap<>();
+						String cur = queryList.get(i);
+						ArrayList<String> components = new ArrayList<>(Arrays.asList(cur.split(",[ ]*")));
+						if (components.size() != 3) {
+							System.out.println("Something went wrong");
+							showWarning("Error", "components array is not size 3");
+							return;
+						}
+						item.put("datetime", components.get(0));
+						item.put("task", components.get(1));
+						item.put("inputs", components.get(2));
+						System.out.println("testing component");
+						items.add(item);
+						System.out.println(components.get(2));
+					}
+					
+					historyTableView.getItems().addAll(items);
+					
+				} catch (FileNotFoundException e) {
+					e.printStackTrace();
+					showWarning("File not found", "File is not found. ");
+					return;
+				}
+		        
+//		        int index = 1;
+//		        for (; index <= numRanks; index++) {
+//		            TableColumn<Map, String> topColumn = new TableColumn<>("Top " + index);
+//		            topColumn.setCellValueFactory(new MapValueFactory<>("top" + index));
+//		            report1Table.getColumns().add(topColumn);
+//		        }
+////		                ObservableList<Map<String, Object>> items =
+//                FXCollections.<Map<String, Object>>observableArrayList();
+//
+//        for (YearRecords y : yearRecordsList) {
+//            Map<String, Object> item = new HashMap<>();
+//            item.put("year", y.getYear());
+//            index = 1;
+//            for (NameRecord nr : y.getNameRecordList()) {
+//                item.put("top" + index, nr.getName());
+//                index++;
+//            }
+//            items.add(item);
+//        }
+//        report1Table.getItems().addAll(items);
+		        
+		        
+			}
+		}
+        );
+
+        
+    }
+    @FXML
+    void clickHistory() {
+    	if (historyTab.isSelected()) {
+    		String filePath = new File("").getAbsolutePath();
+    		filePath = filePath.concat("/src/main/resources/logs");
+    		
+    		// create directory if it does not exists
+    		new File(filePath).mkdirs();
+    		File dir = new File(filePath);
+    		File[] directoryListing = dir.listFiles();
+    		if (directoryListing != null) {
+    	        ArrayList<String> log_list = new ArrayList<String>();
+    		    for (File child : directoryListing) {
+    		      log_list.add(child.getName());
+    		    }
+    	        log_obList = FXCollections.observableList(log_list);
+    	        historyChoice.setItems(log_obList);
+    	        if (log_obList.size() > 0) {
+	        	historyChoice.setValue(log_obList.get(0));
+	        }
+    	}
+    }
     }
     /**
      *  Task Zero
@@ -514,12 +830,21 @@ public class Controller implements Initializable{
             } else {
                 gender = 1;
             }
-
             
         } catch(NumberFormatException e) {
             // some error catching here
+        	showWarning("Invalid Input Format", "Please only enter numbers.");
             return;
         }
+        if (!Activity1Query.isNumOfResultsCorrect(numRanks)) {
+        	showWarning("Invalid Input", "Please enter an N that is >= 1. ");
+        	return;
+        }
+        if (!Activity1Query.isPeriodCorrect(startPeriod, endPeriod)) {
+        	showWarning("Invalid Input", "Start and End periods must be within the boundaries stated.");
+        	return;
+        }
+        
         ArrayList<YearRecords> yearRecordsList = Activity1Query.executeQuery(numRanks, gender, startPeriod, endPeriod);
         // clear all the contents of the table view & bar chart
         report1Table.getColumns().clear();
@@ -570,18 +895,8 @@ public class Controller implements Initializable{
         rep1Comment.setText(Activity1Query.comment);
         rep1Label.setVisible(true);
         
-        //testing stuff
-        try {
-            boolean done = Utility.storeHistory("testing storing funciton");
-            if (done) {
-                System.out.println("saved file");
-            }
-        } catch (Exception e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
         
-
+        
     }
 
     /**
@@ -612,10 +927,10 @@ public class Controller implements Initializable{
         } else {
             gender = 1;
         }
-        ArrayList<RankRecord> rankRecords;
+        Pair<ArrayList<RankRecord>, String> queryResult;
         try {
-            rankRecords = Activity2Query.executeQuery(name, gender, startPeriod, endPeriod);
-        } catch(NumberFormatException e) {
+            queryResult = Activity2Query.executeQuery(name, gender, startPeriod, endPeriod);
+        } catch(RuntimeException e) {
             if(e.getMessage().equals("length")) {
                 showWarning("Invalid Name", "Name must contain only 2 to 15 characters.");
             } else if(e.getMessage().equals("char")) {
@@ -624,41 +939,32 @@ public class Controller implements Initializable{
                 showWarning("Invalid Period", "Starting year must be an integer between 1880 and 2019.");
             } else if(e.getMessage().equals("end")) {
                 showWarning("Invalid Period", "Ending year must be an integer between 1880 and 2019.");
-            } else if(e.getMessage().equals("start end")) {
+            } else if(e.getMessage().equals("startend")) {
                 showWarning("Invalid Period", "Both starting and ending years must be integers between 1880 and 2019.");
             }
             return;
         }
+        ArrayList<RankRecord> rankRecords = queryResult.getKey();
 
-        task2TableResult.getColumns().clear();
+        task2TextResult.setText(queryResult.getValue());
+
         task2TableResult.getItems().clear();
-        task2TableResult.refresh();
-
-        TableColumn<Map,String> yearColumn = new TableColumn<>("Year");
-        yearColumn.setCellValueFactory(new MapValueFactory<>("year"));
-        task2TableResult.getColumns().add(yearColumn);
-        
-        TableColumn<Map, String> rankColumn = new TableColumn<>("Rank");
-        rankColumn.setCellValueFactory(new MapValueFactory<>("rank"));
-        task2TableResult.getColumns().add(rankColumn);
-
-        TableColumn<Map, String> countColumn = new TableColumn<>("Count");
-        countColumn.setCellValueFactory(new MapValueFactory<>("count"));
-        task2TableResult.getColumns().add(countColumn);
-
-        TableColumn<Map, String> percentageColumn = new TableColumn<>("Percentage");
-        percentageColumn.setCellValueFactory(new MapValueFactory<>("percentage"));
-        task2TableResult.getColumns().add(percentageColumn);
-        
         ObservableList<Map<String, Object>> items = FXCollections.<Map<String, Object>>observableArrayList();
 
+        task2LineChartResult.getData().clear();
+        XYChart.Series<Integer, Number> series = new XYChart.Series<>();
+        series.setName(name);
+        
+        DecimalFormat df = new DecimalFormat("0");
+        df.setMaximumFractionDigits(340);
         for (RankRecord record : rankRecords) {
             Map<String, Object> item = new HashMap<>();
             item.put("year", record.getYear());
             if(record.isValid()) {
                 item.put("rank", record.getRank());
                 item.put("count", record.getCount());
-                item.put("percentage", record.getPercentage());
+                item.put("percentage", df.format(AnalyzeNames.round(record.getPercentage() * 100, 5)) + "%");
+                series.getData().add(new XYChart.Data<>(record.getYear(), record.getPercentage() * 100));
             } else {
                 item.put("rank", "NULL");
                 item.put("count", "NULL");
@@ -667,6 +973,8 @@ public class Controller implements Initializable{
             items.add(item);
         }
         task2TableResult.getItems().addAll(items);
+        
+        task2LineChartResult.getData().add(series);
     }
 
     /**
@@ -697,21 +1005,100 @@ public class Controller implements Initializable{
             }
             prefYounger = app2SoulYounger.isSelected();
             // input validation
-            if (Activity5Query.isNameCorrect(name) && Activity5Query.isYOBCorrect(yob)) {
-                
-            } else {
-                System.out.println("Wrong input format");
-                //output some error statement
+            if (!Activity5Query.isNameCorrect(name)) {
+            	showWarning("Invalid Input", "Please only enter letters for your name.");
                 return;
+            } 
+            if (!Activity5Query.isYOBCorrect(yob)){
+            	showWarning("Invalid Input", "Please only enter year of births that are within the boundaries stated.");
+            	return;
             }
             
         } catch(NumberFormatException e) {
             //error catching logic here
+        	showWarning("Invalid Input Format", "Please only enter numbers for YOB.");
             return;
         }
+        String oName = "undefined";
+        if(app2RadioNK.isSelected()) {
+            oName = Activity5Query.executeQueryNKT5( name, yob, gender, prefGender, prefYounger);
+            app2Answer.setText(oName);
+        }else {
+        	ArrayList<String> list = new ArrayList<String>();
+        	list = Activity5Query.executeQueryJaroStepOne(name, yob, gender, prefGender, prefYounger);
+        	app2Button.setDisable(true);
+        	step2Button.setVisible(true);
+        	step2Radio1.setText(list.get(0));
+        	step2Radio2.setText(list.get(1));
+        	step2Radio3.setText(list.get(2));
+        	step2Radio4.setText(list.get(3));
+        	step2Radio5.setText(list.get(4));
+        	step2Radio6.setText(list.get(5));  
+        	step2Radio1.setVisible(true);
+        	step2Radio2.setVisible(true);
+        	step2Radio3.setVisible(true);
+        	step2Radio4.setVisible(true);
+        	step2Radio5.setVisible(true);
+        	step2Radio6.setVisible(true);
+        	step2Label.setVisible(true);
+        	step2Cover.setVisible(true);
+        	app2Answer.setVisible(false);
+        }
+
+    }
+
+    @FXML
+    void doTask5Part2() {
+        String name;
+        int gender;
+        int prefGender;
+        int yob;
+        boolean prefYounger;
+        String oName = "undefined";
+    	
+        name = app2YourName.getText();
+        yob = Integer.parseInt(app2YOB.getText());
+        prefYounger = app2SoulYounger.isSelected();
+        if (app2YourGenderM.isSelected()) {
+            gender = 0;
+        } else {
+            gender = 1;
+        }
+        if (app2SoulGenderM.isSelected()) {
+            prefGender = 0;
+        } else {
+            prefGender = 1;
+        }
+    	String chosenName;
+        if (step2Radio1.isSelected()) {
+        	chosenName = step2Radio1.getText();
+        } else if(step2Radio2.isSelected()) {
+        	chosenName = step2Radio2.getText();
+        } else if(step2Radio3.isSelected()) {
+        	chosenName = step2Radio2.getText();
+        } else if(step2Radio4.isSelected()) {
+        	chosenName = step2Radio2.getText();
+        }  else if(step2Radio5.isSelected()) {
+        	chosenName = step2Radio2.getText();
+        } else  {
+        	chosenName = step2Radio6.getText();
+        }
         
-        String oName = Activity5Query.executeQueryNKT5( name, yob, gender, prefGender, prefYounger);
+        
+        oName = Activity5Query.executeQueryJaroStepTwo( chosenName, name, yob, prefYounger, prefGender);
+    	//clean up
+    	step2Radio1.setVisible(false);
+    	step2Radio2.setVisible(false);
+    	step2Radio3.setVisible(false);
+    	step2Radio4.setVisible(false);
+    	step2Radio5.setVisible(false);
+    	step2Radio6.setVisible(false);
+    	step2Button.setVisible(false);
+    	app2Button.setDisable(false);
+    	step2Cover.setVisible(false);
+    	step2Label.setVisible(false);
         app2Answer.setText(oName);
+        app2Answer.setVisible(true);
     }
 
     /**
@@ -723,28 +1110,28 @@ public class Controller implements Initializable{
     void doTask6() {
         String name1, name2;
         int gender1, gender2;
-        int year;
-        boolean isYounger;
+        int year1, year2;
+        boolean isYounger = true;
         name1 = task6TextName1.getText();
         name2 = task6TextName2.getText();
         if(name1.equals("")){
             showWarning("Invalid Name", "Please enter your name.");
             return;
         }
-        if(name2.equals("")){
-            showWarning("Invalid Name", "Please enter the name of your soulmate.");
-            return;
-        }
-        try {
-            year = Integer.parseInt(task6TextYear.getText());
-        } catch(NumberFormatException e) {
-            showWarning("Invalid Year of Birth", "Your year of birth must be an integer.");
-            return;
-        }      
         if (task6RadioMale1.isSelected()) {
             gender1 = 0;
         } else {
             gender1 = 1;
+        }
+        try {
+            year1 = Integer.parseInt(task6TextYear1.getText());
+        } catch(NumberFormatException e) {
+            showWarning("Invalid Year of Birth", "Your year of birth must be an integer.");
+            return;
+        }
+        if(name2.equals("")){
+            showWarning("Invalid Name", "Please enter the name of your soulmate.");
+            return;
         }
         if (task6RadioMale2.isSelected()) {
             gender2 = 0;
@@ -753,27 +1140,285 @@ public class Controller implements Initializable{
         }
         if (task6RadioYounger.isSelected()) {
             isYounger = true;
-        } else {
+            year2 = year1 == 2019 ? 2019 : year1 + 1;
+        } else if (task6RadioOlder.isSelected()) {
             isYounger = false;
-        }
-        float score;
+            year2 = year1 == 1880 ? 1880 : year1 - 1;
+        } else {
+            if (task6RadioNKT6.isSelected() || task6RadioNorm.isSelected()) {
+                showWarning("Invalid Preference", "Either Younger or Older must be chosen for NK-T6 algorithms.");
+                return;
+            }
+            try {
+                year2 = Integer.parseInt(task6TextYear2.getText());
+            } catch(NumberFormatException e) {
+                showWarning("Invalid Year of Birth", "The year of birth of your soulmate must be an integer.");
+                return;
+            }
+        }        
+        float score = -1;
+        String gender = Constants.genders[gender1];
+        String genderMate = Constants.genders[gender2];
+        ArrayList<Double> linearReg = null;
         try {
-            score = Activity6Query.executeQuery(name1, gender1, year, name2, gender2, isYounger);
-        } catch(NumberFormatException e) {
+            if (task6RadioNKT6.isSelected()) {
+                score = Activity6Query.executeNKT6(name1, gender1, year1, name2, gender2, isYounger, false);
+            } else if (task6RadioNorm.isSelected()) {
+                score = Activity6Query.executeNKT6(name1, gender1, year1, name2, gender2, isYounger, true);
+            } else {
+                task6TextName1.setDisable(true);
+                task6RadioMale1.setDisable(true);
+                task6RadioFemale1.setDisable(true);
+                task6TextYear1.setDisable(true);
+                task6TextName2.setDisable(true);
+                task6RadioMale2.setDisable(true);
+                task6RadioFemale2.setDisable(true);
+                task6RadioYounger.setDisable(true);
+                task6RadioOlder.setDisable(true);
+                task6RadioCustom.setDisable(true);
+                task6TextYear2.setDisable(true);
+                task6RadioNKT6.setDisable(true);
+                task6RadioNorm.setDisable(true);
+                task6RadioLinear.setDisable(true);
+                task6ButtonReport.setDisable(true);
+                task6ButtonCancel.setDisable(false);
+                task6TextResult.setVisible(false);
+                task6PieChartResult.setVisible(false);
+                task6LineChartResult.setVisible(false);
+                System.out.println("Thread begin1");
+                Activity6Query.prepareLinear(name1, gender1, year1, name2, gender2, year2);
+                
+                System.out.println("Thread begin2");
+                task6LinTask0 = new Activity6QueryThreadTask(name1, gender1, year1, name2, gender2, year2);
+                System.out.println("Thread begin3");
+                task6LinTask0.setOnFailed(wse -> {
+                    System.out.println("Error");
+                    task6LinTask0.getException().printStackTrace();
+                    showWarning("Regression Error", "There are not enough data points for regression. Please use the other algorithms.");
+                    resetTask6();
+                });
+                task6LinTask0.setOnSucceeded(wse1 -> {
+                    //task6ProgressBar.progressProperty().unbind();
+                    //task6ProgressBar.progressProperty().bind(task6LinTask2.progressProperty());
+                    tasks6Points = task6LinTask0.getValue();
+                    task6LinTask1 = new LinearRegressionTask(tasks6Points.getKey());
+                    task6LinTask2 = new LinearRegressionTask(tasks6Points.getValue());
+                    task6LinTask1.setOnFailed(wse -> {
+                        System.out.println("Error");
+                        task6LinTask1.getException().printStackTrace();
+                        showWarning("Regression Error", "There are not enough data points for regression. Please use the other algorithms.");
+                        resetTask6();
+                    });
+                    System.out.println("Thread begin4");
+                    task6LinTask2.setOnFailed(wse -> {
+                        System.out.println("Error");
+                        task6LinTask2.getException().printStackTrace();
+                        showWarning("Regression Error", "There are not enough data points for regression. Please use the other algorithms.");
+                        resetTask6();
+                    });
+                    System.out.println("Thread begin5");
+                    task6LinTask1.setOnSucceeded(wse -> {
+                        //super.succeeded();
+                        //task6ProgressBar.progressProperty().unbind();
+                        //task6ProgressBar.progressProperty().bind(task6LinTask2.progressProperty());
+                        new Thread(task6LinTask2).start();
+                    });
+                    System.out.println("Thread begin6");
+
+                    task6LinTask2.setOnSucceeded(wse -> {
+                        // super.succeeded();
+                        //task6ProgressBar.progressProperty().unbind();
+                        //task6ProgressBar.setVisible(false);
+                        doTask6AfterThread();
+                    });
+
+                    //task6ProgressBar.progressProperty().bind(task6LinTask1.progressProperty());
+                    System.out.println("Thread begin7");
+                    
+                    //task6ProgressBar.setVisible(true);
+                    System.out.println("Thread begin8");
+                    new Thread(task6LinTask1).start();
+                });
+
+                new Thread(task6LinTask0).start();
+                System.out.println("Thread started");
+                return;
+            }
+            System.out.println("Thread passed???");
+
+        } catch(RuntimeException e) {
+            System.out.println("Thread error");
             if(e.getMessage().equals("length1")) {
-                    showWarning("Invalid Name", "Your name must contain only 2 to 15 characters.");
+                showWarning("Invalid Name", "Your name must contain only 2 to 15 characters.");
             } else if(e.getMessage().equals("length2")) {
                 showWarning("Invalid Name", "The name of your soulmate must contain only 2 to 15 characters.");
             } else if(e.getMessage().equals("char1")) {
                 showWarning("Invalid Name", "Your name must contain only letters.");
             } else if(e.getMessage().equals("char2")) {
                 showWarning("Invalid Name", "The name of your soulmate must contain only letters.");
-            } else if(e.getMessage().equals("year")) {
-                showWarning("Invalid Period", "Your year of birth must be an integer between 1880 and 2019.");
+            } else if(e.getMessage().equals("year1")) {
+                showWarning("Invalid Year of Birth", "Your year of birth must be an integer between 1880 and 2019.");
+            } else if(e.getMessage().equals("year2")) {
+                showWarning("Invalid Year of Birth", "The year of birth of your soulmate must be an integer between 1880 and 2019.");
+            } else if(e.getMessage().equals("points") || e.getMessage().equals("linear")) {
+                showWarning("Regression Error", "There are not enough data points for regression. Please use the other algorithms.");
             }
+            resetTask6();
             return;
         }
-        task6TextResult.setText("Your score of compatibility is " + score);
+        System.out.println("Thread passed");
+        DecimalFormat df = new DecimalFormat("0");
+        df.setMaximumFractionDigits(340);        
+        task6TextResult.setText("Your score of compatibility is " + df.format(AnalyzeNames.round(score * 100, 5)) + "%");
+        task6TextResult.setVisible(true);
+
+        if (task6RadioNorm.isSelected() || task6RadioLinear.isSelected()) {
+            task6PieChartResult.getData().clear();
+            task6PieChartResult.setVisible(true);
+
+            PieChart.Data sliceScore = new PieChart.Data("Score", score);
+            PieChart.Data sliceSpace = new PieChart.Data("Space"  , 1 - score);
+
+            task6PieChartResult.getData().add(sliceScore);
+            task6PieChartResult.getData().add(sliceSpace);
+
+            sliceSpace.getNode().setStyle("-fx-pie-color: #F4F4F4;");
+        } else {
+            task6PieChartResult.setVisible(false);
+        }
+        task6LineChartResult.setVisible(false);
+    }
+
+    @FXML
+    void resetTask6() {
+        task6TextName1.setDisable(false);
+        task6RadioMale1.setDisable(false);
+        task6RadioFemale1.setDisable(false);
+        task6TextYear1.setDisable(false);
+        task6TextName2.setDisable(false);
+        task6RadioMale2.setDisable(false);
+        task6RadioFemale2.setDisable(false);
+        task6RadioYounger.setDisable(false);
+        task6RadioOlder.setDisable(false);
+        task6RadioCustom.setDisable(false);
+        task6TextYear2.setDisable(false);
+        task6RadioNKT6.setDisable(false);
+        task6RadioNorm.setDisable(false);
+        task6RadioLinear.setDisable(false);
+        task6ButtonReport.setDisable(false);
+        task6ButtonCancel.setDisable(true);
+        task6ProgressBar.setVisible(false);
+        task6TextResult.setVisible(false);
+        task6PieChartResult.setVisible(false);
+        task6LineChartResult.setVisible(false);
+    }
+
+    @FXML
+    void doTask6AfterThread() {
+        System.out.println("After thread");
+        task6TextName1.setDisable(false);
+        task6RadioMale1.setDisable(false);
+        task6RadioFemale1.setDisable(false);
+        task6TextYear1.setDisable(false);
+        task6TextName2.setDisable(false);
+        task6RadioMale2.setDisable(false);
+        task6RadioFemale2.setDisable(false);
+        task6RadioYounger.setDisable(false);
+        task6RadioOlder.setDisable(false);
+        task6RadioCustom.setDisable(false);
+        task6TextYear2.setDisable(false);
+        task6RadioNKT6.setDisable(false);
+        task6RadioNorm.setDisable(false);
+        task6RadioLinear.setDisable(false);
+        task6ButtonReport.setDisable(false);
+        task6ButtonCancel.setDisable(true);
+        
+
+        String name1, name2;
+        int gender1, gender2;
+        int year1, year2;
+        boolean isYounger = true;
+        name1 = task6TextName1.getText();
+        name2 = task6TextName2.getText();
+        if (task6RadioMale1.isSelected()) {
+            gender1 = 0;
+        } else {
+            gender1 = 1;
+        }
+        year1 = Integer.parseInt(task6TextYear1.getText());
+        if (task6RadioMale2.isSelected()) {
+            gender2 = 0;
+        } else {
+            gender2 = 1;
+        }
+        if (task6RadioYounger.isSelected()) {
+            isYounger = true;
+            year2 = year1 == 2019 ? 2019 : year1 + 1;
+        } else if (task6RadioOlder.isSelected()) {
+            isYounger = false;
+            year2 = year1 == 1880 ? 1880 : year1 - 1;
+        } else {
+            year2 = Integer.parseInt(task6TextYear2.getText());
+        }        
+        float score;
+        String gender = Constants.genders[gender1];
+        String genderMate = Constants.genders[gender2];
+        ArrayList<Double> linearReg = null;
+        Pair<Double, ArrayList<Double>> ret = Activity6Query.executeLinear(task6LinTask1.getValue(), task6LinTask2.getValue(), year1, year2);
+        score = (float)ret.getKey().doubleValue();
+        linearReg = ret.getValue();
+
+        DecimalFormat df = new DecimalFormat("0");
+        df.setMaximumFractionDigits(340);        
+        task6TextResult.setText("Your score of compatibility is " + df.format(AnalyzeNames.round(score * 100, 5)) + "%");
+        task6TextResult.setVisible(true);
+
+        task6PieChartResult.getData().clear();
+        task6PieChartResult.setVisible(true);
+
+        PieChart.Data sliceScore = new PieChart.Data("Score", score);
+        PieChart.Data sliceSpace = new PieChart.Data("Space"  , 1 - score);
+
+        task6PieChartResult.getData().add(sliceScore);
+        task6PieChartResult.getData().add(sliceSpace);
+
+        sliceSpace.getNode().setStyle("-fx-pie-color: #F4F4F4;");
+    
+        task6LineChartResult.setVisible(true);
+        task6LineChartResult.getData().clear();
+        XYChart.Series<Integer, Number> series1 = new XYChart.Series<>();
+        XYChart.Series<Integer, Number> series2 = new XYChart.Series<>();
+        XYChart.Series<Integer, Number> series3 = new XYChart.Series<>();
+        XYChart.Series<Integer, Number> series4 = new XYChart.Series<>();
+        series1.setName(name1);
+        series2.setName(name2);
+        series3.setName(name1 + " Regression");
+        series4.setName(name2 + " Regression");
+
+        RankRecord record = null;
+        RankRecord recordMate = null;
+        int startYear = Math.max(year1, year2);
+        for(int year = startYear; year <= 2019; ++year) {
+            record = AnalyzeNames.getRankRecord(year, name1, gender);
+            recordMate = AnalyzeNames.getRankRecord(year, name2, genderMate);
+            if (record.isValid()) {
+                series1.getData().add(new XYChart.Data<Integer, Number>(year, record.getRank()));
+            }
+            if (recordMate.isValid()) {
+                series2.getData().add(new XYChart.Data<Integer, Number>(year, recordMate.getRank()));
+            }
+        }
+        series3.getData().add(new XYChart.Data<Integer, Number>(startYear, linearReg.get(1).doubleValue()));
+        series3.getData().add(new XYChart.Data<Integer, Number>(2019, linearReg.get(0).doubleValue() * (2019 - startYear) + linearReg.get(1).doubleValue()));
+        series4.getData().add(new XYChart.Data<Integer, Number>(Math.max(year1, year2), linearReg.get(3).doubleValue()));
+        series4.getData().add(new XYChart.Data<Integer, Number>(2019, linearReg.get(2).doubleValue() * (2019 - startYear) + linearReg.get(3).doubleValue()));
+        
+        task6LineChartResult.getData().add(series1);
+        task6LineChartResult.getData().add(series2);
+        task6LineChartResult.getData().add(series3);
+        task6LineChartResult.getData().add(series4);
+
+        
     }
 
     private static void showWarning(String header, String message) {
