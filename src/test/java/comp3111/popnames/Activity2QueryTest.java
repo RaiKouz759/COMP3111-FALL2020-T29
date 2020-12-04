@@ -13,7 +13,8 @@ public class Activity2QueryTest {
 	
 	@Test
 	public void testExecuteQuery() {
-		ArrayList<RankRecord> rankRecords = Activity2Query.executeQuery("Margaret", 1, 1880, 1882).getKey();
+		Activity2Query activity2 = new Activity2Query();
+		ArrayList<RankRecord> rankRecords = activity2.executeQuery("Margaret", 1, 1880, 1882).getKey();
 		assertTrue(rankRecords.size() == 3);
 		
 		assertTrue(rankRecords.get(0).getYear() == 1880);
@@ -31,7 +32,7 @@ public class Activity2QueryTest {
 		assertTrue(rankRecords.get(2).getCount() == 1821);
 		assertTrue(Float.compare(rankRecords.get(2).getPercentage(), (1821 / (float) 107850)) == 0);
 
-		rankRecords = Activity2Query.executeQuery("David", 0, 1941, 1943).getKey();
+		rankRecords = activity2.executeQuery("David", 0, 1941, 1943).getKey();
 		assertTrue(rankRecords.size() == 3);
 		
 		assertTrue(rankRecords.get(0).getYear() == 1941);
