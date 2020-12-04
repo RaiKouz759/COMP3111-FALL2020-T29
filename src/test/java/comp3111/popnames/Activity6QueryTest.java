@@ -2,107 +2,176 @@ package comp3111.popnames;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static junit.framework.TestCase.fail;
 import java.lang.Float;
 import java.util.*;  
+
+import javafx.util.Pair;
 
 import org.junit.Test;
 
 public class Activity6QueryTest {
+	
 	@Test
-	public void testNameLength() {
-		assertFalse(Activity6Query.checkNameLength(""));
-		assertFalse(Activity6Query.checkNameLength("A"));
-		assertTrue(Activity6Query.checkNameLength("Hi"));
-		assertTrue(Activity6Query.checkNameLength("Christiandaniel"));
-		assertFalse(Activity6Query.checkNameLength("Christiandaniels"));
+	public void testValidateInputSuccess() {
+		try{
+			Activity6Query.validate("Daniel", 1999, "Taylor", 2000);
+		} catch (Exception e) {
+			assertTrue(false);
+		}
 	}
 
 	@Test
-	public void testNameCharacter() {
-		assertFalse(Activity6Query.checkNameCharacter(Character.toString((char)('a' - 1))));
-		assertTrue(Activity6Query.checkNameCharacter(Character.toString('a')));
-		assertTrue(Activity6Query.checkNameCharacter(Character.toString((char)('a' + 1))));
-		assertTrue(Activity6Query.checkNameCharacter(Character.toString((char)('z' - 1))));
-		assertTrue(Activity6Query.checkNameCharacter(Character.toString('z')));
-		assertFalse(Activity6Query.checkNameCharacter(Character.toString((char)('z' + 1))));
-		assertFalse(Activity6Query.checkNameCharacter(Character.toString((char)('A' - 1))));
-		assertTrue(Activity6Query.checkNameCharacter(Character.toString('A')));
-		assertTrue(Activity6Query.checkNameCharacter(Character.toString((char)('A' + 1))));
-		assertTrue(Activity6Query.checkNameCharacter(Character.toString((char)('Z' - 1))));
-		assertTrue(Activity6Query.checkNameCharacter(Character.toString('Z')));
-		assertFalse(Activity6Query.checkNameCharacter(Character.toString((char)('Z' + 1))));
-		assertFalse(Activity6Query.checkNameCharacter(Character.toString(' ')));
-		assertFalse(Activity6Query.checkNameCharacter(Character.toString('0')));
-		assertFalse(Activity6Query.checkNameCharacter(Character.toString(',')));
-		assertFalse(Activity6Query.checkNameCharacter(Character.toString('-')));
-		assertFalse(Activity6Query.checkNameCharacter(Character.toString('.')));
-		assertFalse(Activity6Query.checkNameCharacter(Character.toString('_')));
+	public void testValidateInputFailLength1() {
+		try{
+			Activity6Query.validate("D", 1999, "Taylor", 2000);
+			fail();
+		} catch (Exception e) {
+			assertTrue(e.getMessage().equals("length1"));
+		}
 	}
 
 	@Test
-	public void testYearBoundary() {
-		assertFalse(Activity6Query.checkYear(1879));
-		assertTrue(Activity6Query.checkYear(1880));
-		assertTrue(Activity6Query.checkYear(2019));
-		assertFalse(Activity6Query.checkYear(2020));
+	public void testValidateInputFailLength2() {
+		try{
+			Activity6Query.validate("Daniel", 1999, "T", 2000);
+			fail();
+		} catch (Exception e) {
+			assertTrue(e.getMessage().equals("length2"));
+		}
 	}
 
 	@Test
-	public void testFindRankValid() {
-		RankRecord record = Activity6Query.findRank("Olivia", 1, 2019);
-		assertTrue(record.getYear() == 2019);
-		assertTrue(record.getRank() == 1);
-		assertTrue(record.getCount() == 18451);
-		assertTrue(Float.compare(record.getPercentage(), (18451 / (float) 1665373)) == 0);
-		
-		record = Activity6Query.findRank("Zyrielle", 1, 2019);
-		assertTrue(record.getYear() == 2019);
-		//assertTrue(record.getRank() == 17905);
-		assertTrue(record.getRank() == 15442);
-		assertTrue(record.getCount() == 5);
-		assertTrue(Float.compare(record.getPercentage(), (5 / (float) 1665373)) == 0);
-
-		record = Activity6Query.findRank("Liam", 0, 2019);
-		assertTrue(record.getYear() == 2019);
-		assertTrue(record.getRank() == 1);
-		assertTrue(record.getCount() == 20502);
-		assertTrue(Float.compare(record.getPercentage(), (20502 / (float) 1779948)) == 0);
-
-		record = Activity6Query.findRank("Zyran", 0, 2019);
-		assertTrue(record.getYear() == 2019);
-		//assertTrue(record.getRank() == 14049);
-		assertTrue(record.getRank() == 12080);
-		assertTrue(record.getCount() == 5);
-		assertTrue(Float.compare(record.getPercentage(), (5 / (float) 1779948)) == 0);
+	public void testValidateInputFailChar1() {
+		try{
+			Activity6Query.validate("Daniel*", 1999, "Taylor", 2000);
+			fail();
+		} catch (Exception e) {
+			assertTrue(e.getMessage().equals("char1"));
+		}
 	}
 
 	@Test
-	public void testFindRankInvalid() {
-		RankRecord record = Activity6Query.findRank("Testing", 1, 2019);
-		assertTrue(record.getYear() == 2019);
-		assertTrue(record.getRank() == -1);
-		assertTrue(record.getCount() == -1);
-		assertTrue(Float.compare(record.getPercentage(), -1) == 0);
-
-		record = Activity6Query.findRank("Testing", 0, 2019);
-		assertTrue(record.getYear() == 2019);
-		assertTrue(record.getRank() == -1);
-		assertTrue(record.getCount() == -1);
-		assertTrue(Float.compare(record.getPercentage(), -1) == 0);
+	public void testValidateInputFailChar2() {
+		try{
+			Activity6Query.validate("Daniel", 1999, "Taylo_r", 2000);
+			fail();
+		} catch (Exception e) {
+			assertTrue(e.getMessage().equals("char2"));
+		}
 	}
 
 	@Test
-	public void testExecuteQuery() {
-		float score = Activity6Query.executeQuery("Daniel", 0, 1999, "Taylor", 1, true);
+	public void testValidateInputFailYear1() {
+		try{
+			Activity6Query.validate("Daniel", 2020, "Taylor", 2000);
+			fail();
+		} catch (Exception e) {
+			assertTrue(e.getMessage().equals("year1"));
+		}
+	}
+
+	@Test
+	public void testValidateInputFailYear2() {
+		try{
+			Activity6Query.validate("Daniel", 1999, "Taylor", 1879);
+			fail();
+		} catch (Exception e) {
+			assertTrue(e.getMessage().equals("year2"));
+		}
+	}
+
+	@Test
+	public void testMostSimilarIdentical() {
+		assertTrue(Activity6Query.mostSimilar(1999, "Daniel", "M").equals("Daniel"));
+	}
+
+	@Test
+	public void testMostSimilarDifferent() {
+		assertTrue(Activity6Query.mostSimilar(1999, "Danieli", "M").equals("Daniel"));
+	}
+
+	/*@Test
+	public void testMostSimilarEmpty() {
+		assertNull(Activity6Query.mostSimilar(2020, "Daniel", "M"));
+	}*/
+
+	@Test
+	public void testExecuteQueryNKT6Invalid() {
+		try{
+			Activity6Query.executeNKT6("D", 0, 1999, "Taylor", 1, true, false);
+			fail();
+		} catch (Exception e) {
+			assertTrue(e.getMessage().equals("length1"));
+		}
+	}
+
+	@Test
+	public void testExecuteQueryNKT6Younger() {
+		float score = Activity6Query.executeNKT6("Daniel", 0, 1999, "Taylor", 1, true, false);
 		assertTrue(Float.compare(score, (8 / (float) 9)) == 0);
-
-		score = Activity6Query.executeQuery("Taylor", 1, 2000, "Daniel", 0, false);
-		assertTrue(Float.compare(score, 0.9f) == 0);
-
-		score = Activity6Query.executeQuery("Daniellll", 0, 1999, "Taylorrrrr", 1, true);
-		assertTrue(Float.compare(score, 1.0f) == 0);
 	}
 
+	@Test
+	public void testExecuteQueryNKT6Older() {
+		float score = Activity6Query.executeNKT6("Taylor", 1, 2000, "Daniel", 0, false, false);
+		assertTrue(Float.compare(score, 0.9f) == 0);
+	}
+
+	@Test
+	public void testExecuteQueryNKT6NotFound1() {
+		float score = Activity6Query.executeNKT6("Danieli", 0, 1999, "Taylor", 1, true, false);
+		assertTrue(Float.compare(score, (8 / (float) 9)) == 0);
+	}
+
+	@Test
+	public void testExecuteQueryNKT6NotFound2() {
+		float score = Activity6Query.executeNKT6("Taylor", 1, 2000, "Danieli", 0, false, false);
+		assertTrue(Float.compare(score, 0.9f) == 0);
+	}
+
+	@Test
+	public void testExecuteQueryNormalized1() {
+		float score = Activity6Query.executeNKT6("Emma", 1, 2019, "Emma", 1, true, true);
+		assertTrue(Float.compare(score, 1) == 0);
+	}
+
+	@Test
+	public void testExecuteQueryNormalized2() {
+		float score = Activity6Query.executeNKT6("Mary", 1, 1880, "Mary", 1, false, true);
+		assertTrue(Float.compare(score, 1) == 0);
+	}
+	
+
+	@Test
+	public void testPrepareLinearInvalid() {
+		try{
+			Activity6Query.prepareLinear("D", 0, 1999, "Taylor", 1, 2, 2000);
+			fail();
+		} catch (Exception e) {
+			assertTrue(e.getMessage().equals("length1"));
+		}
+	}
+
+	@Test
+	public void testPrepareLinearValid() {
+		try{
+			Activity6Query.prepareLinear("Daniel", 0, 1999, "Taylor", 1, 2, 2000);
+		} catch (Exception e) {
+			assertTrue(false);
+		}
+		assertTrue(true);
+	}
+
+	@Test
+	public void testExecuteLinear () {
+		Pair<Double, Double> result1 = new Pair<Double, Double>(1.0, 2.0);
+		Pair<Double, Double> result2 = new Pair<Double, Double>(5.0, 6.0);
+		Pair<Double, ArrayList<Double>> ret = Activity6Query.executeLinear(result1, result2, 2000, 1990);
+		assertTrue(ret.getKey() >= 0 && ret.getKey() <= 100);
+	}
+/*
 	@Test
 	public void testExecuteQueryInvalid() {
 		float score;
@@ -138,5 +207,5 @@ public class Activity6QueryTest {
 		try{
 			score = Activity6Query.executeQuery("Daniel", 0, 2020, "Taylor", 1, true);
 		} catch (Exception e) {}
-	}
+	}*/
 }
