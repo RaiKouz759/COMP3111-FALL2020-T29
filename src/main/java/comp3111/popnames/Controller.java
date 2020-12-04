@@ -450,52 +450,6 @@ public class Controller implements Initializable{
         // end of initialization for activity 6
 
 
-//        tabpane.getSelectionModel().selectedItemProperty().addListener((ChangeListener<? super Tab>) new ChangeListener<Tab>() { 
-//			@Override
-//			public void changed(ObservableValue<? extends Tab> observable, Tab oldValue, Tab newValue) {
-//				// TODO Auto-generated method stub
-//				if(newValue.equals(historyTab)) {
-//			        // initialize contents of history tab
-//					String filePath = new File("").getAbsolutePath();
-//					filePath = filePath.concat("/src/main/resources/logs");
-//					
-//					// create directory if it does not exists
-//					new File(filePath).mkdirs();
-//					File dir = new File(filePath);
-//					File[] directoryListing = dir.listFiles();
-//					if (directoryListing != null) {
-//				        ArrayList<String> log_list = new ArrayList<String>();
-//					    for (File child : directoryListing) {
-//					      log_list.add(child.getName());
-//					    }
-//				        log_obList = FXCollections.observableList(log_list);
-//				        log_obList.addListener(new ListChangeListener<String> () {
-//			
-//							@Override
-//							public void onChanged(Change<? extends String> c) {
-//								// TODO Auto-generated method stub
-//								 System.out.println("adding" + c); 
-//							     historyChoice.getItems().setAll(log_obList);
-//							}
-//				        	
-//				            });
-//				        historyChoice.setItems(log_obList);
-//				        if (log_obList.size() > 0) {
-//				        	historyChoice.setValue(log_obList.get(0));
-//				        }
-//					  } else {
-//					    // Handle the case where dir is not really a directory.
-//					    // Checking dir.isDirectory() above would not be sufficient
-//					    // to avoid race conditions with another process that deletes
-//					    // directories.
-//						  showWarning("Error", "Error initializing the history tab");
-//					  }
-//				}
-//				
-//			}
-//
-//        });
-
         historyTableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         // display the change in the tableview after selecting the choicebox. 
         historyChoice.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
@@ -553,29 +507,7 @@ public class Controller implements Initializable{
 					e.printStackTrace();
 					showWarning("File not found", "File is not found. ");
 					return;
-				}
-		        
-//		        int index = 1;
-//		        for (; index <= numRanks; index++) {
-//		            TableColumn<Map, String> topColumn = new TableColumn<>("Top " + index);
-//		            topColumn.setCellValueFactory(new MapValueFactory<>("top" + index));
-//		            report1Table.getColumns().add(topColumn);
-//		        }
-////		                ObservableList<Map<String, Object>> items =
-//                FXCollections.<Map<String, Object>>observableArrayList();
-//
-//        for (YearRecords y : yearRecordsList) {
-//            Map<String, Object> item = new HashMap<>();
-//            item.put("year", y.getYear());
-//            index = 1;
-//            for (NameRecord nr : y.getNameRecordList()) {
-//                item.put("top" + index, nr.getName());
-//                index++;
-//            }
-//            items.add(item);
-//        }
-//        report1Table.getItems().addAll(items);
-		        
+				}		        
 		        
 			}
 		}
@@ -650,9 +582,23 @@ public class Controller implements Initializable{
 
     @FXML
     void rerunTask1(String inputs) {
-		/*fill in the elements here
-
-		*/
+		//fill in the elements here
+// parse the string of inputs and rerun the query
+		ArrayList<String> input_data = new ArrayList<>(Arrays.asList(inputs.split(";")));
+		HashMap<String, String> input_map = new HashMap<>();
+		for (String s : input_data) {
+			String[] input_pair = s.split(":");
+			input_map.put(input_pair[0], input_pair[1]);
+		}
+		numRankTextField.setText(input_map.get("numRankTextField"));
+		if (input_map.get("maleRadioButton").equals("0")) {
+			maleRadioButton.setSelected(true);
+		} else {
+			femaleRadioButton.setSelected(true);
+		}
+		startPeriodTextField.setText(input_map.get("startPeriodTextField"));
+		endPeriodTextField.setText(input_map.get("endPeriodTextField"));
+		
 		doTask1();
     }
 
@@ -689,8 +635,45 @@ public class Controller implements Initializable{
 		/*fill in the elements here
 		
 		*/
-		doTask5();
-		doTask5Part2();
+		ArrayList<String> input_data = new ArrayList<>(Arrays.asList(inputs.split(";")));
+		HashMap<String, String> input_map = new HashMap<>();
+		for (String s : input_data) {
+			String[] input_pair = s.split(":");
+			input_map.put(input_pair[0], input_pair[1]);
+		}
+		app2YourName.setText(input_map.get("app2YourName"));
+		if (input_map.get("app2YourGenderM").equals("0")) {
+			app2YourGenderM.setSelected(true);
+		} else {
+			app2YourGenderF.setSelected(true);
+		}
+		app2YOB.setText(input_map.get("app2YOB"));
+		if (input_map.get("app2SoulGenderM").equals("0")) {
+			app2SoulGenderM.setSelected(true);
+		} else {
+			app2SoulGenderF.setSelected(true);
+		}
+		if (input_map.get("app2SoulYounger").equals("0")) {
+			app2SoulYounger.setSelected(true);
+		} else {
+			app2SoulOlder.setSelected(true);
+		}
+		if (input_map.get("app2RadioNK").equals("1")) {
+			doTask5();
+		} else {
+			app2RadioJaro.setSelected(true);
+			app2Answer.setText(input_map.get("chosenName"));
+			app2Answer.setVisible(true);
+			String query = "Task 5, " + inputs;
+	        try {
+				History.storeHistory(query);
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				System.out.println("Failed to store query history");
+			}
+			}
+		
     }
 
     @FXML
@@ -1027,6 +1010,10 @@ public class Controller implements Initializable{
             	showWarning("Invalid Input", "Please only enter year of births that are within the boundaries stated.");
             	return;
             }
+            if ( !AnalyzeNames.checkNameLength(name)) {
+            	showWarning("Invalid Input", "Please only enter names of length less than 16 characters.");
+            	return;
+            }
             
         } catch(NumberFormatException e) {
             //error catching logic here
@@ -1037,6 +1024,7 @@ public class Controller implements Initializable{
         if(app2RadioNK.isSelected()) {
             oName = Activity5Query.executeQueryNKT5( name, yob, gender, prefGender, prefYounger);
             app2Answer.setText(oName);
+            app2Answer.setVisible(true);
         }else {
         	ArrayList<String> list = new ArrayList<String>();
         	list = Activity5Query.executeQueryJaroStepOne(name, yob, gender, prefGender, prefYounger);
@@ -1099,7 +1087,7 @@ public class Controller implements Initializable{
         }
         
         
-        oName = Activity5Query.executeQueryJaroStepTwo( chosenName, name, yob, prefYounger, prefGender);
+        oName = Activity5Query.executeQueryJaroStepTwo( chosenName, name, gender, yob, prefYounger, prefGender);
     	//clean up
     	step2Radio1.setVisible(false);
     	step2Radio2.setVisible(false);
