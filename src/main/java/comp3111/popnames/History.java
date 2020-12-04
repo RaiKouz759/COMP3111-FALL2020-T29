@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class History {
 	/**
 	 * @param query - assume that the query will be in the form of "Task #, name;age;prefgender;gender"
-	 * @return
+	 * @return string of current date if successful or error if unsuccessful. 
 	 * @throws IOException 
 	 * @throws Exception
 	 */
