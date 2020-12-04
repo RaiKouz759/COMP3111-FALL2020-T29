@@ -20,7 +20,7 @@ import javafx.fxml.FXMLLoader;
 public class Activity6JavaFXTest extends ApplicationTest {
 
 	private Scene s;
-	private TextField name1, name2, year;
+	private TextField name1, name2, year1, year2;
 	private Label result;
 	
 	@Override
@@ -35,43 +35,36 @@ public class Activity6JavaFXTest extends ApplicationTest {
    		s = scene;
 		name1 = (TextField)s.lookup("#task6TextName1");
 		name2 = (TextField)s.lookup("#task6TextName2");
-		year = (TextField)s.lookup("#task6TextYear");
+		year1 = (TextField)s.lookup("#task6TextYear1");
+		year2 = (TextField)s.lookup("#task6TextYear2");
 		result = (Label)s.lookup("#task6TextResult");
 	}
 
     
 	@Test
-	public void testQuery() {	
+	public void testNTK6Valid1() {	
 		clickOn("#tabApp3");
 		name1.setText("Daniel");
 		clickOn("#task6RadioMale1");
-		year.setText("1999");
+		year1.setText("1999");
 		name2.setText("Taylor");
 		clickOn("#task6RadioFemale2");
 		clickOn("#task6RadioYounger");
 		clickOn("#task6ButtonReport");
-		sleep(500);
-		assertTrue(result.getText().startsWith("Your score of compatibility is 0.8888889"));
+		assertTrue(result.getText().startsWith("Your score of compatibility is 88.889%"));
+	}
 
+	@Test
+	public void testNTK6Valid2() {	
+		clickOn("#tabApp3");
 		name1.setText("Taylor");
 		clickOn("#task6RadioFemale1");
-		year.setText("2000");
+		year1.setText("2000");
 		name2.setText("Daniel");
 		clickOn("#task6RadioMale2");
 		clickOn("#task6RadioOlder");
 		clickOn("#task6ButtonReport");
-		sleep(500);
-		assertTrue(result.getText().startsWith("Your score of compatibility is 0.9"));
-
-		name1.setText("Danielllll");
-		clickOn("#task6RadioMale1");
-		year.setText("1999");
-		name2.setText("Taylorrrrr");
-		clickOn("#task6RadioFemale2");
-		clickOn("#task6RadioYounger");
-		clickOn("#task6ButtonReport");
-		sleep(500);
-		assertTrue(result.getText().startsWith("Your score of compatibility is 1.0"));
+		assertTrue(result.getText().startsWith("Your score of compatibility is 90%"));
 	}
 
 	@Test
@@ -79,7 +72,7 @@ public class Activity6JavaFXTest extends ApplicationTest {
 		clickOn("#tabApp3");
 		name1.setText("");
 		clickOn("#task6RadioMale1");
-		year.setText("1999");
+		year1.setText("1999");
 		name2.setText("Taylor");
 		clickOn("#task6RadioFemale2");
 		clickOn("#task6RadioYounger");
@@ -94,7 +87,7 @@ public class Activity6JavaFXTest extends ApplicationTest {
 		clickOn("#tabApp3");
 		name1.setText("Daniel");
 		clickOn("#task6RadioMale1");
-		year.setText("1999");
+		year1.setText("1999");
 		name2.setText("");
 		clickOn("#task6RadioFemale2");
 		clickOn("#task6RadioYounger");
@@ -109,7 +102,7 @@ public class Activity6JavaFXTest extends ApplicationTest {
 		clickOn("#tabApp3");
 		name1.setText("D");
 		clickOn("#task6RadioMale1");
-		year.setText("1999");
+		year1.setText("1999");
 		name2.setText("Taylor");
 		clickOn("#task6RadioFemale2");
 		clickOn("#task6RadioYounger");
@@ -124,7 +117,7 @@ public class Activity6JavaFXTest extends ApplicationTest {
 		clickOn("#tabApp3");
 		name1.setText("Daniel");
 		clickOn("#task6RadioMale1");
-		year.setText("1999");
+		year1.setText("1999");
 		name2.setText("T");
 		clickOn("#task6RadioFemale2");
 		clickOn("#task6RadioYounger");
@@ -139,7 +132,7 @@ public class Activity6JavaFXTest extends ApplicationTest {
 		clickOn("#tabApp3");
 		name1.setText("DanielDanielDani");
 		clickOn("#task6RadioMale1");
-		year.setText("1999");
+		year1.setText("1999");
 		name2.setText("Taylor");
 		clickOn("#task6RadioFemale2");
 		clickOn("#task6RadioYounger");
@@ -154,7 +147,7 @@ public class Activity6JavaFXTest extends ApplicationTest {
 		clickOn("#tabApp3");
 		name1.setText("Daniel");
 		clickOn("#task6RadioMale1");
-		year.setText("1999");
+		year1.setText("1999");
 		name2.setText("TaylorTaylorTayl");
 		clickOn("#task6RadioFemale2");
 		clickOn("#task6RadioYounger");
@@ -169,7 +162,7 @@ public class Activity6JavaFXTest extends ApplicationTest {
 		clickOn("#tabApp3");
 		name1.setText("Daniel*");
 		clickOn("#task6RadioMale1");
-		year.setText("1999");
+		year1.setText("1999");
 		name2.setText("Taylor");
 		clickOn("#task6RadioFemale2");
 		clickOn("#task6RadioYounger");
@@ -184,7 +177,7 @@ public class Activity6JavaFXTest extends ApplicationTest {
 		clickOn("#tabApp3");
 		name1.setText("Daniel");
 		clickOn("#task6RadioMale1");
-		year.setText("1999");
+		year1.setText("1999");
 		name2.setText("Taylor*");
 		clickOn("#task6RadioFemale2");
 		clickOn("#task6RadioYounger");
@@ -199,7 +192,7 @@ public class Activity6JavaFXTest extends ApplicationTest {
 		clickOn("#tabApp3");
 		name1.setText("Daniel");
 		clickOn("#task6RadioMale1");
-		year.setText("1999a");
+		year1.setText("1999a");
 		name2.setText("Taylor");
 		clickOn("#task6RadioFemale2");
 		clickOn("#task6RadioYounger");
@@ -210,11 +203,11 @@ public class Activity6JavaFXTest extends ApplicationTest {
 	}
 
 	@Test
-	public void testYOBBoundaryBegin() {
+	public void testYOBBoundaryBegin1() {
 		clickOn("#tabApp3");
 		name1.setText("Daniel");
 		clickOn("#task6RadioMale1");
-		year.setText("1879");
+		year1.setText("1879");
 		name2.setText("Taylor");
 		clickOn("#task6RadioFemale2");
 		clickOn("#task6RadioYounger");
@@ -225,11 +218,24 @@ public class Activity6JavaFXTest extends ApplicationTest {
 	}
 
 	@Test
-	public void testYOBBoundaryEnd() {
+	public void testYOBBoundaryBegin2() {
 		clickOn("#tabApp3");
 		name1.setText("Daniel");
 		clickOn("#task6RadioMale1");
-		year.setText("2020");
+		year1.setText("1880");
+		name2.setText("Daniel");
+		clickOn("#task6RadioMale2");
+		clickOn("#task6RadioOlder");
+		clickOn("#task6ButtonReport");
+		assertTrue(result.getText().startsWith("Your score of compatibility is 100%"));
+	}
+
+	@Test
+	public void testYOBBoundaryEnd1() {
+		clickOn("#tabApp3");
+		name1.setText("Daniel");
+		clickOn("#task6RadioMale1");
+		year1.setText("2020");
 		name2.setText("Taylor");
 		clickOn("#task6RadioFemale2");
 		clickOn("#task6RadioYounger");
@@ -237,5 +243,182 @@ public class Activity6JavaFXTest extends ApplicationTest {
 		FxAssert.verifyThat("OK", NodeMatchers.isVisible());
 		Node dialogPane = lookup(".dialog-pane").query();
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("Your year of birth must be an integer between")).query();
+	}
+
+	@Test
+	public void testYOBBoundaryEnd2() {
+		clickOn("#tabApp3");
+		name1.setText("Daniel");
+		clickOn("#task6RadioMale1");
+		year1.setText("2019");
+		name2.setText("Daniel");
+		clickOn("#task6RadioMale2");
+		clickOn("#task6RadioYounger");
+		clickOn("#task6ButtonReport");
+		assertTrue(result.getText().startsWith("Your score of compatibility is 100%"));
+	}
+
+	@Test
+	public void testNKT6Custom() {
+		clickOn("#tabApp3");
+		name1.setText("Daniel");
+		clickOn("#task6RadioMale1");
+		year1.setText("1999");
+		name2.setText("Taylor");
+		clickOn("#task6RadioFemale2");
+		clickOn("#task6RadioCustom");
+		year2.setText("2000");
+		clickOn("#task6ButtonReport");
+		FxAssert.verifyThat("OK", NodeMatchers.isVisible());
+		Node dialogPane = lookup(".dialog-pane").query();
+		from(dialogPane).lookup((Text t) -> t.getText().startsWith("Either Younger or Older")).query();
+	}
+
+	@Test
+	public void testNormCustom() {
+		clickOn("#tabApp3");
+		name1.setText("Daniel");
+		clickOn("#task6RadioMale1");
+		year1.setText("1999");
+		name2.setText("Taylor");
+		clickOn("#task6RadioFemale2");
+		clickOn("#task6RadioCustom");
+		year2.setText("2000");
+		clickOn("#task6RadioNorm");
+		clickOn("#task6ButtonReport");
+		FxAssert.verifyThat("OK", NodeMatchers.isVisible());
+		Node dialogPane = lookup(".dialog-pane").query();
+		from(dialogPane).lookup((Text t) -> t.getText().startsWith("Either Younger or Older")).query();
+	}
+
+	@Test
+	public void testLinearCustomInvalidYear() {
+		clickOn("#tabApp3");
+		name1.setText("Daniel");
+		clickOn("#task6RadioMale1");
+		year1.setText("1999");
+		name2.setText("Taylor");
+		clickOn("#task6RadioFemale2");
+		clickOn("#task6RadioCustom");
+		year2.setText("2000a");
+		clickOn("#task6RadioLinear");
+		clickOn("#task6ButtonReport");
+		FxAssert.verifyThat("OK", NodeMatchers.isVisible());
+		Node dialogPane = lookup(".dialog-pane").query();
+		from(dialogPane).lookup((Text t) -> t.getText().startsWith("The year of birth of your soulmate")).query();
+	}
+
+	@Test
+	public void testLinearCustomOutOfRange() {
+		clickOn("#tabApp3");
+		name1.setText("Daniel");
+		clickOn("#task6RadioMale1");
+		year1.setText("1999");
+		name2.setText("Taylor");
+		clickOn("#task6RadioFemale2");
+		clickOn("#task6RadioCustom");
+		year2.setText("2020");
+		clickOn("#task6RadioLinear");
+		clickOn("#task6ButtonReport");
+		FxAssert.verifyThat("OK", NodeMatchers.isVisible());
+		Node dialogPane = lookup(".dialog-pane").query();
+		from(dialogPane).lookup((Text t) -> t.getText().startsWith("The year of birth of your soulmate")).query();
+	}
+
+	@Test
+	public void testNormValid() {	
+		clickOn("#tabApp3");
+		name1.setText("Daniel");
+		clickOn("#task6RadioMale1");
+		year1.setText("1999");
+		name2.setText("Taylor");
+		clickOn("#task6RadioFemale2");
+		clickOn("#task6RadioYounger");
+		year2.setText("2000");
+		clickOn("#task6RadioNorm");
+		clickOn("#task6ButtonReport");
+		assertTrue(result.getText().startsWith("Your score of compatibility is 97.956%"));
+	}
+
+	@Test
+	public void testLinearValidMaleFemaleYounger() {	
+		clickOn("#tabApp3");
+		name1.setText("Daniel");
+		clickOn("#task6RadioMale1");
+		year1.setText("1999");
+		name2.setText("Taylor");
+		clickOn("#task6RadioFemale2");
+		clickOn("#task6RadioYounger");
+		year2.setText("2000");
+		clickOn("#task6RadioLinear");
+		clickOn("#task6ButtonReport");
+		sleep(5000);
+		assertTrue(result.getText().startsWith("Your score of compatibility is 75.302%"));
+	}
+
+	@Test
+	public void testLinearValidFemaleMaleOlder() {	
+		clickOn("#tabApp3");
+		name1.setText("Taylor");
+		clickOn("#task6RadioFemale1");
+		year1.setText("2000");
+		name2.setText("Daniel");
+		clickOn("#task6RadioMale2");
+		clickOn("#task6RadioOlder");
+		year2.setText("1999");
+		clickOn("#task6RadioLinear");
+		clickOn("#task6ButtonReport");
+		sleep(5000);
+		assertTrue(result.getText().startsWith("Your score of compatibility is 75.302%"));
+	}
+
+	@Test
+	public void testLinearValidCustom() {	
+		clickOn("#tabApp3");
+		name1.setText("Taylor");
+		clickOn("#task6RadioFemale1");
+		year1.setText("2000");
+		name2.setText("Daniel");
+		clickOn("#task6RadioMale2");
+		clickOn("#task6RadioCustom");
+		year2.setText("1999");
+		clickOn("#task6RadioLinear");
+		clickOn("#task6ButtonReport");
+		sleep(5000);
+		assertTrue(result.getText().startsWith("Your score of compatibility is 75.302%"));
+	}
+
+	@Test
+	public void testLinearValidMissingPoints() {	
+		clickOn("#tabApp3");
+		name1.setText("Zo");
+		clickOn("#task6RadioFemale1");
+		year1.setText("2005");
+		name2.setText("Kin");
+		clickOn("#task6RadioMale2");
+		clickOn("#task6RadioCustom");
+		year2.setText("2005");
+		clickOn("#task6RadioLinear");
+		clickOn("#task6ButtonReport");
+		sleep(5000);
+		assertTrue(result.getText().startsWith("Your score of compatibility is 99.999%"));
+	}
+
+	@Test
+	public void testLinearFail() {	
+		clickOn("#tabApp3");
+		name1.setText("Daniel");
+		clickOn("#task6RadioMale1");
+		year1.setText("2019");
+		name2.setText("Taylor");
+		clickOn("#task6RadioFemale2");
+		clickOn("#task6RadioYounger");
+		year2.setText("2000");
+		clickOn("#task6RadioLinear");
+		clickOn("#task6ButtonReport");
+		sleep(5000);
+		FxAssert.verifyThat("OK", NodeMatchers.isVisible());
+		Node dialogPane = lookup(".dialog-pane").query();
+		from(dialogPane).lookup((Text t) -> t.getText().startsWith("There are not enough data points")).query();
 	}
 }
