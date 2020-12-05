@@ -57,7 +57,8 @@ public class Activity1JavaFXTest extends ApplicationTest {
 	 */
 	@Test
 	public void testNInvalid() {
-		// test N 
+		// test N \
+		sleep(50);
 		clickOn("#tabReport1");
 		n.setText("0");
 		start.setText("1880");

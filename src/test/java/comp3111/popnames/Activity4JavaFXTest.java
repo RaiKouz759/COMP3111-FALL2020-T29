@@ -157,7 +157,7 @@ public class Activity4JavaFXTest extends ApplicationTest{
 		dYOB.setText("2020");
 		mName.setText("Mary");
 		mYOB.setText("1947");
-		vYear.setText("1999";
+		vYear.setText("1999");
 		clickOn("#t4_jaro");
 		clickOn("#t4_gr");
 		FxAssert.verifyThat("OK", NodeMatchers.isVisible());
