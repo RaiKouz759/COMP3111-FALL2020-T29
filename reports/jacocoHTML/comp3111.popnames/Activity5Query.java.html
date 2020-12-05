@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Activity5Query.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">PopNames3111</a> &gt; <a href="index.source.html" class="el_package">comp3111.popnames</a> &gt; <span class="el_source">Activity5Query.java</span></div><h1>Activity5Query.java</h1><pre class="source lang-java linenums">package comp3111.popnames;
+
+import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.TreeMap;
+
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
+
+import edu.duke.FileResource;
+
+/**
+ * This class deals mainly with Task 5 of the project. It contains only static functions that validate input and execute one of two types of queries.
+ * Inputs that are validated include the name and the year of birth of the user. The basic algorithm is contained in the executeQueryNKT5 function, 
+ * while the jaro algorithm is split into two functions as further input is needed from the user after the first step. 
+ * 
+ * @author Alex
+ *
+ */
+<span class="nc" id="L29">public class Activity5Query {</span>
+	
+	/**
+	 * Input validation.
+	 * 
+	 * @param name name of the person querying.
+	 * @return boolean checking if the name has at least one length and that it only contains letters. 
+	 */
+	public static boolean isNameCorrect(String name) {
+<span class="fc" id="L38">		name = name.strip();</span>
+<span class="fc bfc" id="L39" title="All 2 branches covered.">		if (name.length() == 0) {</span>
+<span class="fc" id="L40">			return false;</span>
+		}
+<span class="fc" id="L42">		return name.chars().allMatch(Character::isLetter);</span>
+	}
+	
+	/**
+	 * Input Validation. 
+	 * 
+	 * @param yob year of birth of the person querying.
+	 * @return boolean if the year is within the range stated.
+	 */
+	public static boolean isYOBCorrect(int yob) {
+<span class="fc bfc" id="L52" title="All 4 branches covered.">		if (yob &gt;=1880 &amp;&amp; yob &lt;= 2019) {</span>
+<span class="fc" id="L53">			return true;</span>
+		}
+		else {
+<span class="fc" id="L56">			return false;</span>
+		}
+	}
+	
+	/**
+	 * The function to execute NK algorithm. Displays the predicted name based on it.
+	 * 
+	 * @param name name of person querying. 
+	 * @param yob year of birth of person querying.
+	 * @param gender gender of person querying.
+	 * @param prefGender preferred gender of soulmate.
+	 * @param prefYounger whether the user wants his or her soulmate to be younger than him.
+	 * @return the name of predicted soulmate. 
+	 */
+	public static String executeQueryNKT5(String name, int yob, int gender, int prefGender, boolean prefYounger) {
+		/** magic number is 17 &amp; assume that all inputs have been verified. 
+		 */
+<span class="fc" id="L73">		int magicNum = 17;</span>
+<span class="fc" id="L74">		String formatted_name = name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();</span>
+<span class="fc" id="L75">		int oRank = magicNum;</span>
+<span class="fc" id="L76">		String str_gender = Constants.genders[gender];</span>
+<span class="fc" id="L77">		String str_prefGender = Constants.genders[prefGender];</span>
+		
+		// go through the csv file with the same yob as user
+<span class="fc" id="L80">		CSVParser fileParser = AnalyzeNames.getFileParser(yob);</span>
+<span class="fc" id="L81">		int rank = 1;</span>
+<span class="fc" id="L82">		boolean matched = false;</span>
+<span class="fc bfc" id="L83" title="All 2 branches covered.">		for (CSVRecord re : fileParser) {</span>
+<span class="fc bfc" id="L84" title="All 2 branches covered.">			if (!re.get(1).equals(str_gender)) {</span>
+<span class="fc" id="L85">				continue;</span>
+			}
+<span class="fc bfc" id="L87" title="All 2 branches covered.">			if (re.get(0).equals(formatted_name)) {</span>
+<span class="fc" id="L88">				matched = true;</span>
+<span class="fc" id="L89">				oRank = rank;</span>
+<span class="fc" id="L90">				break;</span>
+			}
+<span class="fc" id="L92">			rank++;</span>
+<span class="fc" id="L93">		}</span>
+		
+		// calculate oYOB, take care about edge values
+<span class="fc" id="L96">		int oYOB = yob;</span>
+<span class="pc bpc" id="L97" title="1 of 4 branches missed.">		if (prefYounger &amp;&amp; yob &lt; 2019) {</span>
+<span class="fc" id="L98">			oYOB = yob + 1;</span>
+<span class="pc bpc" id="L99" title="1 of 4 branches missed.">		} else if (!prefYounger &amp;&amp; yob &gt; 1880) {</span>
+<span class="fc" id="L100">			oYOB = yob - 1;</span>
+		}
+		
+		// get name of oRank in the year oYOB with preferred gender, if does not exist, get the highest rank
+<span class="fc" id="L104">		CSVParser fileParser2 = AnalyzeNames.getFileParser(oYOB);</span>
+<span class="fc" id="L105">		int index = 1;</span>
+<span class="fc" id="L106">		String oName = &quot;hello&quot;;</span>
+<span class="fc" id="L107">		String firstMatch = &quot;kurisu&quot;;</span>
+<span class="fc" id="L108">		boolean firstMatched = false;</span>
+<span class="fc bfc" id="L109" title="All 2 branches covered.">		for (CSVRecord re : fileParser2) {</span>
+<span class="fc bfc" id="L110" title="All 2 branches covered.">			if (!re.get(1).equals(str_prefGender)) {</span>
+<span class="fc" id="L111">				continue;</span>
+			}
+<span class="pc bpc" id="L113" title="1 of 4 branches missed.">			if (re.get(1).equals(str_prefGender) &amp;&amp; !firstMatched) {</span>
+<span class="fc" id="L114">				firstMatched = true;</span>
+<span class="fc" id="L115">				firstMatch = re.get(0);</span>
+			}
+<span class="fc bfc" id="L117" title="All 2 branches covered.">			if (index == oRank) {</span>
+<span class="fc" id="L118">				oName = re.get(0);</span>
+<span class="fc" id="L119">				break;</span>
+			}
+<span class="fc" id="L121">			index++;</span>
+<span class="fc" id="L122">		}</span>
+		// in the case where there is no oRank name
+<span class="fc bfc" id="L124" title="All 2 branches covered.">		if (oName.equals(&quot;hello&quot;)) {</span>
+<span class="fc" id="L125">			oName = firstMatch;</span>
+		}
+//		String name, int yob, int gender, int prefGender, boolean prefYounger
+<span class="fc" id="L128">		int prefYoung = 0;</span>
+<span class="fc bfc" id="L129" title="All 2 branches covered.">		if (!prefYounger) {</span>
+<span class="fc" id="L130">			prefYoung = 1;</span>
+		}
+<span class="fc" id="L132">		String query = String.format(&quot;Task 5, app2YourName:%s;app2YourGenderM:%d;app2YOB:%d;app2SoulGenderM:%d;app2SoulYounger:%d;app2RadioNK:%d&quot;, name, gender, yob, prefGender, prefYoung, 1);</span>
+        
+        //saving the query into the history file.
+        try {
+<span class="fc" id="L136">			History.storeHistory(query);</span>
+<span class="nc" id="L137">		} catch (IOException e) {</span>
+			// TODO Auto-generated catch block
+<span class="nc" id="L139">			e.printStackTrace();</span>
+<span class="nc" id="L140">			System.out.println(&quot;Failed to store query history&quot;);</span>
+<span class="fc" id="L141">		}</span>
+		
+<span class="fc" id="L143">		return oName;</span>
+		
+	}
+	
+	/**
+	 * The first step of a two step process. Find a prediction based on jaro distance, takes into account how similar sounding the person's name is to the names in the 
+	 * database. It first shows 6 random names and asks the user to select one, the predicted oName will be the name that is closest to both
+	 * the user and the chosen name. 
+	 * 
+	 * @param name name of user.
+	 * @param yob year of birth of user.
+	 * @param gender gender of user.
+	 * @param prefGender preferred gender of soulmate.
+	 * @param prefYounger if the user prefers to have a younger soulmate.
+	 * @return returns an arraylist of random names to be passed to the second step.
+	 */
+	public static ArrayList&lt;String&gt; executeQueryJaroStepOne(String name, int yob, int gender, int prefGender, boolean prefYounger) { 
+<span class="fc" id="L160">		ArrayList&lt;String&gt; oName = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L161">		String str_prefGender = Constants.genders[prefGender];</span>
+<span class="fc" id="L162">		Map&lt;Integer, Integer&gt; rand_map = new HashMap&lt;&gt;();</span>
+		
+<span class="fc" id="L164">		int oYOB = yob;</span>
+<span class="pc bpc" id="L165" title="2 of 4 branches missed.">		if (prefYounger &amp;&amp; yob &lt; 2019) {</span>
+<span class="fc" id="L166">			oYOB = yob + 1;</span>
+<span class="nc bnc" id="L167" title="All 4 branches missed.">		} else if (!prefYounger &amp;&amp; yob &gt; 1880) {</span>
+<span class="nc" id="L168">			oYOB = yob - 1;</span>
+		}
+		
+		// get max number of ranks
+<span class="fc" id="L172">		CSVParser fileParser = AnalyzeNames.getFileParser(oYOB);</span>
+<span class="fc" id="L173">		int numRanks = 0;</span>
+<span class="fc bfc" id="L174" title="All 2 branches covered.">		for (CSVRecord re : fileParser) {</span>
+<span class="fc bfc" id="L175" title="All 2 branches covered.">			if (re.get(1).equals(str_prefGender)) {</span>
+<span class="fc" id="L176">				numRanks++;</span>
+			}
+<span class="fc" id="L178">		}</span>
+		
+		// storing the random numbers
+<span class="fc bfc" id="L181" title="All 2 branches covered.">		for (int i=0; i&lt;6; i++) {</span>
+<span class="fc" id="L182">			int random_value = ThreadLocalRandom.current().nextInt(1, numRanks + 1);</span>
+<span class="pc bpc" id="L183" title="1 of 2 branches missed.">			while (rand_map.containsKey(random_value)) { </span>
+<span class="nc" id="L184">				random_value = ThreadLocalRandom.current().nextInt(1, numRanks + 1);</span>
+			} 
+<span class="fc" id="L186">			System.out.println(random_value);</span>
+<span class="fc" id="L187">			rand_map.put(random_value, 1);</span>
+<span class="fc" id="L188">			System.out.println(rand_map.get(random_value));</span>
+		}
+		
+<span class="fc" id="L191">		int curr_rank = 1;</span>
+<span class="fc" id="L192">		fileParser = AnalyzeNames.getFileParser(oYOB);</span>
+<span class="fc bfc" id="L193" title="All 2 branches covered.">		for (CSVRecord re : fileParser) {</span>
+<span class="fc bfc" id="L194" title="All 2 branches covered.">			if (re.get(1).equals(str_prefGender)) {</span>
+<span class="fc" id="L195">				curr_rank++; </span>
+<span class="fc bfc" id="L196" title="All 2 branches covered.">				if (rand_map.containsKey(curr_rank)) {</span>
+<span class="fc" id="L197">					oName.add(re.get(0));</span>
+				}				
+			}
+<span class="fc" id="L200">		}</span>
+
+<span class="fc" id="L202">		return oName;</span>
+	}
+	
+	/**
+	 * The second step of the Jaro algorithm. It takes the chosen name of the user and searches against the database for the name that sounds most similar to both the user and 
+	 * the chosen name.
+	 * 
+	 * @param chosenName chosen name from step one.
+	 * @param name name of the user.
+	 * @param yob year of birth of the user. 
+	 * @param prefYounger boolean of whether the user prefers a younger soulmate.
+	 * @param prefGender whether the user prefers a male or female soulmate
+	 * @return the name of the predicted soulamate. 
+	 */
+	public static String executeQueryJaroStepTwo(String chosenName, String name, int gender, int yob, boolean prefYounger, int prefGender) {
+<span class="fc" id="L217">		String oName = &quot;undefined&quot;;</span>
+<span class="fc" id="L218">		String formatted_name = name.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();</span>
+		
+<span class="fc" id="L220">		int oYOB = yob;</span>
+<span class="pc bpc" id="L221" title="1 of 4 branches missed.">		if (prefYounger &amp;&amp; yob &lt; 2019) {</span>
+<span class="fc" id="L222">			oYOB = yob + 1;</span>
+<span class="pc bpc" id="L223" title="2 of 4 branches missed.">		} else if (!prefYounger &amp;&amp; yob &gt; 1880) {</span>
+<span class="fc" id="L224">			oYOB = yob - 1;</span>
+		}
+<span class="fc" id="L226">		String pref_Gender = Constants.genders[prefGender];</span>
+		//store the product of the similarities between the chosen name and name. 
+<span class="fc" id="L228">		Map&lt;Double, String&gt; dscsortedMAP = new TreeMap&lt;Double, String&gt;(new Comparator&lt;Double&gt;() {</span>
+		
+			@Override
+			public int compare(Double o1, Double o2) {
+<span class="fc" id="L232">				return o2.compareTo(o1);</span>
+			}
+		});
+		
+<span class="fc" id="L236">		CSVParser fileParser = AnalyzeNames.getFileParser(oYOB);</span>
+<span class="fc bfc" id="L237" title="All 2 branches covered.">		for (CSVRecord re : fileParser) {</span>
+<span class="fc bfc" id="L238" title="All 2 branches covered.">			if (re.get(1).equals(pref_Gender)) {</span>
+<span class="fc" id="L239">				double prod_score = Algorithm.jaro_distance(chosenName, re.get(0)) * Algorithm.jaro_distance(formatted_name, re.get(0));</span>
+<span class="fc" id="L240">				dscsortedMAP.put(prod_score, chosenName);</span>
+			}
+<span class="fc" id="L242">		}</span>
+<span class="pc bpc" id="L243" title="1 of 2 branches missed.">		for (Entry&lt;Double, String&gt; mapData : dscsortedMAP.entrySet()) {</span>
+<span class="fc" id="L244">			oName =  mapData.getValue();</span>
+<span class="fc" id="L245">			break;</span>
+		}
+		
+		// getting inputs to store. gender - 0=male, prefgender -0=Male, app2radionk - 0=not using nk algo
+<span class="fc" id="L249">		int prefYoung = 0;</span>
+<span class="fc bfc" id="L250" title="All 2 branches covered.">		if (!prefYounger) {</span>
+<span class="fc" id="L251">			prefYoung = 1;</span>
+		}
+<span class="fc" id="L253">		String query = String.format(&quot;Task 5, app2YourName:%s;app2YourGenderM:%d;app2YOB:%d;app2SoulGenderM:%d;app2SoulYounger:%d;app2RadioNK:%d;chosenName:%s&quot;, formatted_name, gender, yob, prefGender, prefYoung, 0, chosenName);</span>
+        
+        //saving the query into the history file.
+        try {
+<span class="fc" id="L257">			History.storeHistory(query);</span>
+<span class="nc" id="L258">		} catch (IOException e) {</span>
+			// TODO Auto-generated catch block
+<span class="nc" id="L260">			e.printStackTrace();</span>
+<span class="nc" id="L261">			System.out.println(&quot;Failed to store query history&quot;);</span>
+<span class="fc" id="L262">		}</span>
+        
+		
+<span class="fc" id="L265">		return oName;	</span>
+		
+
+
+	}
+	
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

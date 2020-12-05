@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>RankRecord.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">PopNames3111</a> &gt; <a href="index.source.html" class="el_package">comp3111.popnames</a> &gt; <span class="el_source">RankRecord.java</span></div><h1>RankRecord.java</h1><pre class="source lang-java linenums">package comp3111.popnames;
+
+/**
+ * @author auyfg
+ *
+ */
+public class RankRecord {
+	private final int year;
+	private int rank;
+	private int count;
+	private float percentage;
+	private boolean isValid;
+	
+	/**
+	 * @param year
+	 */
+<span class="fc" id="L17">	public RankRecord(int year) {</span>
+<span class="fc" id="L18">		this.year = year;</span>
+<span class="fc" id="L19">		rank = -1;</span>
+<span class="fc" id="L20">		count = -1;</span>
+<span class="fc" id="L21">		percentage = -1;</span>
+<span class="fc" id="L22">		isValid = false;</span>
+<span class="fc" id="L23">	}</span>
+
+	/**
+	 * @param rank
+	 * @param count
+	 */
+	public void set(int rank, int count) {
+<span class="fc" id="L30">		isValid = true;</span>
+<span class="fc" id="L31">		this.rank = rank;</span>
+<span class="fc" id="L32">		this.count = count;</span>
+<span class="fc" id="L33">	}</span>
+
+	/**
+	 * @param total
+	 */
+	public void setTotalCount(int total) {
+<span class="fc bfc" id="L39" title="All 2 branches covered.">		if(isValid)</span>
+<span class="fc" id="L40">			percentage = count / (float) total;</span>
+<span class="fc" id="L41">	}</span>
+
+
+	/**
+	 * @return
+	 */
+	public int getYear() {
+<span class="fc" id="L48">		return year;</span>
+	}
+
+	/**
+	 * @return
+	 */
+	public int getRank() {
+<span class="fc bfc" id="L55" title="All 2 branches covered.">		if(!isValid)</span>
+<span class="fc" id="L56">			return -1;</span>
+<span class="fc" id="L57">		return rank;</span>
+	}
+
+	/**
+	 * @return
+	 */
+	public int getCount() {
+<span class="pc bpc" id="L64" title="1 of 2 branches missed.">		if(!isValid)</span>
+<span class="nc" id="L65">			return -1;</span>
+<span class="fc" id="L66">		return count;</span>
+	}
+
+	/**
+	 * @return
+	 */
+	public float getPercentage() {
+<span class="pc bpc" id="L73" title="1 of 2 branches missed.">		if(!isValid)</span>
+<span class="nc" id="L74">			return -1;</span>
+<span class="fc" id="L75">		return percentage;</span>
+	}
+
+	/**
+	 * @return
+	 */
+	public boolean isValid() {
+<span class="fc" id="L82">		return isValid;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
