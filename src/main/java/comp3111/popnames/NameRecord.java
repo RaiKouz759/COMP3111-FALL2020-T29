@@ -14,9 +14,11 @@ public class NameRecord {
 	
 	
 	/**
-	 * @param name
-	 * @param gender
-	 * @param numOfOccur
+	 * Constructor for NameRecord.
+	 * 
+	 * @param name name of the person. 
+	 * @param gender gender of person stored in int.
+	 * @param numOfOccur number of times this name appears.
 	 */
 	public NameRecord(String name, int gender, int numOfOccur) {
 		this.name = name;
@@ -25,31 +27,59 @@ public class NameRecord {
 	}
 
 
+	/**
+	 * getter for name. 
+	 * 
+	 * @return
+	 */
 	public String getName() {
 		return name;
 	}
 
 
+	/**
+	 * setter for name. 
+	 * 
+	 * @param name
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
 
+	/**
+	 * getter for gender.
+	 * 
+	 * @return
+	 */
 	public int getGender() {
 		return gender;
 	}
 
 
+	/**
+	 * setter for gender
+	 * 
+	 * @param gender
+	 */
 	public void setGender(int gender) {
 		this.gender = gender;
 	}
 
 
+	/**
+	 * getter for number of occurrences
+	 * 
+	 * @return
+	 */
 	public int getNumOfOccur() {
 		return numOfOccur;
 	}
 
 
+	/**
+	 * @param numOfOccur
+	 */
 	public void setNumOfOccur(int numOfOccur) {
 		this.numOfOccur = numOfOccur;
 	}
