@@ -17,12 +17,21 @@ import javafx.stage.Stage;
 import javafx.scene.text.Text;
 import javafx.fxml.FXMLLoader;
 
+/**
+ * This class focuses solely on FX tests for the Task4 class, focusing on input validation and ensuring that valid output is obtained. 
+ * 
+ * @author Amrutavarsh
+ *
+ */
 public class Activity4JavaFXTest extends ApplicationTest{
 	private Scene s;
 	private TextField dName, dYOB, mName, mYOB, vYear;
 	private RadioButton algorithm;
 	private Label bHeader, gHeader, b1, b2, b3, g1, g2, g3;
 	
+	/**
+	 * Initializes the scene and references all the necessary ui elements for testing. 
+	 */
 	@Override
 	public void start(Stage stage) throws Exception {
     	FXMLLoader loader = new FXMLLoader();
@@ -48,6 +57,9 @@ public class Activity4JavaFXTest extends ApplicationTest{
 		g3 = (Label)s.lookup("#t4_g3");
 	}
 	
+	/*
+	 * Test standard input query for NT-4K algorithm
+	 */
 	@Test
 	public void testQuery1() {
 		clickOn("#tabApp1");
@@ -69,6 +81,9 @@ public class Activity4JavaFXTest extends ApplicationTest{
 		assertTrue(g3.getText().equals(""));
 	}
 	
+	/*
+	 * Test standard input query for Jaro algorithm
+	 */
 	@Test
 	public void testQuery2() {
 		clickOn("#tabApp1");
@@ -90,6 +105,9 @@ public class Activity4JavaFXTest extends ApplicationTest{
 		assertTrue(g3.getText().equals("Marye : 0.56"));
 	}
 	
+	/*
+	 * Test NaN year input for dYOB
+	 */
 	@Test
 	public void NaN_year1() {
 		clickOn("#tabApp1");
@@ -105,6 +123,9 @@ public class Activity4JavaFXTest extends ApplicationTest{
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("Period must be")).query();
 	}
 	
+	/*
+	 * Test NaN year input for mYOB
+	 */
 	@Test
 	public void NaN_year2() {
 		clickOn("#tabApp1");
@@ -120,6 +141,9 @@ public class Activity4JavaFXTest extends ApplicationTest{
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("Period must be")).query();
 	}
 	
+	/*
+	 * Test NaN year input for vYear
+	 */
 	@Test
 	public void NaN_year3() {
 		clickOn("#tabApp1");
@@ -135,6 +159,9 @@ public class Activity4JavaFXTest extends ApplicationTest{
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("Period must be")).query();
 	}
 	
+	/*
+	 * Test lower boundary case for dYOB
+	 */
 	@Test
 	public void dYOB_lower_boundary() {
 		clickOn("#tabApp1");
@@ -150,6 +177,9 @@ public class Activity4JavaFXTest extends ApplicationTest{
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("Dad Year of Birth")).query();
 	}
 	
+	/*
+	 * Test upper boundary case for dYOB
+	 */
 	@Test
 	public void dYOB_upper_boundary() {
 		clickOn("#tabApp1");
@@ -157,7 +187,7 @@ public class Activity4JavaFXTest extends ApplicationTest{
 		dYOB.setText("2020");
 		mName.setText("Mary");
 		mYOB.setText("1947");
-		vYear.setText("1999";
+		vYear.setText("1999");
 		clickOn("#t4_jaro");
 		clickOn("#t4_gr");
 		FxAssert.verifyThat("OK", NodeMatchers.isVisible());
@@ -165,6 +195,9 @@ public class Activity4JavaFXTest extends ApplicationTest{
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("Dad Year of Birth")).query();
 	}
 	
+	/*
+	 * Test upper boundary case for mYOB
+	 */
 	@Test
 	public void mYOB_upper_boundary() {
 		clickOn("#tabApp1");
@@ -180,6 +213,9 @@ public class Activity4JavaFXTest extends ApplicationTest{
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("Mom Year of Birth")).query();
 	}
 	
+	/*
+	 * Test lower boundary case for mYOB
+	 */
 	@Test
 	public void mYOB_lower_boundary() {
 		clickOn("#tabApp1");
@@ -195,6 +231,9 @@ public class Activity4JavaFXTest extends ApplicationTest{
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("Mom Year of Birth")).query();
 	}
 	
+	/*
+	 * Test upper boundary case for vYear
+	 */
 	@Test
 	public void vYear_upper_boundary() {
 		clickOn("#tabApp1");
@@ -210,6 +249,9 @@ public class Activity4JavaFXTest extends ApplicationTest{
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("Vintage Year must be")).query();
 	}
 	
+	/*
+	 * Test lower boundary case for vyear
+	 */
 	@Test
 	public void vYear_lower_boundary() {
 		clickOn("#tabApp1");
@@ -225,6 +267,9 @@ public class Activity4JavaFXTest extends ApplicationTest{
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("Vintage Year must be")).query();
 	}
 	
+	/*
+	 * Test if Dad name length in range
+	 */
 	@Test
 	public void dName_length() {
 		clickOn("#tabApp1");
@@ -240,6 +285,9 @@ public class Activity4JavaFXTest extends ApplicationTest{
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("Dad's name must be")).query();
 	}
 	
+	/*
+	 * Test if Mom name length in range
+	 */
 	@Test
 	public void mName_length() {
 		clickOn("#tabApp1");
@@ -255,6 +303,9 @@ public class Activity4JavaFXTest extends ApplicationTest{
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("Mom's name must be")).query();
 	}
 	
+	/*
+	 * Test Dad name for illegal character
+	 */
 	@Test
 	public void dName_char() {
 		clickOn("#tabApp1");
@@ -270,6 +321,9 @@ public class Activity4JavaFXTest extends ApplicationTest{
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("Dad's name has")).query();
 	}
 	
+	/*
+	 * Test Mom name for illegal character
+	 */
 	@Test
 	public void dmName_char() {
 		clickOn("#tabApp1");
