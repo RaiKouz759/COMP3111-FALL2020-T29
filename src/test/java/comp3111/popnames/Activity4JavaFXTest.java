@@ -50,7 +50,7 @@ public class Activity4JavaFXTest extends ApplicationTest{
 	
 	@Test
 	public void testQuery1() {
-		clickOn("#tabReport4");
+		clickOn("#tabApp1");
 		dName.setText("James");
 		dYOB.setText("1943");
 		mName.setText("Mary");
@@ -71,7 +71,7 @@ public class Activity4JavaFXTest extends ApplicationTest{
 	
 	@Test
 	public void testQuery2() {
-		clickOn("#tabReport4");
+		clickOn("#tabApp1");
 		dName.setText("James");
 		dYOB.setText("1943");
 		mName.setText("Mary");
@@ -92,7 +92,7 @@ public class Activity4JavaFXTest extends ApplicationTest{
 	
 	@Test
 	public void NaN_year1() {
-		clickOn("#tabReport4");
+		clickOn("#tabApp1");
 		dName.setText("James");
 		dYOB.setText("a");
 		mName.setText("Mary");
@@ -107,7 +107,7 @@ public class Activity4JavaFXTest extends ApplicationTest{
 	
 	@Test
 	public void NaN_year2() {
-		clickOn("#tabReport4");
+		clickOn("#tabApp1");
 		dName.setText("James");
 		dYOB.setText("1943");
 		mName.setText("Mary");
@@ -122,7 +122,7 @@ public class Activity4JavaFXTest extends ApplicationTest{
 	
 	@Test
 	public void NaN_year3() {
-		clickOn("#tabReport4");
+		clickOn("#tabApp1");
 		dName.setText("James");
 		dYOB.setText("1943");
 		mName.setText("Mary");
@@ -137,7 +137,7 @@ public class Activity4JavaFXTest extends ApplicationTest{
 	
 	@Test
 	public void dYOB_lower_boundary() {
-		clickOn("#tabReport4");
+		clickOn("#tabApp1");
 		dName.setText("James");
 		dYOB.setText("1879");
 		mName.setText("Mary");
@@ -152,7 +152,7 @@ public class Activity4JavaFXTest extends ApplicationTest{
 	
 	@Test
 	public void dYOB_upper_boundary() {
-		clickOn("#tabReport4");
+		clickOn("#tabApp1");
 		dName.setText("James");
 		dYOB.setText("2020");
 		mName.setText("Mary");
@@ -167,7 +167,7 @@ public class Activity4JavaFXTest extends ApplicationTest{
 	
 	@Test
 	public void mYOB_upper_boundary() {
-		clickOn("#tabReport4");
+		clickOn("#tabApp1");
 		dName.setText("James");
 		dYOB.setText("1943");
 		mName.setText("Mary");
@@ -182,7 +182,7 @@ public class Activity4JavaFXTest extends ApplicationTest{
 	
 	@Test
 	public void mYOB_lower_boundary() {
-		clickOn("#tabReport4");
+		clickOn("#tabApp1");
 		dName.setText("James");
 		dYOB.setText("1943");
 		mName.setText("Mary");
@@ -197,7 +197,7 @@ public class Activity4JavaFXTest extends ApplicationTest{
 	
 	@Test
 	public void vYear_upper_boundary() {
-		clickOn("#tabReport4");
+		clickOn("#tabApp1");
 		dName.setText("James");
 		dYOB.setText("1943");
 		mName.setText("Mary");
@@ -212,7 +212,7 @@ public class Activity4JavaFXTest extends ApplicationTest{
 	
 	@Test
 	public void vYear_lower_boundary() {
-		clickOn("#tabReport4");
+		clickOn("#tabApp1");
 		dName.setText("James");
 		dYOB.setText("1943");
 		mName.setText("Mary");
@@ -227,7 +227,7 @@ public class Activity4JavaFXTest extends ApplicationTest{
 	
 	@Test
 	public void dName_length() {
-		clickOn("#tabReport4");
+		clickOn("#tabApp1");
 		dName.setText("J");
 		dYOB.setText("1943");
 		mName.setText("Mary");
@@ -242,7 +242,7 @@ public class Activity4JavaFXTest extends ApplicationTest{
 	
 	@Test
 	public void mName_length() {
-		clickOn("#tabReport4");
+		clickOn("#tabApp1");
 		dName.setText("James");
 		dYOB.setText("1943");
 		mName.setText("M");
@@ -257,7 +257,7 @@ public class Activity4JavaFXTest extends ApplicationTest{
 	
 	@Test
 	public void dName_char() {
-		clickOn("#tabReport4");
+		clickOn("#tabApp1");
 		dName.setText("James*");
 		dYOB.setText("1943");
 		mName.setText("Mary");
@@ -272,7 +272,7 @@ public class Activity4JavaFXTest extends ApplicationTest{
 	
 	@Test
 	public void dmName_char() {
-		clickOn("#tabReport4");
+		clickOn("#tabApp1");
 		dName.setText("James");
 		dYOB.setText("1943");
 		mName.setText("Mary$");

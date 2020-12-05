@@ -998,8 +998,11 @@ public class Controller implements Initializable{
         task2LineChartResult.getData().add(series);
     }
     
-    // Task Three
-
+    /**
+     *  Task Three
+     *  To be triggered by the Generate Report Button in Reporting 3 tab.
+     *  
+     */
     @FXML
     void doTask3() {
     	task3_table.getColumns().clear();
@@ -1091,6 +1094,11 @@ public class Controller implements Initializable{
     	
     }
     
+    /**
+     *  Task Four
+     *  To be triggered by the Get Recommendation in Reporting 4 tab.
+     *  
+     */
     @FXML
     void doTask4() {
     	String dName = t4_dname.getText();
