@@ -31,16 +31,21 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+/**
+ * This test class focuses on testing the reading and rerun functionality of the history class. 
+ * 
+ * @author Alex
+ *
+ */
 public class HistoryFXTest extends ApplicationTest{
 	private Scene s;
-	private TextArea comments;
 	private TableView<Map> table, table2;
-	private TextField n, start, end;
-	private RadioButton male;
-	private ChoiceBox historyChoice;
 	private Label app2Answer;
 
 	
+	/**
+	 * This function initializes the scene and references all the ui elements that will be used in the testing.
+	 */
 	@Override
 	public void start(Stage stage) throws Exception {
     	FXMLLoader loader = new FXMLLoader();
@@ -51,16 +56,16 @@ public class HistoryFXTest extends ApplicationTest{
    		stage.setTitle("Popular Names");
    		stage.show();
    		s = scene;
-		comments = (TextArea)s.lookup("#rep1Comment");
-		n = (TextField)s.lookup("#numRankTextField");
-		start = (TextField)s.lookup("#startPeriodTextField");
-		end = (TextField)s.lookup("#endPeriodTextField");
 		table = (TableView<Map>)s.lookup("#historyTableView");
-		historyChoice = (ChoiceBox)s.lookup("#historyChoice");
 		table2 = (TableView<Map>)s.lookup("#report1Table");
 		app2Answer = (Label)s.lookup("#app2Answer");
 	}
 	
+	/**
+	 * The main purpose of this function is to write a test log file, and to run the queries stored in there. The output is then compared. 
+	 * 
+	 * @throws IOException 
+	 */
 	@Test
 	public void testRerunQueries() throws IOException {
 		// create the test.txt
