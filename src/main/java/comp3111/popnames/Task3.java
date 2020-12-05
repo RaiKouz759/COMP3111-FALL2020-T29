@@ -23,6 +23,14 @@ public class Task3 {
 		return (year >= 1880) && (year <= 2019);
 	}
 	
+	public static boolean checkYearPair(int start, int end) {
+		return (start >= 1880 && end <= 2019 && start <= end);
+	}
+	
+	public static boolean validateTopN(int TopN) {
+		return (TopN >= 1);
+	}
+	
 	public static ArrayList<ArrayList<String>> TopNames(int start_year, int end_year, String gender, int TopN) {
 		ArrayList<ArrayList<String>> Entries = new ArrayList<ArrayList<String>> ();
 		for (int i=1;i<=TopN;i++) {
@@ -68,15 +76,30 @@ public class Task3 {
 		
 		if (checkYear(start_year)) {
 			if(!checkYear(end_year))
-				throw new NumberFormatException("end"); 
+				throw new RuntimeException("end"); 
 		} else {
 			if(checkYear(end_year))
-				throw new NumberFormatException("start"); 
+				throw new RuntimeException("start"); 
 			else
-				throw new NumberFormatException("start end"); 
-		}			
+				throw new RuntimeException("start end"); 
+		}
+		if (!checkYearPair(start_year, end_year)) {
+			throw new RuntimeException("incorrect period order");
+		}
+		if (!validateTopN(TopN)) {
+			throw new RuntimeException("incorrect TopN");
+		}
 		
 		ArrayList<ArrayList<String>> Entries = TopNames(start_year, end_year, gender, TopN);
+		
+		String query = String.format("Task 3, start_year:%d;end_year:%d;gender:%s;topN:%d",
+				 start_year, end_year, gender, TopN);
+		try {
+			History.storeHistory(query);
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("Failed to store query history.");
+		}
 		return Entries;
 	}
 	
