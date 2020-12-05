@@ -135,7 +135,7 @@ public class Task4 {
 			recommendation = similarity_recommendation(dName, dYOB, mName, mYOB, vYear);
 		}
 		
-		String query = String.format("Task 4, dName:%s;dYOB:%d;mName:%s;mYOB:%d;vYear:%s;choice:%d",
+		String query = String.format("Task 4, dName:%s;dYOB:%d;mName:%s;mYOB:%d;vYear:%d;choice:%s",
 				 dName, dYOB, mName, mYOB, vYear, choice);
 		try {
 			History.storeHistory(query);
