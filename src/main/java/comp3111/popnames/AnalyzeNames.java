@@ -19,6 +19,12 @@ public class AnalyzeNames {
 		return fr.getCSVParser(false);
 	}
 	
+	/**
+	 * Get a summary of the year ranking
+	 *
+	 * @param year the year of the query
+	 * @return a string summary
+	 */
 	public static String getSummary(int year) {
 		String oReport = "";	
 		int totalBirths = 0;
@@ -56,10 +62,12 @@ public class AnalyzeNames {
 	
 	
 	/**
-	 * @param year
-	 * @param name
-	 * @param gender
-	 * @return
+	 * Get a RankRecord object from the given year, name and gender of the person
+	 * 
+	 * @param year the year under query
+	 * @param name the name of the person
+	 * @param gender the gender of the person
+	 * @return a RankRecord of the recond, an empty RankRecord for non-existing record in file
 	 */
 	public static RankRecord getRankRecord(int year, String name, String gender) {
 		RankRecord rankRecord = new RankRecord(year);
@@ -82,9 +90,11 @@ public class AnalyzeNames {
 	}
 
 	 /**
-	 * @param year
-	 * @param name
-	 * @param gender
+	 * Get rank of the person in the year of query
+	 * 
+	 * @param year the year for the query
+	 * @param name the name of the person
+	 * @param gender the gender of the person
 	 * @return
 	 */
 	public static int getRank(int year, String name, String gender) {
@@ -111,7 +121,15 @@ public class AnalyzeNames {
 	 }
 	 
  
-	 public static String getName(int year, int rank, String gender) {
+	 /**
+	 * Get the name of the given rank, year and gender
+	 * 
+	 * @param year the year of query
+	 * @param rank the rank of the name popularity
+	 * @param gender the gender of the person
+	 * @return
+	 */
+	public static String getName(int year, int rank, String gender) {
 		boolean found = false;
 		 String oName = "";
 		 int currentRank = 0;
@@ -137,8 +155,10 @@ public class AnalyzeNames {
 
 
 	/**
-	 * @param name
-	 * @return
+	 * Validate the length of a name to be between 2 and 15 characters, return true if it is valid 
+	 *
+	 * @param name the name under query
+	 * @return boolean indicating whether the name is valid
 	 */
 	public static boolean checkNameLength(String name) {
 		return (name.length() >= 2) && (name.length() <= 15);
@@ -146,8 +166,10 @@ public class AnalyzeNames {
 
 
 	/**
-	 * @param name
-	 * @return
+	 * Validate the name only contains alphebet characters, return true if it is valid 
+	 * 
+	 * @param name the name under query
+	 * @return boolean indicating whether the name is valid
 	 */
 	public static boolean checkNameCharacter(String name) {
 		char[] chars = name.toCharArray();
@@ -161,17 +183,20 @@ public class AnalyzeNames {
 
 
 	/**
-	 * @param year
-	 * @return
+	 * Validate the year is within 1880 and 2019
+	 *
+	 * @param year the year of query
+	 * @return boolean indicating whether the year is valid
 	 */
 	public static boolean checkYear(int year) {
 		return (year >= 1880) && (year <= 2019);
 	} 
 
 	/**
-	 * @param N
-	 * @param sig
-	 * @return
+	 * A helper function, round off a number to a number of significant figures
+	 * @param N the number to be rounded
+	 * @param sig the number of significant figures needed
+	 * @return the rounded number
 	 */
 	static double round(double N, double sig) 
 	{ 

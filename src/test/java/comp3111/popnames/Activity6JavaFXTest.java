@@ -17,12 +17,20 @@ import javafx.stage.Stage;
 import javafx.scene.text.Text;
 import javafx.fxml.FXMLLoader;
 
+/**
+ * This class focuses solely on FX tests for the Activity6Query class, focusing on input validation and ensuring that valid output is obtained. 
+ * @author James
+ *
+ */
 public class Activity6JavaFXTest extends ApplicationTest {
 
 	private Scene s;
 	private TextField name1, name2, year1, year2;
 	private Label result;
 	
+	/**
+	 * Initializes the scene and references all the necessary ui elements for testing. 
+	 */
 	@Override
 	public void start(Stage stage) throws Exception {
     	FXMLLoader loader = new FXMLLoader();
@@ -41,6 +49,9 @@ public class Activity6JavaFXTest extends ApplicationTest {
 	}
 
     
+	/**
+	 * Tests a valid query for NK-T6 algorithm and male name. 
+	 */
 	@Test
 	public void testNTK6Valid1() {	
 		clickOn("#tabApp3");
@@ -54,6 +65,9 @@ public class Activity6JavaFXTest extends ApplicationTest {
 		assertTrue(result.getText().startsWith("Your score of compatibility is 88.889%"));
 	}
 
+	/**
+	 * Tests a valid query for NK-T6 algorithm and female name. 
+	 */
 	@Test
 	public void testNTK6Valid2() {	
 		clickOn("#tabApp3");
@@ -67,6 +81,9 @@ public class Activity6JavaFXTest extends ApplicationTest {
 		assertTrue(result.getText().startsWith("Your score of compatibility is 90%"));
 	}
 
+	/**
+	 * Tests an invalid query for NK-T6 algorithm with empty first name.
+	 */
 	@Test
 	public void testName1Empty() {
 		clickOn("#tabApp3");
@@ -82,6 +99,9 @@ public class Activity6JavaFXTest extends ApplicationTest {
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("Please enter your name")).query();
 	}
 
+	/**
+	 * Tests an invalid query for NK-T6 algorithm with empty second name.
+	 */
 	@Test
 	public void testName2Empty() {
 		clickOn("#tabApp3");
@@ -97,6 +117,9 @@ public class Activity6JavaFXTest extends ApplicationTest {
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("Please enter the name of your soulmate")).query();
 	}
 
+	/**
+	 * Tests an invalid query for NK-T6 algorithm with short first name.
+	 */
 	@Test
 	public void testName1Short() {
 		clickOn("#tabApp3");
@@ -112,6 +135,9 @@ public class Activity6JavaFXTest extends ApplicationTest {
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("Your name must contain only 2 to 15 characters")).query();
 	}
 
+	/**
+	 * Tests an invalid query for NK-T6 algorithm with short second name.
+	 */
 	@Test
 	public void testName2Short() {
 		clickOn("#tabApp3");
@@ -127,6 +153,9 @@ public class Activity6JavaFXTest extends ApplicationTest {
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("The name of your soulmate must contain only 2 to 15 characters")).query();
 	}
 
+	/**
+	 * Tests an invalid query for NK-T6 algorithm with long first name.
+	 */
 	@Test
 	public void testName1Long() {
 		clickOn("#tabApp3");
@@ -142,6 +171,9 @@ public class Activity6JavaFXTest extends ApplicationTest {
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("Your name must contain only 2 to 15 characters")).query();
 	}
 
+	/**
+	 * Tests an invalid query for NK-T6 algorithm with long second name.
+	 */
 	@Test
 	public void testName2Long() {
 		clickOn("#tabApp3");
@@ -157,6 +189,9 @@ public class Activity6JavaFXTest extends ApplicationTest {
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("The name of your soulmate must contain only 2 to 15 characters")).query();
 	}
 
+	/**
+	 * Tests an invalid query for NK-T6 algorithm with first name containing non-alphabetical characters.
+	 */
 	@Test
 	public void testName1Character() {
 		clickOn("#tabApp3");
@@ -172,6 +207,9 @@ public class Activity6JavaFXTest extends ApplicationTest {
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("Your name must contain only letters")).query();
 	}
 
+	/**
+	 * Tests an invalid query for NK-T6 algorithm with second name containing non-alphabetical characters.
+	 */
 	@Test
 	public void testName2Character() {
 		clickOn("#tabApp3");
@@ -187,6 +225,9 @@ public class Activity6JavaFXTest extends ApplicationTest {
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("The name of your soulmate must contain only letters")).query();
 	}
 
+	/**
+	 * Tests an invalid query for NK-T6 algorithm with year containing non-numerical characters.
+	 */
 	@Test
 	public void testYOBInvlid() {
 		clickOn("#tabApp3");
@@ -202,6 +243,9 @@ public class Activity6JavaFXTest extends ApplicationTest {
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("Your year of birth must be an integer.")).query();
 	}
 
+	/**
+	 * Tests an invalid query for NK-T6 algorithm with starting year out of bound.
+	 */
 	@Test
 	public void testYOBBoundaryBegin1() {
 		clickOn("#tabApp3");
@@ -217,6 +261,9 @@ public class Activity6JavaFXTest extends ApplicationTest {
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("Your year of birth must be an integer between")).query();
 	}
 
+	/**
+	 * Tests a valid query for NK-T6 algorithm with starting year at boundary and younger mate.
+	 */
 	@Test
 	public void testYOBBoundaryBegin2() {
 		clickOn("#tabApp3");
@@ -230,6 +277,9 @@ public class Activity6JavaFXTest extends ApplicationTest {
 		assertTrue(result.getText().startsWith("Your score of compatibility is 100%"));
 	}
 
+	/**
+	 * Tests an invalid query for NK-T6 algorithm with ending year out of bound.
+	 */
 	@Test
 	public void testYOBBoundaryEnd1() {
 		clickOn("#tabApp3");
@@ -245,6 +295,9 @@ public class Activity6JavaFXTest extends ApplicationTest {
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("Your year of birth must be an integer between")).query();
 	}
 
+	/**
+	 * Tests a valid query for NK-T6 algorithm with ending year at boundary and older mate.
+	 */
 	@Test
 	public void testYOBBoundaryEnd2() {
 		clickOn("#tabApp3");
@@ -258,6 +311,9 @@ public class Activity6JavaFXTest extends ApplicationTest {
 		assertTrue(result.getText().startsWith("Your score of compatibility is 100%"));
 	}
 
+	/**
+	 * Tests an invalid query for NK-T6 algorithm with custom year of birth.
+	 */
 	@Test
 	public void testNKT6Custom() {
 		clickOn("#tabApp3");
@@ -274,6 +330,9 @@ public class Activity6JavaFXTest extends ApplicationTest {
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("Either Younger or Older")).query();
 	}
 
+	/**
+	 * Tests an invalid query for NK-T6 normalized algorithm with custom year of birth.
+	 */
 	@Test
 	public void testNormCustom() {
 		clickOn("#tabApp3");
@@ -291,6 +350,9 @@ public class Activity6JavaFXTest extends ApplicationTest {
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("Either Younger or Older")).query();
 	}
 
+	/**
+	 * Tests an invalid query for linear regression algorithm with year containing non-numerical characters.
+	 */
 	@Test
 	public void testLinearCustomInvalidYear() {
 		clickOn("#tabApp3");
@@ -308,6 +370,9 @@ public class Activity6JavaFXTest extends ApplicationTest {
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("The year of birth of your soulmate")).query();
 	}
 
+	/**
+	 * Tests an invalid query for linear regression algorithm with year out of range.
+	 */
 	@Test
 	public void testLinearCustomOutOfRange() {
 		clickOn("#tabApp3");
@@ -325,6 +390,9 @@ public class Activity6JavaFXTest extends ApplicationTest {
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("The year of birth of your soulmate")).query();
 	}
 
+	/**
+	 * Tests a valid query for NK-T6 normalized algorithm.
+	 */
 	@Test
 	public void testNormValid() {	
 		clickOn("#tabApp3");
@@ -340,6 +408,9 @@ public class Activity6JavaFXTest extends ApplicationTest {
 		assertTrue(result.getText().startsWith("Your score of compatibility is 97.956%"));
 	}
 
+	/**
+	 * Tests a valid query for linear regression algorithm with male name, then female name and younger chosen.
+	 */
 	@Test
 	public void testLinearValidMaleFemaleYounger() {	
 		clickOn("#tabApp3");
@@ -356,6 +427,9 @@ public class Activity6JavaFXTest extends ApplicationTest {
 		assertTrue(result.getText().startsWith("Your score of compatibility is 75.302%"));
 	}
 
+	/**
+	 * Tests a valid query for linear regression algorithm with female name, then male name and older chosen.
+	 */
 	@Test
 	public void testLinearValidFemaleMaleOlder() {	
 		clickOn("#tabApp3");
@@ -372,6 +446,9 @@ public class Activity6JavaFXTest extends ApplicationTest {
 		assertTrue(result.getText().startsWith("Your score of compatibility is 75.302%"));
 	}
 
+	/**
+	 * Tests a valid query for linear regression algorithm with custom year of birth chosen.
+	 */
 	@Test
 	public void testLinearValidCustom() {	
 		clickOn("#tabApp3");
@@ -388,6 +465,9 @@ public class Activity6JavaFXTest extends ApplicationTest {
 		assertTrue(result.getText().startsWith("Your score of compatibility is 75.302%"));
 	}
 
+	/**
+	 * Tests a valid query for linear regression algorithm with some data points missing in some years.
+	 */
 	@Test
 	public void testLinearValidMissingPoints() {	
 		clickOn("#tabApp3");
@@ -404,6 +484,9 @@ public class Activity6JavaFXTest extends ApplicationTest {
 		assertTrue(result.getText().startsWith("Your score of compatibility is 99.999%"));
 	}
 
+	/**
+	 * Tests an invalid query for linear regression algorithm with less than 2 data points.
+	 */
 	@Test
 	public void testLinearFail() {	
 		clickOn("#tabApp3");

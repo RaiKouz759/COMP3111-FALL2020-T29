@@ -6,22 +6,32 @@ import javafx.util.Pair;
 import javafx.concurrent.Task;
 
 /**
- * @author auyfg
+ * This is a thread task class for linear regression. This class should be used in the Controller and in a new thread. 
+ *
+ * @author James
  *
  */
 public class LinearRegressionTask extends Task<Pair<Double, Double>> {
 	 private final ArrayList<Pair<Double, Double>> points;
 
-	 /**
-	 * @param points
+	 /** 
+	 * Constructor. The class should created within a new thread.
+	 * 
+	 * @param points an array of points for regression
 	 */
 	public LinearRegressionTask(ArrayList<Pair<Double, Double>> points) {
 		 this.points = points;
 	 }
 
-	 @Override
+	 /**
+	 * The actual execution call to generate the linear regression.
+	 *
+	 * @return a Pair object which contains the resulting slope and intercept of the line
+	 */
+	@Override
 	 protected Pair<Double, Double> call() throws Exception {
 	 	int n = points.size();
+	 	
 		if(n < 2)
 			throw new RuntimeException("linear");
 
