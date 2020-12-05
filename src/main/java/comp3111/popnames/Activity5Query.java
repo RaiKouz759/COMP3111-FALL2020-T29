@@ -18,6 +18,14 @@ import org.apache.commons.csv.CSVRecord;
 
 import edu.duke.FileResource;
 
+/**
+ * This class deals mainly with Task 5 of the project. It contains only static functions that validate input and execute one of two types of queries.
+ * Inputs that are validated include the name and the year of birth of the user. The basic algorithm is contained in the executeQueryNKT5 function, 
+ * while the jaro algorithm is split into two functions as further input is needed from the user after the first step. 
+ * 
+ * @author Alex
+ *
+ */
 public class Activity5Query {
 	
 	/**

@@ -21,12 +21,22 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+/**
+ * This class focuses on testing the functions of the Activity5Query class and the responses of the controller to invalid inputs. 
+ * 
+ * 
+ * @author Alex
+ *
+ */
 public class Activity5JavaFXTest extends ApplicationTest{
 	private Scene s;
 	private TextField name, yob;
 	private RadioButton male, prefGender, prefYounger, prefAlgoNK, prefAlgoJaro, radio1, radio2, radio3, radio4, radio5, radio6;
 	private Label answer;
 	
+	/**
+	 *Initializes the scene and references the ui elements that will be used during testing. 
+	 */
 	@Override
 	public void start(Stage stage) throws Exception {
     	FXMLLoader loader = new FXMLLoader();
@@ -53,6 +63,9 @@ public class Activity5JavaFXTest extends ApplicationTest{
 		answer = (Label)s.lookup("#app2Answer");
 	}
 	
+	/**
+	 * Test for when the YOB field is empty. 
+	 */
 	@Test
 	public void testYOBEmpty() {
 		// test N 
@@ -62,6 +75,9 @@ public class Activity5JavaFXTest extends ApplicationTest{
 		Node dialogPane = lookup(".dialog-pane").query();
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("Please only enter")).query();
 	}
+	/**
+	 * Test for when non-letters are input into the name field.
+	 */
 	@Test
 	public void testInvalidName() {
 		// test invalid period
@@ -73,6 +89,9 @@ public class Activity5JavaFXTest extends ApplicationTest{
 		Node dialogPane = lookup(".dialog-pane").query();
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("Please only enter letters for")).query();
 	}
+	/**
+	 * Test for when the year of birth is out of the specified maximum. 
+	 */
 	@Test
 	public void testOutOfRangeYOB() {
 		// test invalid period
@@ -84,6 +103,9 @@ public class Activity5JavaFXTest extends ApplicationTest{
 		Node dialogPane = lookup(".dialog-pane").query();
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("Please only enter year of births")).query();
 	}
+	/**
+	 * Test for a valid execution of the NK algorithm.
+	 */
 	@Test
 	public void testValidNKQuery() {
 		// test invalid period
@@ -95,6 +117,9 @@ public class Activity5JavaFXTest extends ApplicationTest{
 		assertTrue(answer.getText().equals("Caroline"));
 	}
 	
+	/**
+	 * Test for a valid jaro algorithm query. 
+	 */
 	@Test
 	public void testExecuteJaroQuery() {
 		clickOn("#tabApp2");
