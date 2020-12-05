@@ -238,7 +238,7 @@
                   </Tab>
                   <Tab fx:id="tabApp1" text="Application1">
                     <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="412.0" prefWidth="719.0">
+                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="412.0" prefWidth="719.0" stylesheets="@DarkTheme.css">
                            <children>
                               <TextField fx:id="t4_dname" layoutX="175.0" layoutY="33.0" />
                               <TextField fx:id="t4_mname" layoutX="175.0" layoutY="74.0" />
@@ -257,7 +257,14 @@
                                  </toggleGroup></RadioButton>
                               <RadioButton fx:id="t4_jaro" layoutX="401.0" layoutY="203.0" mnemonicParsing="false" text="Jaro Distance" toggleGroup="$T4_algorithm" />
                               <Label layoutX="401.0" layoutY="140.0" text="Choose Algorithm" />
-                              <TextArea fx:id="t4_text_output" layoutX="38.0" layoutY="374.0" prefHeight="232.0" prefWidth="631.0" />
+                              <Label fx:id="t4_boy_label" layoutX="129.0" layoutY="366.0" text="Label" />
+                              <Label fx:id="t4_girl_label" layoutX="406.0" layoutY="368.0" text="Label" />
+                              <Label fx:id="t4_b1" layoutX="128.0" layoutY="416.0" text="Label" />
+                              <Label fx:id="t4_b2" layoutX="130.0" layoutY="458.0" text="Label" />
+                              <Label fx:id="t4_b3" layoutX="130.0" layoutY="500.0" text="Label" />
+                              <Label fx:id="t4_g1" layoutX="407.0" layoutY="418.0" text="Label" />
+                              <Label fx:id="t4_g2" layoutX="409.0" layoutY="460.0" text="Label" />
+                              <Label fx:id="t4_g3" layoutX="409.0" layoutY="502.0" text="Label" />
                            </children>
                         </AnchorPane>
                     </content>
