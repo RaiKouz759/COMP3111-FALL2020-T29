@@ -1,38 +1,44 @@
 package comp3111.popnames;
 
+/**
+ * This class deals mainly with Task 4 and Tack 5 and contains only static functions algorithms that could used for the
+ * recommendation based tasks.
+ * 
+ * @author Amrutavarsh
+ *
+ */
 public class Algorithm {
 	// Function to calculate the 
 	// Jaro Similarity of two Strings 
+	
+	/**
+	 * Determines string similarity given two strings. 
+	 * 
+	 * @param s1 the first string to be checked
+	 * @param s2 the string to be checked against
+	 * @return normalized value ranging from 0 to 1 based on similarity of strings
+	 */
 	static double jaro_distance(String s1, String s2) 
 	{ 
-		// If the Strings are equal 
 		if (s1 == s2) 
 			return 1.0; 
 	  
-		// Length of two Strings 
 		int len1 = s1.length(), 
 			len2 = s2.length(); 
 	  
-		// Maximum distance upto which matching 
-		// is allowed 
 		int max_dist = (int) (Math.floor(Math.max(len1, len2) / 2) - 1); 
 	  
-		// Count of matches 
 		int match = 0; 
 	  
-		// Hash for matches 
 		int hash_s1[] = new int[s1.length()]; 
 		int hash_s2[] = new int[s2.length()]; 
 	  
-		// Traverse through the first String 
 		for (int i = 0; i < len1; i++)  
 		{ 
 	  
-			// Check if there is any matches 
 			for (int j = Math.max(0, i - max_dist); 
 				j < Math.min(len2, i + max_dist + 1); j++) 
 	  
-				// If there is a match 
 				if (s1.charAt(i) == s2.charAt(j) && hash_s2[j] == 0)  
 				{ 
 					hash_s1[i] = 1; 
@@ -42,25 +48,14 @@ public class Algorithm {
 				} 
 		} 
 	  
-		// If there is no match 
 		if (match == 0) 
 			return 0.0; 
-	  
-		// Number of transpositions 
 		double t = 0; 
 	  
 		int point = 0; 
-	  
-		// Count number of occurances 
-		// where two characters match but 
-		// there is a third matched character 
-		// in between the indices 
 		for (int i = 0; i < len1; i++) 
 			if (hash_s1[i] == 1) 
 			{ 
-	  
-				// Find the next matched character 
-				// in second String 
 				while (hash_s2[point] == 0) 
 					point++; 
 	  

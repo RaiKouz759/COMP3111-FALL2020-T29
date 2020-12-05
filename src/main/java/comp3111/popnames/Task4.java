@@ -7,13 +7,61 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.text.DecimalFormat;
 
+/**
+ * This class deals mainly with Task 4 and contains only static functions to validate data and execute the main query. There are 
+ * are three functions that are used for validating inputs.
+ * 
+ * @author Amrutavarsh
+ *
+ */
 public class Task4 {
 	
+	/**
+	 * Input validation function. 
+	 * 
+	 * @param start the starting year of the period.
+	 * @return the boolean if the period is correct and within the range.
+	 */
 	public static boolean checkYear(int year) {
 		return (year >= 1880) && (year <= 2019);
 	}
 	
+	/**
+	 * Input validation function. 
+	 * 
+	 * @param name that needs to be validated for length
+	 * @return the boolean if name is not in proper range.
+	 */
+	public static boolean checkNameLength(String name) {
+		return (name.length() >= 2) && (name.length() <= 15);
+	}
+
+	/**
+	 * Input validation function. 
+	 * 
+	 * @param name that needs to be validated for illegal characters
+	 * @return the boolean if name has illegal characters
+	 */
+	public static boolean checkNameCharacter(String name) {
+		char[] chars = name.toCharArray();
+		for (char c : chars) {
+			if (!Character.isLetter(c)) {
+				return false;
+			}
+		}
+		return true;
+	}
 	
+	/**
+	 * NK-T4 Algorithm of task 4.
+	 * 
+	 * @param dName the name of the Dad.
+	 * @param dYOB the date of birth of the Dad.
+	 * @param mName the name of the Mom.
+	 * @param mYOB the date of birth of the Mom.
+	 * @param vYear the vintage Year specifying the child's preferred year
+	 * @return the Arraylist containing recommended boys and girl names
+	 */
 	public static ArrayList<ArrayList<String>> NK_T4(String dName, int dYOB, String mName, int mYOB, int vYear){
 		int dadRank = AnalyzeNames.getRank(dYOB, dName, "M");
 		int momRank = AnalyzeNames.getRank(mYOB, mName, "F");
@@ -27,6 +75,16 @@ public class Task4 {
 		return recommendation;
 	}
 	
+	/**
+	 * string similarity Algorithm of task 4.
+	 * 
+	 * @param dName the name of the Dad.
+	 * @param dYOB the date of birth of the Dad.
+	 * @param mName the name of the Mom.
+	 * @param mYOB the date of birth of the Mom.
+	 * @param vYear the vintage Year specifying the child's preferred year
+	 * @return the Arraylist containing recommended boys and girl names
+	 */
 	public static ArrayList<ArrayList<String>> similarity_recommendation(String dName, int dYOB, String mName, int mYOB, int vYear) {
 		double bScore1 = 0;
 		double gScore1 = 0;
@@ -107,6 +165,16 @@ public class Task4 {
 		return recommendation;
 	}
 	
+	/**
+	 * Main query function of task 4. Validate and parses inputs to the algorithm. Saves logs.
+	 * 
+	 * @param dName the name of the Dad.
+	 * @param dYOB the date of birth of the Dad.
+	 * @param mName the name of the Mom.
+	 * @param mYOB the date of birth of the Mom.
+	 * @param vYear the vintage Year specifying the child's preferred year
+	 * @return the Arraylist containing recommended boys and girl names
+	 */
 	public static ArrayList<ArrayList<String>> recommendation(String dName, int dYOB, String mName, int mYOB, int vYear, String choice) {
 		if(!checkYear(dYOB))
 			throw new RuntimeException("invalid dYOB");
@@ -114,16 +182,16 @@ public class Task4 {
 			throw new RuntimeException("invalid mYOB");
 		if(!checkYear(vYear))
 			throw new RuntimeException("invalid vYear");
-		if (!AnalyzeNames.checkNameLength(dName)) {
+		if (!checkNameLength(dName)) {
 			throw new RuntimeException("dName length"); 
 		}
-		if (!AnalyzeNames.checkNameCharacter(dName)) {
+		if (!checkNameCharacter(dName)) {
 			throw new RuntimeException("dName char"); 
 		}
-		if (!AnalyzeNames.checkNameLength(mName)) {
+		if (!checkNameLength(mName)) {
 			throw new RuntimeException("mName length"); 
 		}
-		if (!AnalyzeNames.checkNameCharacter(mName)) {
+		if (!checkNameCharacter(mName)) {
 			throw new RuntimeException("mName char"); 
 		}
 		

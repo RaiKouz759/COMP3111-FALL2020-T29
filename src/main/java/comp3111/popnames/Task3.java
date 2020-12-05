@@ -4,8 +4,22 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * This class deals mainly with Task 3 and contains only static functions to validate data and execute the main query. There are 
+ * are three functions that are used for validating inputs.
+ * 
+ * @author Amrutavarsh
+ *
+ */
 public class Task3 {
 	
+	/**
+	 * Determines trend given two years. 
+	 * 
+	 * @param high_year the year when the rank was the highest.
+	 * @param low_year the year when the rank was the lowest.
+	 * @return String value of trend by comparing high_year and low_year.
+	 */
 	public static String Trend(int high_year, int low_year) {
 		if (high_year>low_year) {
 			return "UP";
@@ -19,18 +33,46 @@ public class Task3 {
 		return null;
 	}
 
+	/**
+	 * Input validation function. 
+	 * 
+	 * @param start the starting year of the period.
+	 * @return the boolean if the period is correct and within the range.
+	 */
 	public static boolean checkYear(int year) {
 		return (year >= 1880) && (year <= 2019);
 	}
 	
+	/**
+	 * Input validation function. 
+	 * 
+	 * @param start the starting year of the period.
+	 * @param end the ending year of the period.
+	 * @return the boolean if the period is correct and within the range.
+	 */
 	public static boolean checkYearPair(int start, int end) {
 		return (start >= 1880 && end <= 2019 && start <= end);
 	}
 	
+	/**
+	 * Input validation function. 
+	 * 
+	 * @param the top N ranks to check.
+	 * @return the boolean whether topN is greater than or equal to 1.
+	 */
 	public static boolean validateTopN(int TopN) {
 		return (TopN >= 1);
 	}
 	
+	/**
+	 * Main algorithm of task 3.
+	 * 
+	 * @param start_year the starting year in the period.
+	 * @param end_year the ending year of the period.
+	 * @param gender the gender of the person querying.
+	 * @param TopN the top N ranks to be checked.
+	 * @return the Arraylist containing records queried
+	 */
 	public static ArrayList<ArrayList<String>> TopNames(int start_year, int end_year, String gender, int TopN) {
 		ArrayList<ArrayList<String>> Entries = new ArrayList<ArrayList<String>> ();
 		for (int i=1;i<=TopN;i++) {
@@ -72,6 +114,15 @@ public class Task3 {
 		return Entries;
 	}
 	
+	/**
+	 * Main query function of task 3. Validate and parses inputs to the algorithm. Saves logs.
+	 * 
+	 * @param start_year the starting year in the period.
+	 * @param end_year the ending year of the period.
+	 * @param gender the gender of the person querying.
+	 * @param TopN the top N ranks to be checked.
+	 * @return the Arraylist containing records queried
+	 */
 	public static ArrayList<ArrayList<String>> execute3Query(int start_year, int end_year, String gender, int TopN) {
 		
 		if (checkYear(start_year)) {

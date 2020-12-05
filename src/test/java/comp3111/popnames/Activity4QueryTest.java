@@ -5,7 +5,17 @@ import static junit.framework.TestCase.fail;
 import org.junit.Test;
 import java.util.ArrayList;
 
+/**
+ * This class also tests valid query executions. 
+ * 
+ * @author Amrutavarsh
+ *
+ */
 public class Activity4QueryTest {
+	
+	/*
+	 * Test standard correct query.
+	 */
 	@Test
 	public void testExecuteQuery() {
 		Task4 task4= new Task4();
@@ -24,6 +34,9 @@ public class Activity4QueryTest {
 		assertTrue(Records.get(1).get(2).equals("Marye : 0.56"));
 	}
 	
+	/*
+	 * Test Exceptions thrown for invalid inputs
+	 */
 	@Test
 	public void testExecuteQueryInvalid() {
 		Task4 task4= new Task4();

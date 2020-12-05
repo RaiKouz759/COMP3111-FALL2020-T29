@@ -17,6 +17,12 @@ import javafx.stage.Stage;
 import javafx.scene.text.Text;
 import javafx.fxml.FXMLLoader;
 
+/**
+ * This class focuses solely on FX tests for the Task3 class, focusing on input validation and ensuring that valid output is obtained. 
+ * 
+ * @author Amrutavarsh
+ *
+ */
 public class Activity3JavaFXTest extends ApplicationTest {
 	
 	private Scene s;
@@ -24,6 +30,9 @@ public class Activity3JavaFXTest extends ApplicationTest {
 	private TextField topN, start, end;
 	private RadioButton male;
 	
+	/**
+	 * Initializes the scene and references all the necessary ui elements for testing. 
+	 */
 	@Override
 	public void start(Stage stage) throws Exception {
     	FXMLLoader loader = new FXMLLoader();
@@ -40,6 +49,9 @@ public class Activity3JavaFXTest extends ApplicationTest {
 		table = (TableView<Map>)s.lookup("#task3_table");
 	}
 	
+	/*
+	 * True Positive test for non boundary case. Normal run of query.
+	 */
 	@Test
 	public void testQuery1() {
 		clickOn("#tabReport3");
@@ -71,6 +83,9 @@ public class Activity3JavaFXTest extends ApplicationTest {
 		assertTrue(table.getColumns().get(5).getCellObservableValue(2).getValue().equals("DOWN"));
 	}
 	
+	/*
+	 * Tests if start of the period is incorrect.
+	 */
 	@Test
 	public void testStartYearBoundary() {
 		clickOn("#tabReport3");
@@ -84,6 +99,9 @@ public class Activity3JavaFXTest extends ApplicationTest {
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("Starting year must be")).query();
 	}
 	
+	/*
+	 * Tests if end of the period is incorrect.
+	 */
 	@Test
 	public void testEndYearBoundary() {
 		clickOn("#tabReport3");
@@ -97,6 +115,9 @@ public class Activity3JavaFXTest extends ApplicationTest {
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("Ending year")).query();
 	}
 	
+	/*
+	 * Tests if both start and end of period are incorrect simultaneously
+	 */
 	@Test
 	public void testStartEndYearBoundary() {
 		clickOn("#tabReport3");
@@ -110,6 +131,9 @@ public class Activity3JavaFXTest extends ApplicationTest {
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("Both starting")).query();
 	}
 	
+	/*
+	 * Tests if start and end of period are in an ascending ordered
+	 */
 	@Test
 	public void testStartEndOrder() {
 		clickOn("#tabReport3");
@@ -123,6 +147,9 @@ public class Activity3JavaFXTest extends ApplicationTest {
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("Starting year is ahead")).query();
 	}
 	
+	/*
+	 * Tests is the top N ranks is a valid input
+	 */
 	@Test
 	public void topN_Boundary() {
 		clickOn("#tabReport3");
