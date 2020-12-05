@@ -1352,8 +1352,9 @@ public class Controller implements Initializable{
 
             task6PieChartResult.getData().add(sliceScore);
             task6PieChartResult.getData().add(sliceSpace);
+            task6PieChartResult.setScaleShape(true);
 
-            sliceSpace.getNode().setStyle("-fx-pie-color: #F4F4F4;");
+            sliceSpace.getNode().setStyle("-fx-pie-color: #1d1d1d;");
         } else {
             task6PieChartResult.setVisible(false);
         }
@@ -1436,7 +1437,7 @@ public class Controller implements Initializable{
         task6PieChartResult.getData().add(sliceScore);
         task6PieChartResult.getData().add(sliceSpace);
 
-        sliceSpace.getNode().setStyle("-fx-pie-color: #F4F4F4;");
+        sliceSpace.getNode().setStyle("-fx-pie-color: #1d1d1d;");
     
         task6LineChartResult.setVisible(true);
         task6LineChartResult.getData().clear();
