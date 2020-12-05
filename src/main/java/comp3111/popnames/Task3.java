@@ -36,7 +36,7 @@ public class Task3 {
 	/**
 	 * Input validation function. 
 	 * 
-	 * @param start the starting year of the period.
+	 * @param year the starting year of the period.
 	 * @return the boolean if the period is correct and within the range.
 	 */
 	public static boolean checkYear(int year) {
@@ -57,7 +57,7 @@ public class Task3 {
 	/**
 	 * Input validation function. 
 	 * 
-	 * @param the top N ranks to check.
+	 * @param TopN the top N ranks to check.
 	 * @return the boolean whether topN is greater than or equal to 1.
 	 */
 	public static boolean validateTopN(int TopN) {
