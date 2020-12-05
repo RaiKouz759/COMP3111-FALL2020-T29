@@ -10,6 +10,13 @@ import java.util.Map.Entry;
 
 import javax.print.attribute.HashAttributeSet;
 
+/**
+ * This class deals mainly with Task 1 and contains only static functions to validate data and execute the main query. There are two functions to verify 
+ * the period and the number of ranks returned. 
+ * 
+ * @author Alex 
+ *
+ */
 public class Activity1Query {
 	
 	public static LinkedHashMap<String, Integer> top3Names;
