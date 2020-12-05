@@ -22,8 +22,7 @@ public class History {
 	/**
 	 * @param query - assume that the query will be in the form of "Task #, name;age;prefgender;gender"
 	 * @return string of current date if successful or error if unsuccessful. 
-	 * @throws IOException 
-	 * @throws Exception
+	 * @throws IOException File IO exception
 	 */
 	public static String storeHistory(String query) throws IOException {
 		LocalDateTime date_today = java.time.LocalDateTime.now();
@@ -68,8 +67,8 @@ public class History {
 	/**
 	 * 
 	 * @param filename - Assumes the filename with its .txt extension. 
-	 * @return
-	 * @throws FileNotFoundException
+	 * @return an array of lines from the file
+	 * @throws FileNotFoundException File is not found
 	 */
 	public static ArrayList<String> readHistory(String filename) throws FileNotFoundException {
 		// assume that logs are stored in the logs folder. 

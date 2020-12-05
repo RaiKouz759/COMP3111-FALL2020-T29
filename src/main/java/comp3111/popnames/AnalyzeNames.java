@@ -95,7 +95,7 @@ public class AnalyzeNames {
 	 * @param year the year for the query
 	 * @param name the name of the person
 	 * @param gender the gender of the person
-	 * @return
+	 * @return the rank of the person in that year
 	 */
 	public static int getRank(int year, String name, String gender) {
 		return getRankRecord(year, name, gender).getRank();
@@ -127,7 +127,7 @@ public class AnalyzeNames {
 	 * @param year the year of query
 	 * @param rank the rank of the name popularity
 	 * @param gender the gender of the person
-	 * @return
+	 * @return the name of ther person
 	 */
 	public static String getName(int year, int rank, String gender) {
 		boolean found = false;

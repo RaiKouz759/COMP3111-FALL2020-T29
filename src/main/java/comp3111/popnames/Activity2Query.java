@@ -24,7 +24,7 @@ public class Activity2Query {
 	 * @param startPeriod the starting year of the query period
 	 * @param endPeriod the ending year of the query period
 	 * @return a Pair object containing the list of ranking records for each year and the comment.
-	 * @throws Exception
+	 * @throws Exception invalid inputs
 	 */
 	public static Pair<ArrayList<RankRecord>, String> executeQuery(String name, int gender, int startPeriod, int endPeriod) throws Exception {
 		
