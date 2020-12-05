@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Task3.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">PopNames3111</a> &gt; <a href="index.source.html" class="el_package">comp3111.popnames</a> &gt; <span class="el_source">Task3.java</span></div><h1>Task3.java</h1><pre class="source lang-java linenums">package comp3111.popnames;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+
+/**
+ * This class deals mainly with Task 3 and contains only static functions to validate data and execute the main query. There are 
+ * are three functions that are used for validating inputs.
+ * 
+ * @author Amrutavarsh
+ *
+ */
+<span class="fc" id="L14">public class Task3 {</span>
+	
+	/**
+	 * Determines trend given two years. 
+	 * 
+	 * @param high_year the year when the rank was the highest.
+	 * @param low_year the year when the rank was the lowest.
+	 * @return String value of trend by comparing high_year and low_year.
+	 */
+	public static String Trend(int high_year, int low_year) {
+<span class="fc bfc" id="L24" title="All 2 branches covered.">		if (high_year&gt;low_year) {</span>
+<span class="fc" id="L25">			return &quot;UP&quot;;</span>
+		}
+<span class="fc bfc" id="L27" title="All 2 branches covered.">		else if (high_year&lt;low_year) {</span>
+<span class="fc" id="L28">			return &quot;DOWN&quot;;</span>
+		}
+<span class="pc bpc" id="L30" title="1 of 2 branches missed.">		else if (high_year == low_year) {</span>
+<span class="fc" id="L31">			return &quot;FLAT&quot;;</span>
+		}
+<span class="nc" id="L33">		return null;</span>
+	}
+
+	/**
+	 * Input validation function. 
+	 * 
+	 * @param start the starting year of the period.
+	 * @return the boolean if the period is correct and within the range.
+	 */
+	public static boolean checkYear(int year) {
+<span class="fc bfc" id="L43" title="All 4 branches covered.">		return (year &gt;= 1880) &amp;&amp; (year &lt;= 2019);</span>
+	}
+	
+	/**
+	 * Input validation function. 
+	 * 
+	 * @param start the starting year of the period.
+	 * @param end the ending year of the period.
+	 * @return the boolean if the period is correct and within the range.
+	 */
+	public static boolean checkYearPair(int start, int end) {
+<span class="pc bpc" id="L54" title="2 of 6 branches missed.">		return (start &gt;= 1880 &amp;&amp; end &lt;= 2019 &amp;&amp; start &lt;= end);</span>
+	}
+	
+	/**
+	 * Input validation function. 
+	 * 
+	 * @param the top N ranks to check.
+	 * @return the boolean whether topN is greater than or equal to 1.
+	 */
+	public static boolean validateTopN(int TopN) {
+<span class="fc bfc" id="L64" title="All 2 branches covered.">		return (TopN &gt;= 1);</span>
+	}
+	
+	/**
+	 * Main algorithm of task 3.
+	 * 
+	 * @param start_year the starting year in the period.
+	 * @param end_year the ending year of the period.
+	 * @param gender the gender of the person querying.
+	 * @param TopN the top N ranks to be checked.
+	 * @return the Arraylist containing records queried
+	 */
+	public static ArrayList&lt;ArrayList&lt;String&gt;&gt; TopNames(int start_year, int end_year, String gender, int TopN) {
+<span class="fc" id="L77">		ArrayList&lt;ArrayList&lt;String&gt;&gt; Entries = new ArrayList&lt;ArrayList&lt;String&gt;&gt; ();</span>
+<span class="fc bfc" id="L78" title="All 2 branches covered.">		for (int i=1;i&lt;=TopN;i++) {</span>
+<span class="fc" id="L79">			String Name = AnalyzeNames.getName(start_year, i, gender);</span>
+<span class="fc" id="L80">			boolean exists = true;</span>
+<span class="fc" id="L81">			int low_rank_year = start_year;</span>
+<span class="fc" id="L82">			int high_rank_year = start_year;</span>
+			
+<span class="fc bfc" id="L84" title="All 2 branches covered.">			for(int j=start_year; j&lt;=end_year;j++) {</span>
+<span class="fc" id="L85">				boolean exists_this_year = false;</span>
+				
+<span class="fc bfc" id="L87" title="All 2 branches covered.">				for (int k=1;k&lt;=TopN;k++) {</span>
+<span class="fc bfc" id="L88" title="All 2 branches covered.">					if (AnalyzeNames.getName(j, k, gender).equals(Name)) {</span>
+<span class="fc" id="L89">						exists_this_year = true;</span>
+<span class="fc bfc" id="L90" title="All 2 branches covered.">						if(k&gt;=AnalyzeNames.getRank(low_rank_year, Name, gender)) {</span>
+<span class="fc" id="L91">							low_rank_year = j;</span>
+						}
+<span class="fc bfc" id="L93" title="All 2 branches covered.">						if(k&lt;=AnalyzeNames.getRank(high_rank_year, Name, gender)) {</span>
+<span class="fc" id="L94">							high_rank_year = j;</span>
+						}
+					}
+				}
+				
+<span class="fc bfc" id="L99" title="All 2 branches covered.">				if(exists_this_year == false) {</span>
+<span class="fc" id="L100">					exists = false;</span>
+<span class="fc" id="L101">					break;</span>
+				}
+				
+			}
+<span class="fc bfc" id="L105" title="All 2 branches covered.">			if (exists == true) {</span>
+<span class="fc" id="L106">				ArrayList&lt;String&gt; Entry = new ArrayList&lt;String&gt; (Arrays.asList(Name, </span>
+<span class="fc" id="L107">						Integer.toString(low_rank_year), Integer.toString(AnalyzeNames.getRank(low_rank_year, Name, gender)), </span>
+<span class="fc" id="L108">						Integer.toString(high_rank_year), Integer.toString(AnalyzeNames.getRank(high_rank_year, Name, gender)), </span>
+<span class="fc" id="L109">						Trend(high_rank_year, low_rank_year)));            </span>
+<span class="fc" id="L110">				Entries.add(Entry);</span>
+			}
+		}
+		
+<span class="fc" id="L114">		return Entries;</span>
+	}
+	
+	/**
+	 * Main query function of task 3. Validate and parses inputs to the algorithm. Saves logs.
+	 * 
+	 * @param start_year the starting year in the period.
+	 * @param end_year the ending year of the period.
+	 * @param gender the gender of the person querying.
+	 * @param TopN the top N ranks to be checked.
+	 * @return the Arraylist containing records queried
+	 */
+	public static ArrayList&lt;ArrayList&lt;String&gt;&gt; execute3Query(int start_year, int end_year, String gender, int TopN) {
+		
+<span class="fc bfc" id="L128" title="All 2 branches covered.">		if (checkYear(start_year)) {</span>
+<span class="fc bfc" id="L129" title="All 2 branches covered.">			if(!checkYear(end_year))</span>
+<span class="fc" id="L130">				throw new RuntimeException(&quot;end&quot;); </span>
+		} else {
+<span class="fc bfc" id="L132" title="All 2 branches covered.">			if(checkYear(end_year))</span>
+<span class="fc" id="L133">				throw new RuntimeException(&quot;start&quot;); </span>
+			else
+<span class="fc" id="L135">				throw new RuntimeException(&quot;start end&quot;); </span>
+		}
+<span class="fc bfc" id="L137" title="All 2 branches covered.">		if (!checkYearPair(start_year, end_year)) {</span>
+<span class="fc" id="L138">			throw new RuntimeException(&quot;incorrect period order&quot;);</span>
+		}
+<span class="fc bfc" id="L140" title="All 2 branches covered.">		if (!validateTopN(TopN)) {</span>
+<span class="fc" id="L141">			throw new RuntimeException(&quot;incorrect TopN&quot;);</span>
+		}
+		
+<span class="fc" id="L144">		ArrayList&lt;ArrayList&lt;String&gt;&gt; Entries = TopNames(start_year, end_year, gender, TopN);</span>
+		
+<span class="fc" id="L146">		String query = String.format(&quot;Task 3, start_year:%d;end_year:%d;gender:%s;topN:%d&quot;,</span>
+<span class="fc" id="L147">				 start_year, end_year, gender, TopN);</span>
+		try {
+<span class="fc" id="L149">			History.storeHistory(query);</span>
+<span class="nc" id="L150">		} catch (IOException e) {</span>
+<span class="nc" id="L151">			e.printStackTrace();</span>
+<span class="nc" id="L152">			System.out.println(&quot;Failed to store query history.&quot;);</span>
+<span class="fc" id="L153">		}</span>
+<span class="fc" id="L154">		return Entries;</span>
+	}
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

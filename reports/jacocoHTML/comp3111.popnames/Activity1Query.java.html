@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Activity1Query.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">PopNames3111</a> &gt; <a href="index.source.html" class="el_package">comp3111.popnames</a> &gt; <span class="el_source">Activity1Query.java</span></div><h1>Activity1Query.java</h1><pre class="source lang-java linenums">package comp3111.popnames;
+
+import org.apache.commons.csv.*;
+
+import edu.duke.FileResource;
+
+import java.io.IOException;
+import java.util.*;  
+import java.util.Map.Entry;
+
+import javax.print.attribute.HashAttributeSet;
+
+/**
+ * This class deals mainly with Task 1 and contains only static functions to validate data and execute the main query. There are two functions to verify 
+ * the period and the number of ranks returned. 
+ * 
+ * @author Alex 
+ *
+ */
+<span class="nc" id="L20">public class Activity1Query {</span>
+	
+	public static LinkedHashMap&lt;String, Integer&gt; top3Names;
+<span class="fc" id="L23">	public static String comment = &quot;&quot;;</span>
+	
+	
+	/**
+	 * Input validation function. 
+	 * 
+	 * @param start the starting year of the period
+	 * @param end the ending year of the period
+	 * @return the boolean if the period is correct and within the range
+	 */
+	public static boolean isPeriodCorrect(int start, int end) {
+<span class="pc bpc" id="L34" title="1 of 6 branches missed.">		if(start &gt;= 1880 &amp;&amp; end &lt;= 2019 &amp;&amp; start &lt;= end) {</span>
+<span class="fc" id="L35">			return true;</span>
+		}
+		else {
+<span class="fc" id="L38">			return false;</span>
+		}	
+	}
+	
+	/** 
+	 * Input validation function. 
+	 * 
+	 * @param n the integer of the number of ranks that should be returned in each year
+	 * @return boolean if the number of ranks is positive and at least 1
+	 */
+	public static boolean isNumOfResultsCorrect(int n) {
+<span class="fc bfc" id="L49" title="All 2 branches covered.">		if(n &gt;= 1) {</span>
+<span class="fc" id="L50">			return true;</span>
+		}
+<span class="fc" id="L52">		return false;</span>
+	}
+	
+	/**
+	 * Main query function of task 1.
+	 * 
+	 * @param numRanks num of results per year that should be returned.
+	 * @param gender the gender of the person querying.
+	 * @param startPeriod the starting year of the period.
+	 * @param endPeriod the ending year of the period.
+	 * @return the arraylist containing the YearRecords classes containing the records queried. 
+	 */
+	public static ArrayList&lt;YearRecords&gt; executeQuery(int numRanks, int gender, int startPeriod, int endPeriod) {
+		// assume that input parameters are valid and have been verified. 
+		// can also get the top 3 results in the period range
+		// what happens when numRanks is 1000? 
+		
+<span class="fc" id="L69">		ArrayList&lt;YearRecords&gt; yearRecordsList = new ArrayList&lt;YearRecords&gt;();</span>
+<span class="fc" id="L70">		String str_gender = Constants.genders[gender];</span>
+<span class="fc bfc" id="L71" title="All 2 branches covered.">		for(int year=startPeriod; year&lt;=endPeriod; year++) {</span>
+<span class="fc" id="L72">			CSVParser fileParser = AnalyzeNames.getFileParser(year);</span>
+<span class="fc" id="L73">			YearRecords yearRecord = new YearRecords(numRanks, year);</span>
+<span class="fc" id="L74">			int counter = 0;</span>
+<span class="pc bpc" id="L75" title="1 of 2 branches missed.">			for (CSVRecord re : fileParser) {</span>
+<span class="fc bfc" id="L76" title="All 2 branches covered.">				if (counter &gt;= numRanks) {</span>
+<span class="fc" id="L77">					break;</span>
+				}
+				else {
+<span class="fc bfc" id="L80" title="All 2 branches covered.">					if (re.get(1).equals(str_gender)) {</span>
+<span class="fc" id="L81">					NameRecord nameRecord = new NameRecord(re.get(0), gender, Integer.parseInt(re.get(2)));</span>
+<span class="fc" id="L82">					yearRecord.addNameRecord(nameRecord);</span>
+<span class="fc" id="L83">					System.out.println(&quot;added nameRecord&quot;);</span>
+<span class="fc" id="L84">					counter++;</span>
+					}
+				}
+<span class="fc" id="L87">			}</span>
+<span class="fc" id="L88">			yearRecordsList.add(yearRecord);</span>
+<span class="fc" id="L89">			System.out.println(&quot;added a year record&quot;);</span>
+		}
+		// getting top 3 names from the list &amp; most common starting letter of names
+		
+<span class="fc" id="L93">		top3Names = new LinkedHashMap&lt;&gt;();</span>
+<span class="fc" id="L94">		HashMap&lt;Character, Integer&gt; letterCounter = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L95">		HashMap&lt;String, Integer&gt; counter = new HashMap&lt;&gt;();</span>
+<span class="fc bfc" id="L96" title="All 2 branches covered.">		for (YearRecords year : yearRecordsList) {</span>
+<span class="fc" id="L97">			ArrayList&lt;NameRecord&gt; list = year.getNameRecordList();</span>
+<span class="fc bfc" id="L98" title="All 2 branches covered.">			for (NameRecord re : list) {</span>
+<span class="fc bfc" id="L99" title="All 2 branches covered.">				if (counter.containsKey(re.getName())){</span>
+<span class="fc" id="L100">					counter.put(re.getName(), counter.get(re.getName()) + re.getNumOfOccur());</span>
+				} else {
+<span class="fc" id="L102">					counter.put(re.getName(), re.getNumOfOccur());</span>
+				}
+<span class="fc bfc" id="L104" title="All 2 branches covered.">				if (letterCounter.containsKey(re.getName().charAt(0))) {</span>
+<span class="fc" id="L105">					letterCounter.put(re.getName().charAt(0), letterCounter.get(re.getName().charAt(0)) + 1);</span>
+				} else {
+<span class="fc" id="L107">					letterCounter.put(re.getName().charAt(0), 1);</span>
+				}
+<span class="fc" id="L109">			}</span>
+<span class="fc" id="L110">		}</span>
+<span class="fc" id="L111">		List&lt;Entry&lt;String, Integer&gt;&gt; list = new LinkedList&lt;Entry&lt;String, Integer&gt;&gt;(counter.entrySet());</span>
+<span class="fc" id="L112">		List&lt;Entry&lt;Character, Integer&gt;&gt; letterList = new LinkedList&lt;Entry&lt;Character, Integer&gt;&gt;(letterCounter.entrySet());</span>
+		
+
+        // Sorting the list based on values
+<span class="fc" id="L116">        Collections.sort(list, new Comparator&lt;Entry&lt;String, Integer&gt;&gt;()</span>
+<span class="fc" id="L117">        {</span>
+            public int compare(Entry&lt;String, Integer&gt; o1,Entry&lt;String, Integer&gt; o2)
+            {
+<span class="fc" id="L120">                    return o2.getValue().compareTo(o1.getValue());</span>
+            }
+            });
+<span class="fc" id="L123">        Collections.sort(letterList, new Comparator&lt;Entry&lt;Character, Integer&gt;&gt;()</span>
+<span class="fc" id="L124">        {</span>
+            public int compare(Entry&lt;Character, Integer&gt; o1,Entry&lt;Character, Integer&gt; o2)
+            {
+<span class="fc" id="L127">                    return o2.getValue().compareTo(o1.getValue());</span>
+            }
+            });
+        
+        // convert to the linkedList
+<span class="fc" id="L132">        int topNum = 3;</span>
+<span class="fc bfc" id="L133" title="All 2 branches covered.">        for (Entry&lt;String, Integer&gt; entry : list)</span>
+        {
+<span class="fc" id="L135">            top3Names.put(entry.getKey(), entry.getValue());</span>
+<span class="fc" id="L136">            topNum--;</span>
+<span class="fc bfc" id="L137" title="All 2 branches covered.">            if (topNum == 0) {</span>
+<span class="fc" id="L138">            	break;</span>
+            }
+<span class="fc" id="L140">        }</span>
+<span class="fc" id="L141">        char mostCommon = letterList.get(0).getKey();</span>
+<span class="fc" id="L142">        int numOccur = letterList.get(0).getValue();</span>
+<span class="fc" id="L143">        comment = &quot;From the year &quot; + startPeriod + &quot; to &quot; + endPeriod + &quot;, &quot; + list.get(0).getKey() + &quot; is the most common name with &quot; +</span>
+<span class="fc" id="L144">        		list.get(0).getValue() + &quot; occurences. \n&quot;;</span>
+<span class="fc" id="L145">        comment += &quot;The most common first letter for the names in the top ranks is &quot; + mostCommon + &quot; with &quot; + numOccur + &quot; occurences throughout the years. \n&quot;;</span>
+        
+<span class="fc" id="L147">        String query = String.format(&quot;Task 1, numRankTextField:%d;maleRadioButton:%d;startPeriodTextField:%d;endPeriodTextField:%d&quot;, numRanks, gender, startPeriod, endPeriod);</span>
+        
+        //saving the query into the history file.
+        try {
+<span class="fc" id="L151">			History.storeHistory(query);</span>
+<span class="nc" id="L152">		} catch (IOException e) {</span>
+			// TODO Auto-generated catch block
+<span class="nc" id="L154">			e.printStackTrace();</span>
+<span class="nc" id="L155">			System.out.println(&quot;Failed to store query history&quot;);</span>
+<span class="fc" id="L156">		}</span>
+        
+<span class="fc" id="L158">		return yearRecordsList;</span>
+	}	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
