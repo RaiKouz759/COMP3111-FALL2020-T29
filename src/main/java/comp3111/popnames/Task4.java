@@ -136,6 +136,7 @@ public class Task4 {
 	 * @param mName the name of the Mom.
 	 * @param mYOB the date of birth of the Mom.
 	 * @param vYear the vintage Year specifying the child's preferred year
+	 * @param choice the option determines whether to use the NK-T4 or the string similarity algorithm
 	 * @return the Arraylist containing recommended boys and girl names
 	 */
 	public static ArrayList<ArrayList<String>> recommendation(String dName, int dYOB, String mName, int mYOB, int vYear, String choice) {
