@@ -91,6 +91,15 @@ public class Task3 {
 		}
 		
 		ArrayList<ArrayList<String>> Entries = TopNames(start_year, end_year, gender, TopN);
+		
+		String query = String.format("Task 3, start_year:%d;end_year:%d;gender:%s;topN:%d",
+				 start_year, end_year, gender, TopN);
+		try {
+			History.storeHistory(query);
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("Failed to store query history.");
+		}
 		return Entries;
 	}
 	

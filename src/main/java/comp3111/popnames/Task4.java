@@ -134,6 +134,16 @@ public class Task4 {
 		else if(choice == "Jaro") {
 			recommendation = similarity_recommendation(dName, dYOB, mName, mYOB, vYear);
 		}
+		
+		String query = String.format("Task 4, dName:%s;dYOB:%d;mName:%s;mYOB:%d;vYear:%s;choice:%d",
+				 dName, dYOB, mName, mYOB, vYear, choice);
+		try {
+			History.storeHistory(query);
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.out.println("Failed to store query history.");
+		}
+		
 		return recommendation;
 	}
 }

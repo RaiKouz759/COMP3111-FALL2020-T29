@@ -679,21 +679,48 @@ public class Controller implements Initializable{
 
     @FXML
     void rerunTask3(String inputs) {
-		/*fill in the elements here
-		
-		*/
-		try {
-			doTask3();
-		} catch (Exception e) {
-
+    	ArrayList<String> input_data = new ArrayList<>(Arrays.asList(inputs.split(";")));
+		HashMap<String, String> input_map = new HashMap<>();
+		for (String s : input_data) {
+			String[] input_pair = s.split(":");
+			input_map.put(input_pair[0], input_pair[1]);
 		}
+		task3_year_start.setText(input_map.get("start_year"));
+		task3_year_end.setText(input_map.get("end_year"));
+		t3_topN.setText(input_map.get("topN"));
+		if (input_map.get("gender").equals("M")) {
+			t3_m.setSelected(true);
+			t3_f.setSelected(false);
+		} else {
+			t3_m.setSelected(false);
+			t3_f.setSelected(true);
+		}
+		doTask3();
     }
 
     @FXML
     void rerunTask4(String inputs) {
-		/*fill in the elements here
+    	ArrayList<String> input_data = new ArrayList<>(Arrays.asList(inputs.split(";")));
+		HashMap<String, String> input_map = new HashMap<>();
+		for (String s : input_data) {
+			String[] input_pair = s.split(":");
+			input_map.put(input_pair[0], input_pair[1]);
+		}
 		
-		*/
+		t4_dname.setText(input_map.get("dName"));
+    	t4_mname.setText(input_map.get("mName"));
+    	t4_dyob.setText(input_map.get("dYOB"));
+	    t4_myob.setText(input_map.get("mYOB"));
+	    t4_vyear.setText(input_map.get("vYear"));
+	    
+	    if(input_map.get("choice").equals("NK-T4")) {
+	    	t4_nkt4.setSelected(true);
+	    	t4_jaro.setSelected(false);
+	    } else {
+	    	t4_nkt4.setSelected(false);
+	    	t4_jaro.setSelected(true);
+	    }
+	    
 		doTask4();
     }
 
