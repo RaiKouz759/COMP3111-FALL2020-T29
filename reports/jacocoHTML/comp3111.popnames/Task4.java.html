@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Task4.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">PopNames3111</a> &gt; <a href="index.source.html" class="el_package">comp3111.popnames</a> &gt; <span class="el_source">Task4.java</span></div><h1>Task4.java</h1><pre class="source lang-java linenums">package comp3111.popnames;
+
+import org.apache.commons.csv.*;
+import org.apache.commons.csv.CSVRecord;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.text.DecimalFormat;
+
+/**
+ * This class deals mainly with Task 4 and contains only static functions to validate data and execute the main query.
+ * 
+ * @author Amrutavarsh
+ *
+ */
+<span class="fc" id="L16">public class Task4 {</span>
+	
+	/**
+	 * NK-T4 Algorithm of task 4.
+	 * 
+	 * @param dName the name of the Dad.
+	 * @param dYOB the date of birth of the Dad.
+	 * @param mName the name of the Mom.
+	 * @param mYOB the date of birth of the Mom.
+	 * @param vYear the vintage Year specifying the child's preferred year
+	 * @return the Arraylist containing recommended boys and girl names
+	 */
+	public static ArrayList&lt;ArrayList&lt;String&gt;&gt; NK_T4(String dName, int dYOB, String mName, int mYOB, int vYear){
+<span class="fc" id="L29">		int dadRank = AnalyzeNames.getRank(dYOB, dName, &quot;M&quot;);</span>
+<span class="fc" id="L30">		int momRank = AnalyzeNames.getRank(mYOB, mName, &quot;F&quot;);</span>
+<span class="pc bpc" id="L31" title="1 of 2 branches missed.">		if (dadRank == -1) { dadRank = 1;}</span>
+<span class="pc bpc" id="L32" title="1 of 2 branches missed.">		if (momRank == -1) { momRank = 1;}</span>
+<span class="fc" id="L33">		ArrayList&lt;ArrayList&lt;String&gt;&gt; recommendation = new ArrayList&lt;ArrayList&lt;String&gt;&gt; ();</span>
+<span class="fc" id="L34">		ArrayList&lt;String&gt; boy = new ArrayList&lt;String&gt; (Arrays.asList(AnalyzeNames.getName(vYear, dadRank, &quot;M&quot;)));</span>
+<span class="fc" id="L35">		ArrayList&lt;String&gt; girl = new ArrayList&lt;String&gt; (Arrays.asList(AnalyzeNames.getName(vYear, momRank, &quot;F&quot;)));</span>
+<span class="fc" id="L36">		recommendation.add(boy);</span>
+<span class="fc" id="L37">		recommendation.add(girl);</span>
+<span class="fc" id="L38">		return recommendation;</span>
+	}
+	
+	/**
+	 * string similarity Algorithm of task 4.
+	 * 
+	 * @param dName the name of the Dad.
+	 * @param dYOB the date of birth of the Dad.
+	 * @param mName the name of the Mom.
+	 * @param mYOB the date of birth of the Mom.
+	 * @param vYear the vintage Year specifying the child's preferred year
+	 * @return the Arraylist containing recommended boys and girl names
+	 */
+	public static ArrayList&lt;ArrayList&lt;String&gt;&gt; similarity_recommendation(String dName, int dYOB, String mName, int mYOB, int vYear) {
+<span class="fc" id="L52">		double bScore1 = 0;</span>
+<span class="fc" id="L53">		double gScore1 = 0;</span>
+<span class="fc" id="L54">		String bName1 = &quot;&quot;;</span>
+<span class="fc" id="L55">		String gName1 = &quot;&quot;;</span>
+		
+<span class="fc" id="L57">		double bScore2 = 0;</span>
+<span class="fc" id="L58">		double gScore2 = 0;</span>
+<span class="fc" id="L59">		String bName2 = &quot;&quot;;</span>
+<span class="fc" id="L60">		String gName2 = &quot;&quot;;</span>
+		
+<span class="fc" id="L62">		double bScore3 = 0;</span>
+<span class="fc" id="L63">		double gScore3 = 0;</span>
+<span class="fc" id="L64">		String bName3 = &quot;&quot;;</span>
+<span class="fc" id="L65">		String gName3 = &quot;&quot;;</span>
+		
+<span class="fc" id="L67">		ArrayList&lt;ArrayList&lt;String&gt;&gt; recommendation = new ArrayList&lt;ArrayList&lt;String&gt;&gt; ();</span>
+		
+<span class="fc bfc" id="L69" title="All 2 branches covered.">		for (CSVRecord rec : AnalyzeNames.getFileParser(vYear)) {</span>
+<span class="fc bfc" id="L70" title="All 2 branches covered.">			if(rec.get(1).equals(&quot;M&quot;)) {</span>
+<span class="fc" id="L71">				double temp_bScore = Algorithm.jaro_distance(dName, rec.get(0)) * Algorithm.jaro_distance(mName, rec.get(0));</span>
+<span class="fc bfc" id="L72" title="All 2 branches covered.">				if (temp_bScore &gt; bScore1) {</span>
+<span class="fc" id="L73">					bScore3=bScore2;</span>
+<span class="fc" id="L74">					bName3=bName2;</span>
+<span class="fc" id="L75">					bScore2=bScore1;</span>
+<span class="fc" id="L76">					bName2=bName1;</span>
+					
+<span class="fc" id="L78">					bScore1 = temp_bScore;</span>
+<span class="fc" id="L79">					bName1 = rec.get(0);</span>
+<span class="fc bfc" id="L80" title="All 2 branches covered.">				} else if (temp_bScore &gt; bScore2) {</span>
+<span class="fc" id="L81">					bScore3=bScore2;</span>
+<span class="fc" id="L82">					bName3=bName2;</span>
+					
+<span class="fc" id="L84">					bScore2 = temp_bScore;</span>
+<span class="fc" id="L85">					bName2 = rec.get(0);</span>
+<span class="fc bfc" id="L86" title="All 2 branches covered.">				} else if (temp_bScore &gt; bScore3) {</span>
+<span class="fc" id="L87">					bScore3 = temp_bScore;</span>
+<span class="fc" id="L88">					bName3 = rec.get(0);</span>
+				}
+<span class="fc" id="L90">			}</span>
+<span class="pc bpc" id="L91" title="1 of 2 branches missed.">			else if(rec.get(1).equals(&quot;F&quot;)) {</span>
+<span class="fc" id="L92">				double temp_gScore = Algorithm.jaro_distance(dName, rec.get(0)) * Algorithm.jaro_distance(mName, rec.get(0));</span>
+<span class="fc bfc" id="L93" title="All 2 branches covered.">				if (temp_gScore &gt; gScore1) {</span>
+<span class="fc" id="L94">					gScore3=gScore2;</span>
+<span class="fc" id="L95">					gName3=gName2;</span>
+<span class="fc" id="L96">					gScore2=gScore1;</span>
+<span class="fc" id="L97">					gName2=gName1;</span>
+					
+<span class="fc" id="L99">					gScore1 = temp_gScore;</span>
+<span class="fc" id="L100">					gName1 = rec.get(0);</span>
+<span class="fc bfc" id="L101" title="All 2 branches covered.">				} else if (temp_gScore &gt; gScore2) {</span>
+<span class="fc" id="L102">					gScore3=gScore2;</span>
+<span class="fc" id="L103">					gName3=gName2;</span>
+					
+<span class="fc" id="L105">					gScore2 = temp_gScore;</span>
+<span class="fc" id="L106">					gName2 = rec.get(0);</span>
+<span class="fc bfc" id="L107" title="All 2 branches covered.">				} else if (temp_gScore &gt; gScore3) {</span>
+<span class="fc" id="L108">					gScore3 = temp_gScore;</span>
+<span class="fc" id="L109">					gName3 = rec.get(0);</span>
+				}
+			}
+<span class="fc" id="L112">		}</span>
+		
+<span class="fc" id="L114">		DecimalFormat df = new DecimalFormat(&quot;#.###&quot;);</span>
+		
+<span class="fc" id="L116">		String b1 = bName1 + &quot; : &quot; + df.format(bScore1);</span>
+<span class="fc" id="L117">		String b2 = bName2 + &quot; : &quot; + df.format(bScore2);</span>
+<span class="fc" id="L118">		String b3 = bName3 + &quot; : &quot; + df.format(bScore3);</span>
+		
+<span class="fc" id="L120">		String g1 = gName1 + &quot; : &quot; + df.format(gScore1);</span>
+<span class="fc" id="L121">		String g2 = gName2 + &quot; : &quot; + df.format(gScore2);</span>
+<span class="fc" id="L122">		String g3 = gName3 + &quot; : &quot; + df.format(gScore3);</span>
+		
+<span class="fc" id="L124">		ArrayList&lt;String&gt; boy = new ArrayList&lt;String&gt; (Arrays.asList(b1, b2, b3));</span>
+<span class="fc" id="L125">		ArrayList&lt;String&gt; girl = new ArrayList&lt;String&gt; (Arrays.asList(g1, g2, g3));</span>
+<span class="fc" id="L126">		recommendation.add(boy);</span>
+<span class="fc" id="L127">		recommendation.add(girl);</span>
+<span class="fc" id="L128">		return recommendation;</span>
+	}
+	
+	/**
+	 * Main query function of task 4. Validate and parses inputs to the algorithm. Saves logs.
+	 * 
+	 * @param dName the name of the Dad.
+	 * @param dYOB the date of birth of the Dad.
+	 * @param mName the name of the Mom.
+	 * @param mYOB the date of birth of the Mom.
+	 * @param vYear the vintage Year specifying the child's preferred year
+	 * @return the Arraylist containing recommended boys and girl names
+	 */
+	public static ArrayList&lt;ArrayList&lt;String&gt;&gt; recommendation(String dName, int dYOB, String mName, int mYOB, int vYear, String choice) {
+<span class="fc bfc" id="L142" title="All 2 branches covered.">		if(!AnalyzeNames.checkYear(dYOB))</span>
+<span class="fc" id="L143">			throw new RuntimeException(&quot;invalid dYOB&quot;);</span>
+<span class="fc bfc" id="L144" title="All 2 branches covered.">		if(!AnalyzeNames.checkYear(mYOB))</span>
+<span class="fc" id="L145">			throw new RuntimeException(&quot;invalid mYOB&quot;);</span>
+<span class="fc bfc" id="L146" title="All 2 branches covered.">		if(!AnalyzeNames.checkYear(vYear))</span>
+<span class="fc" id="L147">			throw new RuntimeException(&quot;invalid vYear&quot;);</span>
+<span class="fc bfc" id="L148" title="All 2 branches covered.">		if (!AnalyzeNames.checkNameLength(dName)) {</span>
+<span class="fc" id="L149">			throw new RuntimeException(&quot;dName length&quot;); </span>
+		}
+<span class="fc bfc" id="L151" title="All 2 branches covered.">		if (!AnalyzeNames.checkNameCharacter(dName)) {</span>
+<span class="fc" id="L152">			throw new RuntimeException(&quot;dName char&quot;); </span>
+		}
+<span class="fc bfc" id="L154" title="All 2 branches covered.">		if (!AnalyzeNames.checkNameLength(mName)) {</span>
+<span class="fc" id="L155">			throw new RuntimeException(&quot;mName length&quot;); </span>
+		}
+<span class="fc bfc" id="L157" title="All 2 branches covered.">		if (!AnalyzeNames.checkNameCharacter(mName)) {</span>
+<span class="fc" id="L158">			throw new RuntimeException(&quot;mName char&quot;); </span>
+		}
+		
+<span class="fc" id="L161">		ArrayList&lt;ArrayList&lt;String&gt;&gt; recommendation = new ArrayList&lt;ArrayList&lt;String&gt;&gt; ();</span>
+<span class="fc bfc" id="L162" title="All 2 branches covered.">		if (choice == &quot;NK-T4&quot;) {</span>
+<span class="fc" id="L163">			recommendation = NK_T4(dName, dYOB, mName, mYOB, vYear);</span>
+		}
+<span class="pc bpc" id="L165" title="1 of 2 branches missed.">		else if(choice == &quot;Jaro&quot;) {</span>
+<span class="fc" id="L166">			recommendation = similarity_recommendation(dName, dYOB, mName, mYOB, vYear);</span>
+		}
+		
+<span class="fc" id="L169">		String query = String.format(&quot;Task 4, dName:%s;dYOB:%d;mName:%s;mYOB:%d;vYear:%d;choice:%s&quot;,</span>
+<span class="fc" id="L170">				 dName, dYOB, mName, mYOB, vYear, choice);</span>
+		try {
+<span class="fc" id="L172">			History.storeHistory(query);</span>
+<span class="nc" id="L173">		} catch (IOException e) {</span>
+<span class="nc" id="L174">			e.printStackTrace();</span>
+<span class="nc" id="L175">			System.out.println(&quot;Failed to store query history.&quot;);</span>
+<span class="fc" id="L176">		}</span>
+		
+<span class="fc" id="L178">		return recommendation;</span>
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

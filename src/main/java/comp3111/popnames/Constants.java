@@ -1,5 +1,11 @@
 package comp3111.popnames;
 
+/**
+ * This class is used to store commonly used constants.
+ * 
+ * @author Alex
+ *
+ */
 public class Constants {
     private Constants() {} // no way to instantiate this class
     

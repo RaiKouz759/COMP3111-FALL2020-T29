@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>History.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">PopNames3111</a> &gt; <a href="index.source.html" class="el_package">comp3111.popnames</a> &gt; <span class="el_source">History.java</span></div><h1>History.java</h1><pre class="source lang-java linenums">package comp3111.popnames;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.RandomAccessFile;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
+import java.nio.channels.OverlappingFileLockException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+
+/**
+ * This class handles the reading and writing of the log files which stores the history of queries. 
+ * 
+ * @author Alex
+ *
+ */
+<span class="nc" id="L21">public class History {</span>
+	/**
+	 * @param query - assume that the query will be in the form of &quot;Task #, name;age;prefgender;gender&quot;
+	 * @return string of current date if successful or error if unsuccessful. 
+	 * @throws IOException 
+	 * @throws Exception
+	 */
+	public static String storeHistory(String query) throws IOException {
+<span class="fc" id="L29">		LocalDateTime date_today = java.time.LocalDateTime.now();</span>
+<span class="fc" id="L30">		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(&quot;yyyy-MM-dd&quot;);</span>
+<span class="fc" id="L31">		DateTimeFormatter datetimeFormat = DateTimeFormatter.ofPattern(&quot;yyyy-MM-dd : HH:mm:ss&quot;);</span>
+<span class="fc" id="L32">		String str_date = date_today.format(formatter);</span>
+<span class="fc" id="L33">		String str_datetime = date_today.format(datetimeFormat);</span>
+		RandomAccessFile file;
+<span class="fc" id="L35">		String filePath = new File(&quot;&quot;).getAbsolutePath();</span>
+<span class="fc" id="L36">		System.out.println(filePath);</span>
+<span class="fc" id="L37">		filePath = filePath.concat(&quot;/src/main/resources/logs&quot;);</span>
+		try {
+<span class="fc" id="L39">			new File(filePath).mkdirs();</span>
+<span class="fc" id="L40">			file = new RandomAccessFile(filePath.concat(&quot;/&quot; + str_date) + &quot;.txt&quot;, &quot;rw&quot;);</span>
+<span class="nc" id="L41">		} catch (FileNotFoundException e1) {</span>
+			// TODO Auto-generated catch block
+<span class="nc" id="L43">			e1.printStackTrace();</span>
+<span class="nc" id="L44">			return &quot;error&quot;;</span>
+<span class="fc" id="L45">		} </span>
+<span class="fc" id="L46">		FileChannel channel = file.getChannel();</span>
+<span class="fc" id="L47">		FileLock lock = null;</span>
+		try {
+<span class="fc" id="L49">			lock = channel.tryLock();</span>
+			
+<span class="nc" id="L51">		}catch(final OverlappingFileLockException e) {</span>
+<span class="nc" id="L52">			file.close();</span>
+<span class="nc" id="L53">			channel.close();</span>
+<span class="nc" id="L54">			return &quot;error&quot;;</span>
+<span class="fc" id="L55">		}</span>
+<span class="fc" id="L56">		long fileLength = file.length();</span>
+<span class="fc" id="L57">		file.seek(fileLength);</span>
+<span class="fc" id="L58">		file.writeBytes(str_datetime + &quot;, &quot; + query + &quot;\n&quot;);</span>
+<span class="fc" id="L59">		lock.release();</span>
+		
+<span class="fc" id="L61">		file.close();</span>
+<span class="fc" id="L62">		channel.close();</span>
+		
+		
+<span class="fc" id="L65">		return str_date;</span>
+		
+	}
+	/**
+	 * 
+	 * @param filename - Assumes the filename with its .txt extension. 
+	 * @return
+	 * @throws FileNotFoundException
+	 */
+	public static ArrayList&lt;String&gt; readHistory(String filename) throws FileNotFoundException {
+		// assume that logs are stored in the logs folder. 
+<span class="fc" id="L76">		String filePath = new File(&quot;&quot;).getAbsolutePath();</span>
+<span class="fc" id="L77">		String file_path = filePath.concat(Constants.log_path + &quot;/&quot; + filename);</span>
+<span class="fc" id="L78">		System.out.println(file_path);</span>
+<span class="fc" id="L79">		File f = new File(file_path);</span>
+<span class="fc" id="L80">		ArrayList&lt;String&gt; queries = new ArrayList&lt;&gt;();</span>
+		
+<span class="pc bpc" id="L82" title="1 of 4 branches missed.">		if(f.exists() &amp;&amp; f.isFile()) { </span>
+<span class="fc" id="L83">		    RandomAccessFile raFile = new RandomAccessFile(f, &quot;r&quot;);</span>
+		    try {
+<span class="fc bfc" id="L85" title="All 2 branches covered.">				while(raFile.getFilePointer() &lt; raFile.length()) {</span>
+<span class="fc" id="L86">				     queries.add(raFile.readLine());</span>
+				  }
+
+<span class="fc" id="L89">				return queries;</span>
+				
+<span class="nc" id="L91">			} catch (IOException e) {</span>
+				// TODO Auto-generated catch block
+<span class="nc" id="L93">				e.printStackTrace();</span>
+<span class="nc" id="L94">				System.out.println(&quot;Error reading the file&quot;);</span>
+<span class="nc" id="L95">				return queries;</span>
+			}
+		} else {
+<span class="fc" id="L98">			return queries;</span>
+		}
+	}
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

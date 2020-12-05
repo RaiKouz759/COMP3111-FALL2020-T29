@@ -762,7 +762,7 @@ public class Controller implements Initializable{
 		}
 		if (input_map.get("app2RadioNK").equals("1")) {
 			app2RadioNK.setSelected(true);
-            doTask5();
+			doTask5();
 		} else {
 			app2RadioJaro.setSelected(true);
 			app2Answer.setText(input_map.get("chosenName"));
