@@ -560,7 +560,9 @@ public class Controller implements Initializable{
 
         
     }
-    
+    /**
+     * 
+     */
     @FXML
     void clickHistory() {
     	if (historyTab.isSelected()) {
@@ -585,6 +587,9 @@ public class Controller implements Initializable{
 	    }
     }
 
+    /**
+     * 
+     */
     @FXML
     void historyRerun() {
     	if (historyTableView.getSelectionModel().isEmpty()) {
@@ -648,6 +653,9 @@ public class Controller implements Initializable{
 		doTask1();
     }
 
+    /**
+     * @param inputs
+     */
     @FXML
     void rerunTask2(String inputs) {
     	ArrayList<String> elements = new ArrayList<>(Arrays.asList(inputs.split(";")));
@@ -770,6 +778,9 @@ public class Controller implements Initializable{
 		
     }
 
+    /**
+     * @param inputs
+     */
     @FXML
     void rerunTask6(String inputs) {
 		ArrayList<String> elements = new ArrayList<>(Arrays.asList(inputs.split(";")));
@@ -1468,6 +1479,9 @@ public class Controller implements Initializable{
         task6LineChartResult.setVisible(false);
     }
 
+    /**
+     * 
+     */
     @FXML
     void resetTask6() {
     	task6TextName1.setDisable(false);
@@ -1492,6 +1506,9 @@ public class Controller implements Initializable{
         task6LineChartResult.setVisible(false);
     }
 
+    /**
+     * 
+     */
     @FXML
     void doTask6AfterThread() {
         resetTask6();        
@@ -1581,6 +1598,10 @@ public class Controller implements Initializable{
         task6LineChartResult.getData().add(series4);        
     }
 
+    /**
+     * @param header
+     * @param message
+     */
     private static void showWarning(String header, String message) {
         Alert alert = new Alert(AlertType.WARNING);
         alert.setTitle("Warning");

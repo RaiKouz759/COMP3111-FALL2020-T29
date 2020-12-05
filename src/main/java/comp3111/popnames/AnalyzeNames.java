@@ -3,6 +3,10 @@ package comp3111.popnames;
 import org.apache.commons.csv.*;
 import edu.duke.*;
 
+/**
+ * @author James, Codebase
+ *
+ */
 public class AnalyzeNames {
 
 	/**Returns a CSVParser which you can iterate through. 
@@ -51,6 +55,12 @@ public class AnalyzeNames {
 	}
 	
 	
+	/**
+	 * @param year
+	 * @param name
+	 * @param gender
+	 * @return
+	 */
 	public static RankRecord getRankRecord(int year, String name, String gender) {
 		RankRecord rankRecord = new RankRecord(year);
 		CSVParser fileParser = getFileParser(year);
@@ -71,7 +81,13 @@ public class AnalyzeNames {
 		return rankRecord;
 	}
 
-	 public static int getRank(int year, String name, String gender) {
+	 /**
+	 * @param year
+	 * @param name
+	 * @param gender
+	 * @return
+	 */
+	public static int getRank(int year, String name, String gender) {
 		return getRankRecord(year, name, gender).getRank();
 		/*boolean found = false;
 		int oRank = 0;
@@ -120,11 +136,19 @@ public class AnalyzeNames {
 	 }
 
 
+	/**
+	 * @param name
+	 * @return
+	 */
 	public static boolean checkNameLength(String name) {
 		return (name.length() >= 2) && (name.length() <= 15);
 	}
 
 
+	/**
+	 * @param name
+	 * @return
+	 */
 	public static boolean checkNameCharacter(String name) {
 		char[] chars = name.toCharArray();
 		for (char c : chars) {
@@ -136,10 +160,19 @@ public class AnalyzeNames {
 	}
 
 
+	/**
+	 * @param year
+	 * @return
+	 */
 	public static boolean checkYear(int year) {
 		return (year >= 1880) && (year <= 2019);
 	} 
 
+	/**
+	 * @param N
+	 * @param sig
+	 * @return
+	 */
 	static double round(double N, double sig) 
 	{ 
 		int h;

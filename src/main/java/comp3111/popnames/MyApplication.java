@@ -48,6 +48,8 @@ public class MyApplication extends Application {
    		Scene scene =  new Scene(root);
    		stage.setScene(scene);
    		stage.setTitle("Team T-29: Popular Names");
+   		stage.setMinHeight(679);
+   		stage.setMinWidth(719);
    		stage.show();
 	}
 
