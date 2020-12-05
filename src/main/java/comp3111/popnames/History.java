@@ -12,6 +12,12 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+/**
+ * This class handles the reading and writing of the log files which stores the history of queries. 
+ * 
+ * @author Alex
+ *
+ */
 public class History {
 	/**
 	 * @param query - assume that the query will be in the form of "Task #, name;age;prefgender;gender"

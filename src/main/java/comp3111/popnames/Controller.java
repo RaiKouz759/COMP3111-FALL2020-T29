@@ -761,6 +761,7 @@ public class Controller implements Initializable{
 			app2SoulOlder.setSelected(true);
 		}
 		if (input_map.get("app2RadioNK").equals("1")) {
+			app2RadioNK.setSelected(true);
 			doTask5();
 		} else {
 			app2RadioJaro.setSelected(true);
