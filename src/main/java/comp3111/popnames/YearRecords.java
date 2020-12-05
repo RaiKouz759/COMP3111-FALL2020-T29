@@ -16,8 +16,8 @@ public class YearRecords {
 	/**
 	 * Constructor for YearRecords.
 	 * 
-	 * @param numRanks 
-	 * @param year
+	 * @param numRanks numRanks to create the object.
+	 * @param year year to create the object.
 	 */
 	public YearRecords(int numRanks, int year) {
 		this.nameRecordList = new ArrayList<NameRecord>();
@@ -28,7 +28,7 @@ public class YearRecords {
 	/**
 	 * getter for numRanks. 
 	 * 
-	 * @return
+	 * @return number of ranks.
 	 */
 	public int getNumRanks() {
 		return numRanks;
@@ -37,7 +37,7 @@ public class YearRecords {
 	/**
 	 * setter for numRanks.
 	 * 
-	 * @param numRanks
+	 * @param numRanks the number of ranks to set.
 	 */
 	public void setNumRanks(int numRanks) {
 		this.numRanks = numRanks;
@@ -46,7 +46,7 @@ public class YearRecords {
 	/**
 	 * getter for year. 
 	 * 
-	 * @return
+	 * @return the year of the YearRecords.
 	 */
 	public int getYear() {
 		return year;
@@ -55,7 +55,7 @@ public class YearRecords {
 	/**
 	 * setter for year.
 	 * 
-	 * @param year
+	 * @param year the year of the YearRecords.
 	 */
 	public void setYear(int year) {
 		this.year = year;
@@ -64,7 +64,7 @@ public class YearRecords {
 	/**
 	 * getting for arraylist of name record. 
 	 * 
-	 * @return
+	 * @return arraylist of namerecords.
 	 */
 	public ArrayList<NameRecord> getNameRecordList() {
 		return nameRecordList;
@@ -73,7 +73,7 @@ public class YearRecords {
 	/**
 	 * Function to add NameRecord to the arraylist. 
 	 * 
-	 * @param rec
+	 * @param rec the NameRecord object to be added into the arraylist. 
 	 */
 	public void addNameRecord(NameRecord rec) {
 		this.nameRecordList.add(rec);
