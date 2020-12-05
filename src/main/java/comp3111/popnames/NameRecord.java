@@ -1,5 +1,11 @@
 package comp3111.popnames;
 
+/**
+ * Helper class to store name records for activity 1. 
+ * 
+ * @author Alex
+ *
+ */
 public class NameRecord {
 	
 	private String name;
@@ -7,6 +13,11 @@ public class NameRecord {
 	private int numOfOccur;
 	
 	
+	/**
+	 * @param name
+	 * @param gender
+	 * @param numOfOccur
+	 */
 	public NameRecord(String name, int gender, int numOfOccur) {
 		this.name = name;
 		this.gender = gender;
