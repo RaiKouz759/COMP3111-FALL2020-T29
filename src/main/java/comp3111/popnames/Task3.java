@@ -18,8 +18,12 @@ public class Task3 {
 		}
 		return null;
 	}
+
+	public static boolean checkYear(int year) {
+		return (year >= 1880) && (year <= 2019);
+	}
 	
-	public static ArrayList<ArrayList<String>> TopNames(int start_year, int end_year, String gender, int TopN) throws IOException {
+	public static ArrayList<ArrayList<String>> TopNames(int start_year, int end_year, String gender, int TopN) {
 		ArrayList<ArrayList<String>> Entries = new ArrayList<ArrayList<String>> ();
 		for (int i=1;i<=TopN;i++) {
 			String Name = AnalyzeNames.getName(start_year, i, gender);
@@ -60,14 +64,20 @@ public class Task3 {
 		return Entries;
 	}
 	
-	public static String Summary(int start_year, int end_year, String gender, int TopN) throws IOException {
-		String Summary = "";
+	public static ArrayList<ArrayList<String>> execute3Query(int start_year, int end_year, String gender, int TopN) {
+		
+		if (checkYear(start_year)) {
+			if(!checkYear(end_year))
+				throw new NumberFormatException("end"); 
+		} else {
+			if(checkYear(end_year))
+				throw new NumberFormatException("start"); 
+			else
+				throw new NumberFormatException("start end"); 
+		}			
+		
 		ArrayList<ArrayList<String>> Entries = TopNames(start_year, end_year, gender, TopN);
-		for (ArrayList<String> Entry : Entries) {
-			Summary += Entry.get(0) + " , " + Entry.get(1) + " : " + Entry.get(2) + " , " + Entry.get(3) + " : " + Entry.get(4) + " , " + Entry.get(5) + "\n" ;
-		}
-		return Summary;
+		return Entries;
 	}
-	
 	
 }
