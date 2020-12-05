@@ -341,6 +341,8 @@ public class Controller implements Initializable{
 
     @FXML
     private TextArea historyText;
+    
+    @FXML
     private TextField task3_year_end;
 
     @FXML
@@ -405,9 +407,18 @@ public class Controller implements Initializable{
     private TableView<Map> historyTableView;
     // end of history 
     
-    //Task Four
     @FXML
-    void t4_generate_recommendation() {
+    public ObservableList<String> log_obList;
+    
+    @FXML
+    private Tab historyTab;
+
+    @FXML
+    private TabPane tabpane;
+
+
+    @FXML
+    void doTask4() {
     	String dName = t4_dname.getText();
     	String mName = t4_mname.getText();
     	int dYOB = Integer.parseInt(t4_dyob.getText());
@@ -426,9 +437,10 @@ public class Controller implements Initializable{
     
     
     // Task Three
-    
+
+
     @FXML
-    void task3_generate_summary() {
+    void doTask3() {
     	task3_table.getColumns().clear();
     	task3_table.getItems().clear();
     	task3_table.refresh();
@@ -514,13 +526,7 @@ public class Controller implements Initializable{
     	
     }
     
-    public ObservableList<String> log_obList;
     
-    @FXML
-    private Tab historyTab;
-
-    @FXML
-    private TabPane tabpane;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -1127,43 +1133,6 @@ public class Controller implements Initializable{
         task2TableResult.getItems().addAll(items);
         
         task2LineChartResult.getData().add(series);
-    }
-
-    // Task Three
-    
-    @FXML
-    void doTask3() throws IOException {
-    	int year_start = Integer.parseInt(task3_year_start.getText());
-    	int year_end = Integer.parseInt(task3_year_end.getText());
-    	int topN = Integer.parseInt(t3_topN.getText());
-    	String gender = "";
-    	if (this.T111.getSelectedToggle().equals(this.t3_m)) {
-    		gender = "M";
-    	}
-    	else if (this.T111.getSelectedToggle().equals(this.t3_f)) {
-    		gender = "F";
-    	}
-    	String Report = Task3.Summary(year_start, year_end, gender, topN);
-    	textAreaConsole.setText(Report);
-    }
-
-    //Task Four
-    @FXML
-    void doTask4() {
-    	String dName = t4_dname.getText();
-    	String mName = t4_mname.getText();
-    	int dYOB = Integer.parseInt(t4_dyob.getText());
-    	int mYOB = Integer.parseInt(t4_myob.getText());
-    	int vYear = Integer.parseInt(t4_vyear.getText());
-    	String choice = "";
-    	if (this.T4_algorithm.getSelectedToggle().equals(this.t4_nkt4)){
-    		choice = "NK-T4";
-    	}
-    	else if (this.T4_algorithm.getSelectedToggle().equals(this.t4_jaro)) {
-    		choice = "Jaro";
-    	}
-    	String Report = Task4.recommendation(dName, dYOB, mName, mYOB, vYear, choice);
-    	textAreaConsole.setText(Report);
     }
     
     /**
