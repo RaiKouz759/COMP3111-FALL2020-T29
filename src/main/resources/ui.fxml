@@ -28,7 +28,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<VBox fx:id="vBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="background" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comp3111.popnames.Controller">
+<VBox fx:id="vBox" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" styleClass="background" stylesheets="@DarkTheme.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="comp3111.popnames.Controller">
   <children>
     <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" styleClass="background" stylesheets="@DarkTheme.css" VBox.vgrow="ALWAYS">
       <children>
@@ -36,39 +36,100 @@
               <tabs>
                   <Tab fx:id="tabReport1" text="Reporting 1">
                     <content>
-                      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0" prefHeight="650.0">
+                      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="0.0" minWidth="0.0">
                            <children>
-                              <Label layoutX="79.0" layoutY="44.0" prefHeight="18.0" prefWidth="0.0" />
-                              <Label layoutX="30.0" layoutY="66.0" text="Top N (N&gt;=1): " />
-                              <TextField fx:id="numRankTextField" alignment="CENTER" layoutX="131.0" layoutY="59.0" prefHeight="32.0" prefWidth="48.0" text="10" />
-                              <Label layoutX="187.0" layoutY="66.0" text="Gender: " />
-                              <RadioButton fx:id="maleRadioButton" layoutX="255.0" layoutY="68.0" mnemonicParsing="false" selected="true" text="Male">
-                                 <toggleGroup>
-                                    <ToggleGroup fx:id="T1" />
-                                 </toggleGroup>
-                              </RadioButton>
-                              <RadioButton fx:id="femaleRadioButton" layoutX="318.0" layoutY="68.0" mnemonicParsing="false" text="Female" toggleGroup="$T1" />
-                              <Label layoutX="25.0" layoutY="118.0" text="Period (1880 - 2019): " />
-                              <TextField fx:id="endPeriodTextField" layoutX="255.0" layoutY="105.0" prefHeight="26.0" prefWidth="43.0" text="1945" />
-                              <TextField fx:id="startPeriodTextField" layoutX="183.0" layoutY="105.0" prefHeight="26.0" prefWidth="43.0" text="1941" />
-                              <Label layoutX="231.0" layoutY="115.0" text="to" />
-                              <Button fx:id="task1Button" layoutX="30.0" layoutY="167.0" mnemonicParsing="false" onAction="#doTask1" text="GENERATE REPORT" />
-                              <TableView fx:id="report1Table" layoutX="-2.0" layoutY="325.0" prefHeight="329.0" prefWidth="722.0" AnchorPane.bottomAnchor="-5.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="-1.1999999999999318" AnchorPane.topAnchor="325.0" />
-                              <Label alignment="CENTER" contentDisplay="CENTER" layoutX="167.0" layoutY="14.0" prefHeight="35.0" prefWidth="363.0" style="-fx-font-size: 24;" styleClass="label-bright" text="Popular Birthnames in History" textAlignment="CENTER" AnchorPane.leftAnchor="167.0" AnchorPane.rightAnchor="180.0">
-                                 <font>
-                                    <Font name="Cambria Bold" size="18.0" />
-                                 </font>
-                              </Label>
-                              <BarChart fx:id="rep1BarChart" animated="false" layoutX="391.0" layoutY="53.0" prefHeight="263.0" prefWidth="313.0" title="            Top 3 Names " visible="false">
-                                <xAxis>
-                                  <CategoryAxis fx:id="rep1XAxis" label="Names" side="BOTTOM" />
-                                </xAxis>
-                                <yAxis>
-                                  <NumberAxis fx:id="rep1YAxis" label="Occurences" side="LEFT" />
-                                </yAxis>
-                              </BarChart>
-                              <TextArea fx:id="rep1Comment" layoutX="25.0" layoutY="238.0" prefHeight="82.0" prefWidth="376.0" wrapText="true" />
-                              <Label fx:id="rep1Label" layoutX="30.0" layoutY="220.0" text="Comments" />
+                              <VBox layoutX="-2.0" layoutY="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                 <children>
+                                    <VBox>
+                                       <children>
+                                          <StackPane>
+                                             <children>
+                                                <Label alignment="CENTER" contentDisplay="CENTER" style="-fx-font-size: 24;" styleClass="label-bright" text="Popular Birthnames in History" textAlignment="CENTER">
+                                                   <font>
+                                                      <Font name="Cambria Bold" size="18.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </StackPane>
+                                          <GridPane>
+                                             <columnConstraints>
+                                                <ColumnConstraints hgrow="NEVER" minWidth="-Infinity" />
+                                                <ColumnConstraints hgrow="ALWAYS" minWidth="10.0" />
+                                             </columnConstraints>
+                                             <rowConstraints>
+                                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                             </rowConstraints>
+                                             <children>
+                                                <VBox spacing="10.0">
+                                                   <children>
+                                                      <HBox spacing="10.0">
+                                                         <children>
+                                                            <StackPane>
+                                                               <children>
+                                                                  <Label text="Top N (N&gt;=1): " />
+                                                               </children>
+                                                            </StackPane>
+                                                            <TextField fx:id="numRankTextField" alignment="CENTER" prefWidth="64.0" text="10" />
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox spacing="10.0">
+                                                         <children>
+                                                            <Label text="Gender: " />
+                                                            <RadioButton fx:id="maleRadioButton" mnemonicParsing="false" selected="true" styleClass="label-bright" text="Male">
+                                                               <toggleGroup>
+                                                                  <ToggleGroup fx:id="T1" />
+                                                               </toggleGroup>
+                                                            </RadioButton>
+                                                            <RadioButton fx:id="femaleRadioButton" mnemonicParsing="false" styleClass="label-bright" text="Female" toggleGroup="$T1" />
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox spacing="10.0">
+                                                         <children>
+                                                            <StackPane>
+                                                               <children>
+                                                                  <Label text="Period (1880 - 2019): " />
+                                                               </children>
+                                                            </StackPane>
+                                                            <TextField fx:id="startPeriodTextField" prefHeight="26.0" prefWidth="43.0" text="1941" />
+                                                            <StackPane>
+                                                               <children>
+                                                                  <Label text="to" />
+                                                               </children>
+                                                            </StackPane>
+                                                            <TextField fx:id="endPeriodTextField" prefHeight="26.0" prefWidth="43.0" text="1945" />
+                                                         </children>
+                                                      </HBox>
+                                                      <Button fx:id="task1Button" mnemonicParsing="false" onAction="#doTask1" text="GENERATE REPORT" />
+                                                      <VBox>
+                                                         <children>
+                                                            <Label fx:id="rep1Label" text="Comments" />
+                                                            <TextArea fx:id="rep1Comment" prefHeight="117.0" prefWidth="314.0" wrapText="true" VBox.vgrow="NEVER" />
+                                                         </children>
+                                                      </VBox>
+                                                   </children>
+                                                </VBox>
+                                                <BarChart fx:id="rep1BarChart" animated="false" title="            Top 3 Names " visible="false" GridPane.columnIndex="1">
+                                                  <xAxis>
+                                                    <CategoryAxis fx:id="rep1XAxis" label="Names" side="BOTTOM" />
+                                                  </xAxis>
+                                                  <yAxis>
+                                                    <NumberAxis fx:id="rep1YAxis" label="Occurences" side="LEFT" />
+                                                  </yAxis>
+                                                </BarChart>
+                                             </children>
+                                          </GridPane>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets left="30.0" right="30.0" top="30.0" />
+                                       </VBox.margin>
+                                    </VBox>
+                                    <TableView fx:id="report1Table" VBox.vgrow="NEVER">
+                                       <VBox.margin>
+                                          <Insets />
+                                       </VBox.margin>
+                                    </TableView>
+                                 </children>
+                              </VBox>
                            </children>
                         </AnchorPane>
                     </content>
@@ -77,11 +138,11 @@
                   <content>
                         <AnchorPane>
                            <children>
-                              <VBox spacing="20.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="30.0">
+                              <VBox spacing="10.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="30.0">
                                  <children>
                                     <StackPane>
                                        <children>
-                                          <Label alignment="CENTER" contentDisplay="CENTER" styleClass="label-bright" text="Popularity History of Your Name" textAlignment="CENTER">
+                                          <Label alignment="CENTER" contentDisplay="CENTER" style="-fx-font-size: 24;" styleClass="label-bright" text="Popularity History of Your Name" textAlignment="CENTER">
                                              <font>
                                                 <Font name="Cambria Bold" size="18.0" />
                                              </font>
@@ -170,49 +231,99 @@
                     <content>
                         <AnchorPane stylesheets="@DarkTheme.css">
                            <children>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="650.0" prefWidth="719.0" styleClass="background">
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="650.0" prefWidth="719.0" styleClass="background" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <children>
-                                    <Label layoutX="83.0" layoutY="87.0" prefHeight="41.0" prefWidth="164.0" text="Gender of Interest: ">
-                                       <font>
-                                          <Font name="Cochin" size="18.0" />
-                                       </font></Label>
-                                    <Label layoutX="82.0" layoutY="147.0" text="Period (1880 - 2019): ">
-                                       <font>
-                                          <Font name="Avenir Book" size="18.0" />
-                                       </font></Label>
-                                    <TextField fx:id="task3_year_end" layoutX="387.0" layoutY="138.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="58.0" styleClass="text-field" text="1945">
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font></TextField>
-                                    <TextField fx:id="task3_year_start" layoutX="259.0" layoutY="139.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="58.0" styleClass="text-field" text="1941">
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font></TextField>
-                                    <Label layoutX="345.0" layoutY="147.0" text="to">
-                                       <font>
-                                          <Font size="18.0" />
-                                       </font></Label>
-                                    <Button fx:id="task3_report" layoutX="83.0" layoutY="238.0" mnemonicParsing="false" onAction="#doTask3" prefHeight="30.0" prefWidth="166.0" text="Generate REPORT">
-                                       <font>
-                                          <Font name="Avenir Book" size="21.0" />
-                                       </font></Button>
-                                    <TextField fx:id="t3_topN" layoutX="259.0" layoutY="178.0" minHeight="-Infinity" minWidth="-Infinity" prefHeight="30.0" prefWidth="58.0" styleClass="text-field" text="10" />
-                                    <Label layoutX="83.0" layoutY="187.0" text="Top entries (&gt;0): ">
-                                       <font>
-                                          <Font name="Avenir Book" size="18.0" />
-                                       </font></Label>
-                                    <TableView fx:id="task3_table" layoutX="48.0" layoutY="291.0" prefHeight="290.0" prefWidth="627.0" />
-                                    <RadioButton fx:id="t3_m" layoutX="259.0" layoutY="98.0" mnemonicParsing="false" selected="true" styleClass="label-bright" text="Male">
-                                       <toggleGroup>
-                                          <ToggleGroup fx:id="T3_toggle_group" />
-                                       </toggleGroup>
-                                    </RadioButton>
-                                    <RadioButton fx:id="t3_f" layoutX="385.0" layoutY="99.0" mnemonicParsing="false" styleClass="label-bright" text="Female" toggleGroup="$T3_toggle_group" />
-                                    <Label layoutX="81.0" layoutY="23.0" prefHeight="54.0" prefWidth="337.0" styleClass="label-header" text="Trend in popularity of names">
-                                       <font>
-                                          <Font name="System Bold" size="13.0" />
-                                       </font>
-                                    </Label>
+                                    <VBox layoutX="30.0" layoutY="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <VBox spacing="10.0">
+                                             <children>
+                                                <StackPane>
+                                                   <children>
+                                                      <Label style="-fx-font-size: 24;" styleClass="label-header" text="Trend in popularity of names">
+                                                         <font>
+                                                            <Font name="System Bold" size="13.0" />
+                                                         </font>
+                                                      </Label>
+                                                   </children>
+                                                </StackPane>
+                                                <VBox spacing="10.0">
+                                                   <children>
+                                                      <HBox spacing="10.0">
+                                                         <children>
+                                                            <Label text="Gender of Interest: ">
+                                                               <font>
+                                                                  <Font name="Cochin" size="18.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <RadioButton fx:id="t3_m" mnemonicParsing="false" selected="true" styleClass="label-bright" text="Male">
+                                                               <toggleGroup>
+                                                                  <ToggleGroup fx:id="T3_toggle_group" />
+                                                               </toggleGroup>
+                                                            </RadioButton>
+                                                            <RadioButton fx:id="t3_f" mnemonicParsing="false" styleClass="label-bright" text="Female" toggleGroup="$T3_toggle_group" />
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox spacing="10.0">
+                                                         <children>
+                                                            <StackPane>
+                                                               <children>
+                                                                  <Label text="Period (1880 - 2019): ">
+                                                                     <font>
+                                                                        <Font name="Avenir Book" size="18.0" />
+                                                                     </font>
+                                                                  </Label>
+                                                               </children>
+                                                            </StackPane>
+                                                            <TextField fx:id="task3_year_start" minHeight="-Infinity" minWidth="-Infinity" prefWidth="48.0" styleClass="text-field" text="1941">
+                                                               <font>
+                                                                  <Font size="18.0" />
+                                                               </font>
+                                                            </TextField>
+                                                            <StackPane>
+                                                               <children>
+                                                                  <Label text="to">
+                                                                     <font>
+                                                                        <Font size="18.0" />
+                                                                     </font>
+                                                                  </Label>
+                                                               </children>
+                                                            </StackPane>
+                                                            <TextField fx:id="task3_year_end" minHeight="-Infinity" minWidth="-Infinity" prefWidth="48.0" styleClass="text-field" text="1945">
+                                                               <font>
+                                                                  <Font size="18.0" />
+                                                               </font>
+                                                            </TextField>
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox spacing="10.0">
+                                                         <children>
+                                                            <StackPane>
+                                                               <children>
+                                                                  <Label text="Top entries (&gt;0): ">
+                                                                     <font>
+                                                                        <Font name="Avenir Book" size="18.0" />
+                                                                     </font>
+                                                                  </Label>
+                                                               </children>
+                                                            </StackPane>
+                                                            <TextField fx:id="t3_topN" minHeight="-Infinity" minWidth="-Infinity" prefWidth="48.0" styleClass="text-field" text="10" />
+                                                         </children>
+                                                      </HBox>
+                                                      <Button fx:id="task3_report" mnemonicParsing="false" onAction="#doTask3" prefHeight="30.0" prefWidth="166.0" text="Generate REPORT">
+                                                         <font>
+                                                            <Font name="Avenir Book" size="21.0" />
+                                                         </font>
+                                                      </Button>
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                             <VBox.margin>
+                                                <Insets left="30.0" right="30.0" top="30.0" />
+                                             </VBox.margin>
+                                          </VBox>
+                                          <TableView fx:id="task3_table" />
+                                       </children>
+                                    </VBox>
                                  </children>
                               </AnchorPane>
                            </children>
@@ -223,31 +334,125 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="412.0" prefWidth="719.0" stylesheets="@DarkTheme.css">
                            <children>
-                              <TextField fx:id="t4_dname" layoutX="175.0" layoutY="33.0" />
-                              <TextField fx:id="t4_mname" layoutX="175.0" layoutY="74.0" />
-                              <TextField fx:id="t4_dyob" layoutX="479.0" layoutY="34.0" />
-                              <TextField fx:id="t4_myob" layoutX="479.0" layoutY="74.0" />
-                              <TextField fx:id="t4_vyear" layoutX="174.0" layoutY="118.0" />
-                              <Button fx:id="t4_gr" layoutX="136.0" layoutY="247.0" mnemonicParsing="false" onAction="#doTask4" prefHeight="56.0" prefWidth="238.0" text="Get Recommendation" />
-                              <Label layoutX="88.0" layoutY="41.0" text="Dad name" />
-                              <Label layoutX="394.0" layoutY="39.0" text="year of birth:" />
-                              <Label layoutX="81.0" layoutY="80.0" text="Mom Name" />
-                              <Label layoutX="394.0" layoutY="80.0" text="year of birth:" />
-                              <Label layoutX="62.0" layoutY="124.0" text="Vintage Year:" />
-                              <RadioButton fx:id="t4_nkt4" layoutX="401.0" layoutY="171.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="136.0" selected="true" text="NK-T4 algorithm">
-                                 <toggleGroup>
-                                    <ToggleGroup fx:id="T4_algorithm" />
-                                 </toggleGroup></RadioButton>
-                              <RadioButton fx:id="t4_jaro" layoutX="401.0" layoutY="203.0" mnemonicParsing="false" text="Jaro Distance" toggleGroup="$T4_algorithm" />
-                              <Label layoutX="401.0" layoutY="140.0" text="Choose Algorithm" />
-                              <Label fx:id="t4_boy_label" layoutX="129.0" layoutY="366.0" />
-                              <Label fx:id="t4_girl_label" layoutX="406.0" layoutY="368.0" />
-                              <Label fx:id="t4_b1" layoutX="128.0" layoutY="416.0" />
-                              <Label fx:id="t4_b2" layoutX="130.0" layoutY="458.0" />
-                              <Label fx:id="t4_b3" layoutX="130.0" layoutY="500.0" />
-                              <Label fx:id="t4_g1" layoutX="407.0" layoutY="418.0" />
-                              <Label fx:id="t4_g2" layoutX="409.0" layoutY="460.0" />
-                              <Label fx:id="t4_g3" layoutX="409.0" layoutY="502.0" />
+                              <VBox spacing="10.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="30.0">
+                                 <children>
+                                    <StackPane>
+                                       <children>
+                                          <Label style="-fx-font-size: 24;" styleClass="label-header" text="Child Name Recommendation">
+                                             <font>
+                                                <Font name="System Bold" size="13.0" />
+                                             </font>
+                                          </Label>
+                                       </children>
+                                    </StackPane>
+                                    <VBox spacing="20.0">
+                                       <children>
+                                          <GridPane hgap="20.0" vgap="10.0">
+                                            <columnConstraints>
+                                              <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" />
+                                              <ColumnConstraints halignment="LEFT" hgrow="SOMETIMES" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                              <RowConstraints vgrow="SOMETIMES" />
+                                              <RowConstraints vgrow="SOMETIMES" />
+                                              <RowConstraints vgrow="SOMETIMES" />
+                                            </rowConstraints>
+                                             <children>
+                                                <HBox spacing="10.0">
+                                                   <children>
+                                                      <StackPane alignment="CENTER_LEFT">
+                                                         <children>
+                                                            <Label text="Dad name:" />
+                                                         </children>
+                                                      </StackPane>
+                                                      <TextField fx:id="t4_dname" />
+                                                   </children>
+                                                </HBox>
+                                                <HBox spacing="10.0" GridPane.columnIndex="1">
+                                                   <children>
+                                                      <StackPane>
+                                                         <children>
+                                                            <Label text="Year of birth:" />
+                                                         </children>
+                                                      </StackPane>
+                                                      <TextField fx:id="t4_dyob" />
+                                                   </children>
+                                                </HBox>
+                                                <HBox spacing="10.0" GridPane.rowIndex="1">
+                                                   <children>
+                                                      <StackPane alignment="CENTER_LEFT">
+                                                         <children>
+                                                            <Label text="Mom Name" />
+                                                         </children>
+                                                      </StackPane>
+                                                      <TextField fx:id="t4_mname" />
+                                                   </children>
+                                                </HBox>
+                                                <HBox spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                                   <children>
+                                                      <StackPane>
+                                                         <children>
+                                                            <Label text="Year of birth:" />
+                                                         </children>
+                                                      </StackPane>
+                                                      <TextField fx:id="t4_myob" />
+                                                   </children>
+                                                </HBox>
+                                                <HBox spacing="10.0" GridPane.rowIndex="2">
+                                                   <children>
+                                                      <StackPane alignment="CENTER_LEFT">
+                                                         <children>
+                                                            <Label text="Vintage Year:" />
+                                                         </children>
+                                                      </StackPane>
+                                                      <TextField fx:id="t4_vyear" />
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                          </GridPane>
+                                          <VBox spacing="10.0">
+                                             <children>
+                                                <Label text="Choose Algorithm" />
+                                                <HBox spacing="20.0">
+                                                   <children>
+                                                      <RadioButton fx:id="t4_nkt4" mnemonicParsing="false" selected="true" styleClass="label-bright" text="NK-T4 algorithm">
+                                                         <toggleGroup>
+                                                            <ToggleGroup fx:id="T4_algorithm" />
+                                                         </toggleGroup>
+                                                      </RadioButton>
+                                                      <RadioButton fx:id="t4_jaro" mnemonicParsing="false" styleClass="label-bright" text="Jaro Distance" toggleGroup="$T4_algorithm" />
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                          </VBox>
+                                          <Button fx:id="t4_gr" mnemonicParsing="false" onAction="#doTask4" text="Get Recommendation" />
+                                       </children>
+                                    </VBox>
+                                    <GridPane VBox.vgrow="ALWAYS">
+                                      <columnConstraints>
+                                        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
+                                        <ColumnConstraints halignment="CENTER" hgrow="ALWAYS" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                       <children>
+                                          <Label fx:id="t4_girl_label" style="-fx-font-size: 18;" styleClass="label-bright" GridPane.columnIndex="1" />
+                                          <VBox spacing="30.0" />
+                                          <Label fx:id="t4_boy_label" style="-fx-font-size: 18;" styleClass="label-bright" />
+                                          <Label fx:id="t4_b1" text="" GridPane.rowIndex="1" />
+                                          <Label fx:id="t4_b2" text="" GridPane.rowIndex="2" />
+                                          <Label fx:id="t4_b3" text="" GridPane.rowIndex="3" />
+                                          <Label fx:id="t4_g1" text="" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                          <Label fx:id="t4_g2" text="" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                                          <Label fx:id="t4_g3" text="" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                                       </children>
+                                    </GridPane>
+                                 </children>
+                              </VBox>
                            </children>
                         </AnchorPane>
                     </content>
@@ -256,244 +461,356 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <Label alignment="CENTER" layoutX="135.0" layoutY="14.0" prefHeight="35.0" prefWidth="450.0" style="-fx-font-size: 24;" styleClass="label-bright" text="Predict Your Soulmate's Name Today!" AnchorPane.leftAnchor="135.0" AnchorPane.rightAnchor="125.0">
-                                 <font>
-                                    <Font name="Cambria Bold" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label layoutX="37.0" layoutY="64.0" text="Your Name : " />
-                              <Label layoutX="37.0" layoutY="104.0" text="Gender : " />
-                              <Label layoutX="37.0" layoutY="134.0" text="Year Of Birth : " />
-                              <Label alignment="CENTER" layoutX="310.0" layoutY="66.0" prefHeight="22.0" prefWidth="206.0" text="Preferred Soulmate's Gender : " />
-                              <Label layoutX="311.0" layoutY="102.0" prefHeight="22.0" prefWidth="189.0" text="Preferred Soulmate's Age :" />
-                              <TextField fx:id="app2YourName" layoutX="131.0" layoutY="54.0" prefHeight="43.0" prefWidth="165.0" />
-                              <RadioButton fx:id="app2YourGenderM" layoutX="107.0" layoutY="108.0" mnemonicParsing="false" selected="true" text="Male">
-                                 <toggleGroup>
-                                    <ToggleGroup fx:id="T11" />
-                                 </toggleGroup></RadioButton>
-                              <RadioButton fx:id="app2YourGenderF" layoutX="168.0" layoutY="108.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="72.0" text="Female" toggleGroup="$T11" AnchorPane.leftAnchor="168.0" AnchorPane.rightAnchor="470.0" />
-                              <TextField fx:id="app2YOB" layoutX="134.0" layoutY="126.0" prefHeight="43.0" prefWidth="164.0" />
-                              <RadioButton fx:id="app2SoulGenderM" layoutX="517.0" layoutY="65.0" minWidth="53.0" mnemonicParsing="false" prefHeight="18.0" text="Male">
-                                 <toggleGroup>
-                                    <ToggleGroup fx:id="T2" />
-                                 </toggleGroup></RadioButton>
-                              <RadioButton fx:id="app2SoulGenderF" contentDisplay="CENTER" layoutX="582.0" layoutY="66.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="35.0" mnemonicParsing="false" prefHeight="18.0" prefWidth="90.0" selected="true" text="Female" textAlignment="CENTER" toggleGroup="$T2" />
-                              <RadioButton fx:id="app2SoulYounger" layoutX="500.0" layoutY="102.0" mnemonicParsing="false" selected="true" text="Younger">
-                                 <toggleGroup>
-                                    <ToggleGroup fx:id="T111" />
-                                 </toggleGroup></RadioButton>
-                              <RadioButton fx:id="app2SoulOlder" layoutX="582.0" layoutY="102.0" mnemonicParsing="false" text="Older" toggleGroup="$T111" />
-                              <ChoiceBox fx:id="app2ChoiceBox" layoutX="468.0" layoutY="182.0" prefWidth="150.0" visible="false" />
-                              <Label layoutX="310.0" layoutY="137.0" prefHeight="22.0" prefWidth="190.0" text="Preferred Algorithm : " />
-                              <Button fx:id="app2Button" layoutX="38.0" layoutY="193.0" mnemonicParsing="false" onAction="#doTask5" text="GET NAME" />
-                              <Label layoutX="88.0" layoutY="145.0" />
-                              <Label layoutX="36.0" layoutY="156.0" text="(1880 - 2019)" />
-                              <Label fx:id="app2PredictSentence" layoutX="120.0" layoutY="410.0" prefHeight="35.0" prefWidth="475.0" style="-fx-font-size: 24;" styleClass="label-bright" text="Your Soulmate's Name is Predicted to be:">
-                                 <font>
-                                    <Font name="System Bold Italic" size="18.0" />
-                                 </font>
-                              </Label>
-                              <Label fx:id="app2Answer" alignment="CENTER" layoutX="219.0" layoutY="435.0" prefHeight="74.0" prefWidth="277.0" style="-fx-font-size: 24;" styleClass="label-bright" text="Nikola" textAlignment="CENTER" visible="false">
-                                 <font>
-                                    <Font name="System Bold" size="50.0" />
-                                 </font></Label>
-                              <RadioButton fx:id="app2RadioNK" layoutX="473.0" layoutY="137.0" mnemonicParsing="false" selected="true" text="NK-T5">
-                                 <toggleGroup>
-                                    <ToggleGroup fx:id="T3" />
-                                 </toggleGroup>
-                              </RadioButton>
-                              <RadioButton fx:id="app2RadioJaro" layoutX="544.0" layoutY="137.0" mnemonicParsing="false" text="Jaro Distance" toggleGroup="$T3" />
-                              <RadioButton fx:id="step2Radio1" layoutX="41.0" layoutY="299.0" mnemonicParsing="false" selected="true" text="RadioButton" visible="false">
-                                 <toggleGroup>
-                                    <ToggleGroup fx:id="T5" />
-                                 </toggleGroup>
-                              </RadioButton>
-                              <RadioButton fx:id="step2Radio2" layoutX="174.0" layoutY="299.0" mnemonicParsing="false" text="RadioButton" toggleGroup="$T5" visible="false" />
-                              <RadioButton fx:id="step2Radio3" layoutX="299.0" layoutY="299.0" mnemonicParsing="false" text="RadioButton" toggleGroup="$T5" visible="false" />
-                              <Label fx:id="step2Label" layoutX="38.0" layoutY="268.0" styleClass="label-bright" text="Choose one of the 6 names." visible="false">
-                                 <font>
-                                    <Font name="System Bold Italic" size="12.0" />
-                                 </font>
-                              </Label>
-                              <Button fx:id="step2Button" layoutX="38.0" layoutY="361.0" mnemonicParsing="false" onAction="#doTask5Part2" text="GET NAME" visible="false">
-                                 <opaqueInsets>
-                                    <Insets top="-2.0" />
-                                 </opaqueInsets></Button>
-                              <Rectangle fx:id="step2Cover" arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="196.0" layoutX="-37.0" layoutY="48.0" stroke="WHITE" strokeType="INSIDE" visible="false" width="751.0" />
-                              <RadioButton fx:id="step2Radio4" layoutX="42.0" layoutY="329.0" mnemonicParsing="false" selected="true" text="RadioButton" toggleGroup="$T5" visible="false" />
-                              <RadioButton fx:id="step2Radio5" layoutX="175.0" layoutY="329.0" mnemonicParsing="false" text="RadioButton" toggleGroup="$T5" visible="false" />
-                              <RadioButton fx:id="step2Radio6" layoutX="300.0" layoutY="329.0" mnemonicParsing="false" text="RadioButton" toggleGroup="$T5" visible="false" />
-                           </children>
-                        </AnchorPane>
-                    </content>
-                  </Tab>
-                  <Tab fx:id="tabApp3" text="Application 3">
-                    <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <VBox alignment="CENTER" spacing="20.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="30.0">
+                              <VBox spacing="20.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="30.0">
                                  <children>
                                     <StackPane>
                                        <children>
-                                          <Label alignment="CENTER" contentDisplay="CENTER" styleClass="label-bright" text="Scores for Compatible Pairs" textAlignment="CENTER">
+                                          <Label alignment="CENTER" prefHeight="35.0" prefWidth="450.0" style="-fx-font-size: 24;" styleClass="label-bright" text="Predict Your Soulmate's Name Today!">
                                              <font>
                                                 <Font name="Cambria Bold" size="18.0" />
                                              </font>
                                           </Label>
                                        </children>
                                     </StackPane>
-                                    <GridPane>
-                                       <columnConstraints>
-                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="449.60003662109375" minWidth="10.0" prefWidth="332.0" />
-                                          <ColumnConstraints hgrow="SOMETIMES" maxWidth="460.79998779296875" minWidth="10.0" prefWidth="328.0" />
-                                       </columnConstraints>
-                                       <rowConstraints>
-                                          <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                                       </rowConstraints>
+                                    <VBox spacing="20.0">
                                        <children>
-                                          <VBox spacing="10.0" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
+                                          <HBox>
                                              <children>
-                                                <HBox spacing="10.0">
+                                                <VBox spacing="10.0">
                                                    <children>
-                                                      <StackPane>
+                                                      <HBox spacing="10.0">
                                                          <children>
-                                                            <Label text="Name:" />
-                                                         </children>
-                                                      </StackPane>
-                                                      <TextField fx:id="task6TextName1" text="David" />
-                                                   </children>
-                                                </HBox>
-                                                <HBox spacing="10.0">
-                                                   <children>
-                                                      <Label text="Gender: " />
-                                                      <RadioButton fx:id="task6RadioMale1" mnemonicParsing="false" selected="true" styleClass="label-bright" text="Male">
-                                                         <toggleGroup>
-                                                            <ToggleGroup fx:id="task6Toggle1" />
-                                                         </toggleGroup>
-                                                      </RadioButton>
-                                                      <RadioButton fx:id="task6RadioFemale1" mnemonicParsing="false" styleClass="label-bright" text="Female" toggleGroup="$task6Toggle1" />
-                                                   </children>
-                                                </HBox>
-                                                <HBox spacing="10.0">
-                                                   <children>
-                                                      <StackPane>
-                                                         <children>
-                                                            <Label text="Year of birth (1880-2019):" />
-                                                         </children>
-                                                      </StackPane>
-                                                      <TextField fx:id="task6TextYear1" prefWidth="48.0" text="2000" />
-                                                   </children>
-                                                </HBox>
-                                             </children>
-                                          </VBox>
-                                          <VBox spacing="10.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
-                                             <children>
-                                                <HBox spacing="10.0">
-                                                   <children>
-                                                      <StackPane HBox.hgrow="NEVER">
-                                                         <children>
-                                                            <Label text="Name:" />
-                                                         </children>
-                                                      </StackPane>
-                                                      <TextField fx:id="task6TextName2" text="Mary" />
-                                                   </children>
-                                                </HBox>
-                                                <HBox spacing="10.0">
-                                                   <children>
-                                                      <Label text="Gender: " />
-                                                      <RadioButton fx:id="task6RadioMale2" mnemonicParsing="false" styleClass="label-bright" text="Male">
-                                                         <toggleGroup>
-                                                            <ToggleGroup fx:id="task6Toggle2" />
-                                                         </toggleGroup>
-                                                      </RadioButton>
-                                                      <RadioButton fx:id="task6RadioFemale2" mnemonicParsing="false" selected="true" styleClass="label-bright" text="Female" toggleGroup="$task6Toggle2" />
-                                                   </children>
-                                                </HBox>
-                                                <HBox spacing="10.0">
-                                                   <children>
-                                                      <Label text="Age Preference:" />
-                                                      <VBox spacing="10.0">
-                                                         <children>
-                                                            <HBox spacing="10.0">
+                                                            <StackPane>
                                                                <children>
-                                                                  <RadioButton fx:id="task6RadioYounger" mnemonicParsing="false" selected="true" styleClass="label-bright" text="Younger">
-                                                                     <toggleGroup>
-                                                                        <ToggleGroup fx:id="task6Toggle3" />
-                                                                     </toggleGroup>
-                                                                  </RadioButton>
-                                                                  <RadioButton fx:id="task6RadioOlder" mnemonicParsing="false" styleClass="label-bright" text="Older" toggleGroup="$task6Toggle3" />
+                                                                  <Label text="Your Name : " />
                                                                </children>
-                                                            </HBox>
+                                                            </StackPane>
+                                                            <TextField fx:id="app2YourName" />
                                                          </children>
-                                                      </VBox>
-                                                   </children>
-                                                </HBox>
-                                                <HBox spacing="10.0">
-                                                   <children>
-                                                      <StackPane>
+                                                      </HBox>
+                                                      <HBox spacing="10.0">
                                                          <children>
-                                                            <RadioButton fx:id="task6RadioCustom" mnemonicParsing="false" styleClass="label-bright" text="Custom year of birth (1880-2019):" toggleGroup="$task6Toggle3" />
+                                                            <Label text="Gender : " />
+                                                            <RadioButton fx:id="app2YourGenderM" mnemonicParsing="false" selected="true" styleClass="label-bright" text="Male">
+                                                               <toggleGroup>
+                                                                  <ToggleGroup fx:id="T11" />
+                                                               </toggleGroup>
+                                                            </RadioButton>
+                                                            <RadioButton fx:id="app2YourGenderF" mnemonicParsing="false" styleClass="label-bright" text="Female" toggleGroup="$T11" />
                                                          </children>
-                                                      </StackPane>
-                                                      <TextField fx:id="task6TextYear2" maxWidth="-Infinity" prefWidth="48.0" text="2000" />
-                                                   </children>
-                                                </HBox>
-                                             </children>
-                                          </VBox>
-                                       </children>
-                                    </GridPane>
-                                    <StackPane>
-                                       <children>
-                                          <HBox alignment="CENTER" spacing="20.0">
-                                             <children>
-                                                <StackPane>
-                                                   <children>
-                                                      <Label text="Algorithm:" />
-                                                   </children>
-                                                </StackPane>
-                                                <RadioButton fx:id="task6RadioNKT6" mnemonicParsing="false" selected="true" styleClass="label-bright" text="NK-T6">
-                                                   <toggleGroup>
-                                                      <ToggleGroup fx:id="task6Toggle4" />
-                                                   </toggleGroup></RadioButton>
-                                                <RadioButton fx:id="task6RadioNorm" mnemonicParsing="false" styleClass="label-bright" text="Normalized NK-T6" toggleGroup="$task6Toggle4" />
-                                                <RadioButton fx:id="task6RadioLinear" mnemonicParsing="false" styleClass="label-bright" text="Linear Regression" toggleGroup="$task6Toggle4" />
-                                             </children>
-                                          </HBox>
-                                       </children></StackPane>
-                                    <BorderPane>
-                                       <center>
-                                          <StackPane BorderPane.alignment="CENTER">
-                                             <children>
-                                                <Label fx:id="task6TextResult" styleClass="label-bright" text="Your score of compatibility is" visible="false" />
-                                                <ProgressBar fx:id="task6ProgressBar" prefWidth="286.0" progress="0.0" visible="false" />
-                                             </children>
-                                          </StackPane>
-                                       </center>
-                                       <right>
-                                          <StackPane BorderPane.alignment="CENTER">
-                                             <children>
-                                                <PieChart fx:id="task6PieChartResult" labelsVisible="false" legendVisible="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="75.0" prefWidth="75.0" styleClass="table-view" />
-                                             </children>
-                                          </StackPane>
-                                       </right>
-                                       <left>
-                                          <StackPane BorderPane.alignment="CENTER">
-                                             <children>
-                                                <VBox spacing="10.0" StackPane.alignment="CENTER">
-                                                   <children>
-                                                      <StackPane>
+                                                      </HBox>
+                                                      <HBox spacing="10.0">
                                                          <children>
-                                                            <Button fx:id="task6ButtonCancel" mnemonicParsing="false" text="Cancel" visible="false" />
+                                                            <VBox>
+                                                               <children>
+                                                                  <Label text="Year Of Birth : " />
+                                                                  <Label text="(1880 - 2019)" />
+                                                               </children>
+                                                            </VBox>
+                                                            <TextField fx:id="app2YOB" />
                                                          </children>
-                                                      </StackPane>
+                                                      </HBox>
                                                    </children>
                                                 </VBox>
-                                                <Button fx:id="task6ButtonReport" mnemonicParsing="false" onAction="#doTask6" text="Generate Score" />
+                                                <VBox alignment="CENTER" spacing="20.0">
+                                                   <children>
+                                                      <HBox spacing="10.0">
+                                                         <children>
+                                                            <Label alignment="CENTER" text="Soulmate's Gender : " />
+                                                            <RadioButton fx:id="app2SoulGenderM" minWidth="53.0" mnemonicParsing="false" styleClass="label-bright" text="Male">
+                                                               <toggleGroup>
+                                                                  <ToggleGroup fx:id="T2" />
+                                                               </toggleGroup>
+                                                            </RadioButton>
+                                                            <RadioButton fx:id="app2SoulGenderF" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="35.0" mnemonicParsing="false" selected="true" styleClass="label-bright" text="Female" textAlignment="CENTER" toggleGroup="$T2" />
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox spacing="10.0">
+                                                         <children>
+                                                            <Label text="Soulmate's Age :" />
+                                                            <RadioButton fx:id="app2SoulYounger" mnemonicParsing="false" selected="true" styleClass="label-bright" text="Younger">
+                                                               <toggleGroup>
+                                                                  <ToggleGroup fx:id="T111" />
+                                                               </toggleGroup>
+                                                            </RadioButton>
+                                                            <RadioButton fx:id="app2SoulOlder" mnemonicParsing="false" styleClass="label-bright" text="Older" toggleGroup="$T111" />
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox spacing="10.0">
+                                                         <children>
+                                                            <Label text="Algorithm : " />
+                                                            <RadioButton fx:id="app2RadioNK" mnemonicParsing="false" selected="true" styleClass="label-bright" text="NK-T5">
+                                                               <toggleGroup>
+                                                                  <ToggleGroup fx:id="T3" />
+                                                               </toggleGroup>
+                                                            </RadioButton>
+                                                            <RadioButton fx:id="app2RadioJaro" mnemonicParsing="false" styleClass="label-bright" text="Jaro Distance" toggleGroup="$T3" />
+                                                         </children>
+                                                      </HBox>
+                                                   </children>
+                                                   <HBox.margin>
+                                                      <Insets />
+                                                   </HBox.margin>
+                                                </VBox>
+                                             </children>
+                                          </HBox>
+                                          <Button fx:id="app2Button" mnemonicParsing="false" onAction="#doTask5" text="GET NAME" />
+                                       </children>
+                                    </VBox>
+                                    <VBox spacing="20.0">
+                                       <children>
+                                          <Label fx:id="step2Label" styleClass="label-bright" text="Choose one of the 6 names." visible="false">
+                                             <font>
+                                                <Font name="System Bold Italic" size="12.0" />
+                                             </font>
+                                          </Label>
+                                          <GridPane>
+                                            <columnConstraints>
+                                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                              <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                                <ColumnConstraints halignment="CENTER" hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                            </columnConstraints>
+                                            <rowConstraints>
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                              <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                            </rowConstraints>
+                                             <children>
+                                                <RadioButton fx:id="step2Radio1" mnemonicParsing="false" selected="true" styleClass="label-bright" text="RadioButton" visible="false">
+                                                   <toggleGroup>
+                                                      <ToggleGroup fx:id="T5" />
+                                                   </toggleGroup>
+                                                </RadioButton>
+                                                <RadioButton fx:id="step2Radio2" mnemonicParsing="false" styleClass="label-bright" text="RadioButton" toggleGroup="$T5" visible="false" GridPane.columnIndex="1" />
+                                                <RadioButton fx:id="step2Radio3" mnemonicParsing="false" styleClass="label-bright" text="RadioButton" toggleGroup="$T5" visible="false" GridPane.columnIndex="2" />
+                                                <RadioButton fx:id="step2Radio4" mnemonicParsing="false" selected="true" styleClass="label-bright" text="RadioButton" toggleGroup="$T5" visible="false" GridPane.rowIndex="1" />
+                                                <RadioButton fx:id="step2Radio5" mnemonicParsing="false" styleClass="label-bright" text="RadioButton" toggleGroup="$T5" visible="false" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                                                <RadioButton fx:id="step2Radio6" mnemonicParsing="false" styleClass="label-bright" text="RadioButton" toggleGroup="$T5" visible="false" GridPane.columnIndex="2" GridPane.rowIndex="1" />
+                                             </children>
+                                          </GridPane>
+                                          <Button fx:id="step2Button" mnemonicParsing="false" onAction="#doTask5Part2" text="GET NAME" visible="false">
+                                             <opaqueInsets>
+                                                <Insets top="-2.0" />
+                                             </opaqueInsets>
+                                          </Button>
+                                       </children>
+                                       <VBox.margin>
+                                          <Insets bottom="20.0" top="20.0" />
+                                       </VBox.margin>
+                                    </VBox>
+                                    <VBox>
+                                       <children>
+                                          <StackPane>
+                                             <children>
+                                                <Label fx:id="app2PredictSentence" style="-fx-font-size: 24;" styleClass="label-bright" text="Your Soulmate's Name is Predicted to be:">
+                                                   <font>
+                                                      <Font name="System Bold Italic" size="18.0" />
+                                                   </font>
+                                                </Label>
                                              </children>
                                           </StackPane>
-                                       </left>
-                                    </BorderPane>
-                                    <LineChart fx:id="task6LineChartResult" legendSide="RIGHT" prefHeight="250.0" styleClass="table-view" visible="false" VBox.vgrow="NEVER">
+                                          <StackPane>
+                                             <children>
+                                                <Label fx:id="app2Answer" alignment="CENTER" style="-fx-font-size: 24;" styleClass="label-bright" text="Nikola" textAlignment="CENTER" visible="false">
+                                                   <font>
+                                                      <Font name="System Bold" size="50.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </StackPane>
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </VBox>
+                              <ChoiceBox fx:id="app2ChoiceBox" layoutX="468.0" layoutY="182.0" prefWidth="150.0" visible="false" />
+                              <Label layoutX="88.0" layoutY="145.0" />
+                              <Rectangle fx:id="step2Cover" arcHeight="5.0" arcWidth="5.0" fill="#ffffff00" height="196.0" layoutX="-37.0" layoutY="48.0" stroke="#ffffff00" strokeType="INSIDE" visible="false" width="674.0" AnchorPane.bottomAnchor="353.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="36.0" AnchorPane.topAnchor="90.0" />
+                           </children>
+                        </AnchorPane>
+                    </content>
+                  </Tab>
+                  <Tab fx:id="tabApp3" text="Application 3">
+                    <content>
+                      <AnchorPane minHeight="0.0" minWidth="0.0">
+                           <children>
+                              <GridPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                  <RowConstraints vgrow="NEVER" />
+                                  <RowConstraints vgrow="SOMETIMES" />
+                                </rowConstraints>
+                                 <children>
+                                    <VBox alignment="TOP_CENTER" spacing="20.0">
+                                       <children>
+                                          <StackPane>
+                                             <children>
+                                                <Label alignment="CENTER" contentDisplay="CENTER" style="-fx-font-size: 24;" styleClass="label-bright" text="Scores for Compatible Pairs" textAlignment="CENTER">
+                                                   <font>
+                                                      <Font name="Cambria Bold" size="18.0" />
+                                                   </font>
+                                                </Label>
+                                             </children>
+                                          </StackPane>
+                                          <GridPane>
+                                             <columnConstraints>
+                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="449.60003662109375" minWidth="10.0" prefWidth="332.0" />
+                                                <ColumnConstraints hgrow="SOMETIMES" maxWidth="460.79998779296875" minWidth="10.0" prefWidth="328.0" />
+                                             </columnConstraints>
+                                             <rowConstraints>
+                                                <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                                             </rowConstraints>
+                                             <children>
+                                                <VBox spacing="10.0" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
+                                                   <children>
+                                                      <HBox spacing="10.0">
+                                                         <children>
+                                                            <StackPane>
+                                                               <children>
+                                                                  <Label text="Name:" />
+                                                               </children>
+                                                            </StackPane>
+                                                            <TextField fx:id="task6TextName1" text="David" />
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox spacing="10.0">
+                                                         <children>
+                                                            <Label text="Gender: " />
+                                                            <RadioButton fx:id="task6RadioMale1" mnemonicParsing="false" selected="true" styleClass="label-bright" text="Male">
+                                                               <toggleGroup>
+                                                                  <ToggleGroup fx:id="task6Toggle1" />
+                                                               </toggleGroup>
+                                                            </RadioButton>
+                                                            <RadioButton fx:id="task6RadioFemale1" mnemonicParsing="false" styleClass="label-bright" text="Female" toggleGroup="$task6Toggle1" />
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox spacing="10.0">
+                                                         <children>
+                                                            <StackPane>
+                                                               <children>
+                                                                  <Label text="Year of birth (1880-2019):" />
+                                                               </children>
+                                                            </StackPane>
+                                                            <TextField fx:id="task6TextYear1" prefWidth="48.0" text="2000" />
+                                                         </children>
+                                                      </HBox>
+                                                   </children>
+                                                </VBox>
+                                                <VBox spacing="10.0" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.valignment="TOP" GridPane.vgrow="ALWAYS">
+                                                   <children>
+                                                      <HBox spacing="10.0">
+                                                         <children>
+                                                            <StackPane HBox.hgrow="NEVER">
+                                                               <children>
+                                                                  <Label text="Name:" />
+                                                               </children>
+                                                            </StackPane>
+                                                            <TextField fx:id="task6TextName2" text="Mary" />
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox spacing="10.0">
+                                                         <children>
+                                                            <Label text="Gender: " />
+                                                            <RadioButton fx:id="task6RadioMale2" mnemonicParsing="false" styleClass="label-bright" text="Male">
+                                                               <toggleGroup>
+                                                                  <ToggleGroup fx:id="task6Toggle2" />
+                                                               </toggleGroup>
+                                                            </RadioButton>
+                                                            <RadioButton fx:id="task6RadioFemale2" mnemonicParsing="false" selected="true" styleClass="label-bright" text="Female" toggleGroup="$task6Toggle2" />
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox spacing="10.0">
+                                                         <children>
+                                                            <Label text="Age Preference:" />
+                                                            <VBox spacing="10.0">
+                                                               <children>
+                                                                  <HBox spacing="10.0">
+                                                                     <children>
+                                                                        <RadioButton fx:id="task6RadioYounger" mnemonicParsing="false" selected="true" styleClass="label-bright" text="Younger">
+                                                                           <toggleGroup>
+                                                                              <ToggleGroup fx:id="task6Toggle3" />
+                                                                           </toggleGroup>
+                                                                        </RadioButton>
+                                                                        <RadioButton fx:id="task6RadioOlder" mnemonicParsing="false" styleClass="label-bright" text="Older" toggleGroup="$task6Toggle3" />
+                                                                     </children>
+                                                                  </HBox>
+                                                               </children>
+                                                            </VBox>
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox spacing="10.0">
+                                                         <children>
+                                                            <StackPane>
+                                                               <children>
+                                                                  <RadioButton fx:id="task6RadioCustom" mnemonicParsing="false" styleClass="label-bright" text="Custom year of birth (1880-2019):" toggleGroup="$task6Toggle3" />
+                                                               </children>
+                                                            </StackPane>
+                                                            <TextField fx:id="task6TextYear2" maxWidth="-Infinity" prefWidth="48.0" text="2000" />
+                                                         </children>
+                                                      </HBox>
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </GridPane>
+                                          <StackPane>
+                                             <children>
+                                                <HBox alignment="CENTER" spacing="20.0">
+                                                   <children>
+                                                      <StackPane>
+                                                         <children>
+                                                            <Label text="Algorithm:" />
+                                                         </children>
+                                                      </StackPane>
+                                                      <RadioButton fx:id="task6RadioNKT6" mnemonicParsing="false" selected="true" styleClass="label-bright" text="NK-T6">
+                                                         <toggleGroup>
+                                                            <ToggleGroup fx:id="task6Toggle4" />
+                                                         </toggleGroup>
+                                                      </RadioButton>
+                                                      <RadioButton fx:id="task6RadioNorm" mnemonicParsing="false" styleClass="label-bright" text="Normalized NK-T6" toggleGroup="$task6Toggle4" />
+                                                      <RadioButton fx:id="task6RadioLinear" mnemonicParsing="false" styleClass="label-bright" text="Linear Regression" toggleGroup="$task6Toggle4" />
+                                                   </children>
+                                                </HBox>
+                                             </children>
+                                          </StackPane>
+                                          <BorderPane>
+                                             <center>
+                                                <StackPane BorderPane.alignment="CENTER">
+                                                   <children>
+                                                      <Label fx:id="task6TextResult" styleClass="label-bright" text="Your score of compatibility is" visible="false" />
+                                                      <ProgressBar fx:id="task6ProgressBar" prefWidth="286.0" progress="0.0" visible="false" />
+                                                   </children>
+                                                </StackPane>
+                                             </center>
+                                             <right>
+                                                <StackPane BorderPane.alignment="CENTER">
+                                                   <children>
+                                                      <PieChart fx:id="task6PieChartResult" labelsVisible="false" legendVisible="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="75.0" prefWidth="75.0" styleClass="table-view" />
+                                                   </children>
+                                                </StackPane>
+                                             </right>
+                                             <left>
+                                                <StackPane BorderPane.alignment="CENTER">
+                                                   <children>
+                                                      <VBox spacing="10.0" StackPane.alignment="CENTER">
+                                                         <children>
+                                                            <StackPane>
+                                                               <children>
+                                                                  <Button fx:id="task6ButtonCancel" mnemonicParsing="false" text="Cancel" visible="false" />
+                                                               </children>
+                                                            </StackPane>
+                                                         </children>
+                                                      </VBox>
+                                                      <Button fx:id="task6ButtonReport" mnemonicParsing="false" onAction="#doTask6" text="Generate Score" />
+                                                   </children>
+                                                </StackPane>
+                                             </left>
+                                          </BorderPane>
+                                       </children>
+                                       <GridPane.margin>
+                                          <Insets left="30.0" right="30.0" top="30.0" />
+                                       </GridPane.margin>
+                                    </VBox>
+                                    <LineChart fx:id="task6LineChartResult" legendSide="RIGHT" prefHeight="244.0" styleClass="table-view" visible="false" GridPane.rowIndex="1">
                                       <xAxis>
                                         <NumberAxis forceZeroInRange="false" label="Year" lowerBound="1880.0" side="BOTTOM" upperBound="2019.0" />
                                       </xAxis>
@@ -502,7 +819,7 @@
                                       </yAxis>
                                     </LineChart>
                                  </children>
-                              </VBox>
+                              </GridPane>
                            </children>
                         </AnchorPane>
                     </content>
@@ -515,7 +832,7 @@
                                  <children>
                                     <StackPane>
                                        <children>
-                                          <Label styleClass="label-bright" text="History of Queries">
+                                          <Label style="-fx-font-size: 24;" styleClass="label-bright" text="History of Queries">
                                              <font>
                                                 <Font size="28.0" />
                                              </font>
