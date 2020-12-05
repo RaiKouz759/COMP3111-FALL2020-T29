@@ -5,10 +5,17 @@ import java.lang.Math;
 import javafx.util.Pair;
 import javafx.concurrent.Task;
 
+/**
+ * @author auyfg
+ *
+ */
 public class LinearRegressionTask extends Task<Pair<Double, Double>> {
 	 private final ArrayList<Pair<Double, Double>> points;
 
-	 public LinearRegressionTask(ArrayList<Pair<Double, Double>> points) {
+	 /**
+	 * @param points
+	 */
+	public LinearRegressionTask(ArrayList<Pair<Double, Double>> points) {
 		 this.points = points;
 	 }
 
