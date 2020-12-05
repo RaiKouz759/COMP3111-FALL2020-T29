@@ -678,27 +678,27 @@ public class Controller implements Initializable{
     	String inputs = entry.get("inputs");
 		switch (task.substring(task.length() - 1)) {
 			case "1":
-				tabpane.getSelectionModel().select(1);
+				tabpane.getSelectionModel().select(0);
 				rerunTask1(inputs);
 				break;
 			case "2":
-				tabpane.getSelectionModel().select(2);
+				tabpane.getSelectionModel().select(1);
 				rerunTask2(inputs);
 				break;
 			case "3":
-				tabpane.getSelectionModel().select(3);
+				tabpane.getSelectionModel().select(2);
 				rerunTask3(inputs);
 				break;
 			case "4":
-				tabpane.getSelectionModel().select(4);
+				tabpane.getSelectionModel().select(3);
 				rerunTask4(inputs);
 				break;
 			case "5":
-				tabpane.getSelectionModel().select(5);
+				tabpane.getSelectionModel().select(4);
 				rerunTask5(inputs);
 				break;
 			case "6":
-				tabpane.getSelectionModel().select(6);
+				tabpane.getSelectionModel().select(5);
 				rerunTask6(inputs);
 				break;
 			default:
