@@ -5,8 +5,17 @@ import static junit.framework.TestCase.fail;
 import org.junit.Test;
 import java.util.ArrayList;
 
+/**
+ * This class also tests valid query executions. 
+ * 
+ * @author Amrutavarsh
+ *
+ */
 public class Activity3QueryTest {
 	
+	/*
+	 * Test standard correct query.
+	 */
 	@Test
 	public void testExecuteQuery() {
 		Task3 task3 = new Task3();
@@ -88,6 +97,9 @@ public class Activity3QueryTest {
 		
 	}
 	
+	/*
+	 * Test Exceptions thrown for invalid inputs
+	 */
 	@Test
 	public void testExecuteQueryInvalid() {
 		Task3 task3 = new Task3();

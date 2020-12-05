@@ -1157,7 +1157,6 @@ public class Controller implements Initializable{
     		t4_g2.setText(Report.get(1).get(1));
     		t4_g3.setText(Report.get(1).get(2));
     	}
-//    	t4_text_output.setText(Report);
     }
     
     
