@@ -208,6 +208,7 @@ public class Activity5Query {
 	 * 
 	 * @param chosenName chosen name from step one.
 	 * @param name name of the user.
+	 * @param gender gender of the user. 
 	 * @param yob year of birth of the user. 
 	 * @param prefYounger boolean of whether the user prefers a younger soulmate.
 	 * @param prefGender whether the user prefers a male or female soulmate
