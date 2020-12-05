@@ -63,6 +63,12 @@ import java.io.FileNotFoundException;
 
 
 
+/**
+ * Controller of JavaFx.
+ * 
+ * @author James, Alex, Amrutavarsh
+ *
+ */
 public class Controller implements Initializable{
 
     @FXML
@@ -780,7 +786,9 @@ public class Controller implements Initializable{
     }
 
     /**
-     * @param inputs
+     * Rerun task 6 from given input records. Called after reading history.
+     * 
+     * @param inputs string formatted inputs
      */
     @FXML
     void rerunTask6(String inputs) {
@@ -938,6 +946,8 @@ public class Controller implements Initializable{
      */
     @FXML
     void doTask2() {
+
+        // reading UI elements
         String name;
         int gender;
         int startPeriod;
@@ -960,9 +970,11 @@ public class Controller implements Initializable{
             gender = 1;
         }
         Pair<ArrayList<RankRecord>, String> queryResult;
+
+        // execution of query
         try {
             queryResult = Activity2Query.executeQuery(name, gender, startPeriod, endPeriod);
-        } catch(RuntimeException e) {
+        } catch(Exception e) {
             if(e.getMessage().equals("length")) {
                 showWarning("Invalid Name", "Name must contain only 2 to 15 characters.");
             } else if(e.getMessage().equals("char")) {
@@ -978,6 +990,7 @@ public class Controller implements Initializable{
         }
         ArrayList<RankRecord> rankRecords = queryResult.getKey();
 
+        // displaying results
         task2TextResult.setText(queryResult.getValue());
 
         task2TableResult.getItems().clear();
@@ -1301,12 +1314,14 @@ public class Controller implements Initializable{
     }
 
     /**
-     *  Task Six
-     *  To be triggered by the Generate Report Button in Reporting 2 tab.
+     *  Task Six part 1
+     *  To be triggered by the Generate Report Button in Reporting 3 tab.
      *  
      */
     @FXML
     void doTask6() {
+
+        // read UI elements
         String name1, name2;
         int gender1, gender2;
         int year1, year2;
@@ -1354,17 +1369,21 @@ public class Controller implements Initializable{
                 showWarning("Invalid Year of Birth", "The year of birth of your soulmate must be an integer.");
                 return;
             }
-        }        
+        }
         float score = -1;
         String gender = Constants.genders[gender1];
         String genderMate = Constants.genders[gender2];
         ArrayList<Double> linearReg = null;
+
+        // execution of score calculation
         try {
             if (task6RadioNKT6.isSelected()) {
                 score = Activity6Query.executeNKT6(name1, gender1, year1, name2, gender2, isYounger, false);
             } else if (task6RadioNorm.isSelected()) {
                 score = Activity6Query.executeNKT6(name1, gender1, year1, name2, gender2, isYounger, true);
             } else {
+                // linear regression score
+
                 task6TextName1.setDisable(true);
                 task6RadioMale1.setDisable(true);
                 task6RadioFemale1.setDisable(true);
@@ -1387,6 +1406,7 @@ public class Controller implements Initializable{
                 
                 Activity6Query.prepareLinear(name1, gender1, year1, name2, gender2, (task6RadioCustom.isSelected() ? 2 : (isYounger ? 0 : 1)), year2);
                 
+                // setting up threads for calculation in the background
                 task6LinTask0 = new Activity6QueryThreadTask(name1, gender1, year1, name2, gender2, year2);
                 task6LinTask0.setOnFailed(wse -> {
                     System.out.println("Error");
@@ -1395,48 +1415,25 @@ public class Controller implements Initializable{
                     resetTask6();
                 });
                 task6LinTask0.setOnSucceeded(wse1 -> {
-                    //task6ProgressBar.progressProperty().unbind();
-                    //task6ProgressBar.progressProperty().bind(task6LinTask2.progressProperty());
                     tasks6Points = task6LinTask0.getValue();
                     task6LinTask1 = new LinearRegressionTask(tasks6Points.getKey());
                     task6LinTask2 = new LinearRegressionTask(tasks6Points.getValue());
-                    /* Checked in task 0
-                    task6LinTask1.setOnFailed(wse -> {
-                        System.out.println("Error");
-                        task6LinTask1.getException().printStackTrace();
-                        showWarning("Regression Error", "There are not enough data points for regression. Please use the other algorithms.");
-                        resetTask6();
-                    });
-                    task6LinTask2.setOnFailed(wse -> {
-                        System.out.println("Error");
-                        task6LinTask2.getException().printStackTrace();
-                        showWarning("Regression Error", "There are not enough data points for regression. Please use the other algorithms.");
-                        resetTask6();
-                    });*/
                     task6LinTask1.setOnSucceeded(wse -> {
-                        //super.succeeded();
-                        //task6ProgressBar.progressProperty().unbind();
-                        //task6ProgressBar.progressProperty().bind(task6LinTask2.progressProperty());
                         new Thread(task6LinTask2).start();
                     });
                     
                     task6LinTask2.setOnSucceeded(wse -> {
-                        // super.succeeded();
-                        //task6ProgressBar.progressProperty().unbind();
-                        //task6ProgressBar.setVisible(false);
                         doTask6AfterThread();
                     });
 
-                    //task6ProgressBar.progressProperty().bind(task6LinTask1.progressProperty());
-                    
-                    //task6ProgressBar.setVisible(true);
                     new Thread(task6LinTask1).start();
                 });
 
+                // execute all threads
                 new Thread(task6LinTask0).start();
                 return;
             }
-        } catch(RuntimeException e) {
+        } catch(Exception e) {
             System.out.println("Thread error: " + e.getMessage());
             e.printStackTrace();
             if(e.getMessage().equals("length1")) {
@@ -1457,6 +1454,8 @@ public class Controller implements Initializable{
             resetTask6();
             return;
         }
+
+        // display results of NK-T6 algorithms
         DecimalFormat df = new DecimalFormat("0");
         df.setMaximumFractionDigits(340);        
         task6TextResult.setText("Your score of compatibility is " + df.format(AnalyzeNames.round(score * 100, 5)) + "%");
@@ -1481,7 +1480,7 @@ public class Controller implements Initializable{
     }
 
     /**
-     * 
+     * A helper function to reset all UI elements in Task 6
      */
     @FXML
     void resetTask6() {
@@ -1508,12 +1507,16 @@ public class Controller implements Initializable{
     }
 
     /**
-     * 
+     * Task 6 part 2
+     * To be triggered when the threads finished execution. 
+     *
      */
     @FXML
     void doTask6AfterThread() {
+        // enable UI
         resetTask6();        
 
+        // read UI elements
         String name1, name2;
         int gender1, gender2;
         int year1, year2;
@@ -1544,10 +1547,13 @@ public class Controller implements Initializable{
         String gender = Constants.genders[gender1];
         String genderMate = Constants.genders[gender2];
         ArrayList<Double> linearReg = null;
+
+        // score calculation
         Pair<Double, ArrayList<Double>> ret = Activity6Query.executeLinear(task6LinTask1.getValue(), task6LinTask2.getValue(), year1, year2);
         score = (float)ret.getKey().doubleValue();
         linearReg = ret.getValue();
 
+        // display result
         DecimalFormat df = new DecimalFormat("0");
         df.setMaximumFractionDigits(340);        
         task6TextResult.setText("Your score of compatibility is " + df.format(AnalyzeNames.round(score * 100, 5)) + "%");
@@ -1564,6 +1570,7 @@ public class Controller implements Initializable{
 
         sliceSpace.getNode().setStyle("-fx-pie-color: #1d1d1d;");
     
+        // generate line chart
         task6LineChartResult.setVisible(true);
         task6LineChartResult.getData().clear();
         XYChart.Series<Integer, Number> series1 = new XYChart.Series<>();
@@ -1600,8 +1607,10 @@ public class Controller implements Initializable{
     }
 
     /**
-     * @param header
-     * @param message
+     * A helper function to display a warning dialogue
+     * 
+     * @param header the header displayed of the dialogue
+     * @param message the messaged displayed in the diologue
      */
     private static void showWarning(String header, String message) {
         Alert alert = new Alert(AlertType.WARNING);

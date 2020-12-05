@@ -1,7 +1,9 @@
 package comp3111.popnames;
 
 /**
- * @author auyfg
+ * A class for storing a rank record of a name in a year.
+ * 
+ * @author James
  *
  */
 public class RankRecord {
@@ -11,8 +13,10 @@ public class RankRecord {
 	private float percentage;
 	private boolean isValid;
 	
-	/**
-	 * @param year
+	/** 
+	 * Constructor.
+	 * 
+	 * @param year the year to be stored
 	 */
 	public RankRecord(int year) {
 		this.year = year;
@@ -23,8 +27,10 @@ public class RankRecord {
 	}
 
 	/**
-	 * @param rank
-	 * @param count
+	 * Setter for rank and count, also setting the object to be valid. 
+	 *
+	 * @param rank the rank to be stored
+	 * @param count the count to be stored
 	 */
 	public void set(int rank, int count) {
 		isValid = true;
@@ -33,7 +39,9 @@ public class RankRecord {
 	}
 
 	/**
-	 * @param total
+	 * Setter for the total count of the same gender in the year, calculates and store a percentage of counts.
+	 * It will not update anything if the object is invalid.
+	 * @param total the total number of name counts of the same gender in the year
 	 */
 	public void setTotalCount(int total) {
 		if(isValid)
@@ -42,14 +50,18 @@ public class RankRecord {
 
 
 	/**
-	 * @return
+	 * Getter for the year
+	 *
+	 * @return year stored in object
 	 */
 	public int getYear() {
 		return year;
 	}
 
 	/**
-	 * @return
+	 * Getter for the rank
+	 *
+	 * @return rank stored in object, return -1 if it is invalid
 	 */
 	public int getRank() {
 		if(!isValid)
@@ -58,7 +70,8 @@ public class RankRecord {
 	}
 
 	/**
-	 * @return
+	 * Getter for the count
+	 * @return count stored in object, return -1 if it is invalid
 	 */
 	public int getCount() {
 		if(!isValid)
@@ -67,7 +80,8 @@ public class RankRecord {
 	}
 
 	/**
-	 * @return
+	 * Getter for the percentage
+	 * @return percentage stored in object, return -1 if it is invalid or not total count not set
 	 */
 	public float getPercentage() {
 		if(!isValid)
@@ -76,7 +90,8 @@ public class RankRecord {
 	}
 
 	/**
-	 * @return
+	 * Getter for the validity
+	 * @return true if the object is valid, false if the object is invalid
 	 */
 	public boolean isValid() {
 		return isValid;

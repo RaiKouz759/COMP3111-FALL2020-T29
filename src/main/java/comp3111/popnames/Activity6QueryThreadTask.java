@@ -39,6 +39,7 @@ public class Activity6QueryThreadTask extends Task<Pair<ArrayList<Pair<Double, D
 	 * The actual execution call to generate two arrays of data points for each person, representing the year and rank data points.
 	 *
 	 * @return a Pair object which contains the two arrays respectively
+	 * @throws Exception not enough data points
 	 */
 	@Override
 	 protected Pair<ArrayList<Pair<Double, Double>>, ArrayList<Pair<Double, Double>>> call() throws Exception {

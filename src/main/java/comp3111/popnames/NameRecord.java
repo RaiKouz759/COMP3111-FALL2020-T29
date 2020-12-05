@@ -30,7 +30,7 @@ public class NameRecord {
 	/**
 	 * getter for name. 
 	 * 
-	 * @return
+	 * @return the name stored
 	 */
 	public String getName() {
 		return name;
@@ -40,7 +40,7 @@ public class NameRecord {
 	/**
 	 * setter for name. 
 	 * 
-	 * @param name
+	 * @param name the name to be stored
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -50,7 +50,7 @@ public class NameRecord {
 	/**
 	 * getter for gender.
 	 * 
-	 * @return
+	 * @return the gender stored
 	 */
 	public int getGender() {
 		return gender;
@@ -60,7 +60,7 @@ public class NameRecord {
 	/**
 	 * setter for gender
 	 * 
-	 * @param gender
+	 * @param gender the gender to be stored
 	 */
 	public void setGender(int gender) {
 		this.gender = gender;
@@ -70,7 +70,7 @@ public class NameRecord {
 	/**
 	 * getter for number of occurrences
 	 * 
-	 * @return
+	 * @return the number of occurrence stored
 	 */
 	public int getNumOfOccur() {
 		return numOfOccur;
@@ -78,7 +78,7 @@ public class NameRecord {
 
 
 	/**
-	 * @param numOfOccur
+	 * @param numOfOccur the number of occurrence to be stored
 	 */
 	public void setNumOfOccur(int numOfOccur) {
 		this.numOfOccur = numOfOccur;

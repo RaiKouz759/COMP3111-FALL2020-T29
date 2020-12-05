@@ -17,12 +17,20 @@ import javafx.stage.Stage;
 import javafx.scene.text.Text;
 import javafx.fxml.FXMLLoader;
 
+/**
+ * This class focuses solely on FX tests for the Activity2Query class, focusing on input validation and ensuring that valid output is obtained. 
+ * @author James
+ *
+ */
 public class Activity2JavaFXTest extends ApplicationTest {
 
 	private Scene s;
 	private TextField name, start, end;
     private TableView<Map> table;
 	
+	/**
+	 * Initializes the scene and references all the necessary ui elements for testing. 
+	 */
 	@Override
 	public void start(Stage stage) throws Exception {
     	FXMLLoader loader = new FXMLLoader();
@@ -40,6 +48,9 @@ public class Activity2JavaFXTest extends ApplicationTest {
 	}
 
     
+	/**
+	 * Tests a valid query for female. 
+	 */
 	@Test
 	public void testQuery1() {	
 		clickOn("#tabReport2");
@@ -66,6 +77,9 @@ public class Activity2JavaFXTest extends ApplicationTest {
 		assertTrue(table.getColumns().get(3).getCellObservableValue(2).getValue().equals("1.6885%"));
 	}
 
+	/**
+	 * Tests a valid query for male. 
+	 */
 	@Test
 	public void testQuery2() {	
 		clickOn("#tabReport2");
@@ -93,6 +107,9 @@ public class Activity2JavaFXTest extends ApplicationTest {
 
 	}
 
+	/**
+	 * Tests a valid query of non existing names.
+	 */
 	@Test
 	public void testQuery3() {	
 		clickOn("#tabReport2");
@@ -114,6 +131,9 @@ public class Activity2JavaFXTest extends ApplicationTest {
 
 	}
 
+	/**
+	 * Tests an invalid query with empty name.
+	 */
 	@Test
 	public void testNameEmpty() {
 		clickOn("#tabReport2");
@@ -127,6 +147,9 @@ public class Activity2JavaFXTest extends ApplicationTest {
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("Please enter a")).query();
 	}
 
+	/**
+	 * Tests an invalid query with a short name.
+	 */
 	@Test
 	public void testNameShort() {
 		clickOn("#tabReport2");
@@ -140,6 +163,9 @@ public class Activity2JavaFXTest extends ApplicationTest {
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("Name must contain only 2 to 15 characters")).query();
 	}
 
+	/**
+	 * Tests an invalid query with long name.
+	 */
 	@Test
 	public void testNameLong() {
 		clickOn("#tabReport2");
@@ -153,6 +179,9 @@ public class Activity2JavaFXTest extends ApplicationTest {
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("Name must contain only 2 to 15 characters")).query();
 	}
 
+	/**
+	 * 
+	 */
 	@Test
 	public void testNameCharacter() {
 		clickOn("#tabReport2");
@@ -166,6 +195,9 @@ public class Activity2JavaFXTest extends ApplicationTest {
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("Name must contain only letters")).query();
 	}
 
+	/**
+	 * Tests an invalid query with name containing non-alphabetical characters.
+	 */
 	@Test
 	public void testPeriodInvlid() {
 		clickOn("#tabReport2");
@@ -179,6 +211,9 @@ public class Activity2JavaFXTest extends ApplicationTest {
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("Period must")).query();
 	}
 
+	/**
+	 * Tests an invalid query with starting year out of bound.
+	 */
 	@Test
 	public void testStartPeriodBoundary() {
 		clickOn("#tabReport2");
@@ -192,6 +227,9 @@ public class Activity2JavaFXTest extends ApplicationTest {
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("Starting year")).query();
 	}
 
+	/**
+	 * Tests an invalid query with ending year out of bound.
+	 */
 	@Test
 	public void testEndPeriodBoundary() {
 		clickOn("#tabReport2");
@@ -205,6 +243,9 @@ public class Activity2JavaFXTest extends ApplicationTest {
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("Ending year")).query();
 	}
 
+	/**
+	 * Tests an invalid query with starting and ending years out of bound.
+	 */
 	@Test
 	public void testStartEndPeriodBoundary() {
 		clickOn("#tabReport2");

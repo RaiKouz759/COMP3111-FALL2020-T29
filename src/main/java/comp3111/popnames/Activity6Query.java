@@ -32,8 +32,9 @@ public class Activity6Query {
 	 * @param iYOB the year of birth of the first person
 	 * @param iNameMate the name of the second person
 	 * @param iYOBMate the year of birth of the second person
+	 * @throws Exception invalid inputs
 	 */
-	public static void validate(String iName, int iYOB, String iNameMate, int iYOBMate) {
+	public static void validate(String iName, int iYOB, String iNameMate, int iYOBMate) throws Exception {
 		if (!AnalyzeNames.checkNameLength(iName)) {
 			throw new RuntimeException("length1"); 
 		}
@@ -100,8 +101,9 @@ public class Activity6Query {
 	 * @param isYounger preferred age of the second person relative to the first person
 	 * @param normalized indicate whether the score is normalized to the scale 0-1
 	 * @return score, not yet converted to percentage
+	 * @throws Exception invalid inputs
 	 */
-	public static float executeNKT6(String iName, int iGender, int iYOB, String iNameMate, int iGenderMate, boolean isYounger, boolean normalized) {
+	public static float executeNKT6(String iName, int iGender, int iYOB, String iNameMate, int iGenderMate, boolean isYounger, boolean normalized) throws Exception {
 		
 		// input validation
 		try {
@@ -170,8 +172,9 @@ public class Activity6Query {
 	 * @param preference the index of age preference, 0 for younger, 1 for older, 2 for custom year of birth
 	 * @param iYOBMate the year of birth of the second person
 	 * @return always return true for valid inputs, throw Exception for invalid inputs
+	 * @throws Exception invalid inputs
 	 */
-	public static boolean prepareLinear(String iName, int iGender, int iYOB, String iNameMate, int iGenderMate, int preference, int iYOBMate) {
+	public static boolean prepareLinear(String iName, int iGender, int iYOB, String iNameMate, int iGenderMate, int preference, int iYOBMate) throws Exception {
 		try {
 			validate(iName, iYOB, iNameMate, iYOBMate);
 		} catch(Exception e) {
@@ -219,8 +222,9 @@ public class Activity6Query {
 	 * @param preference the age preference indicating: 0 - younger, 1 - older, 2 - custom year of birth
 	 * @param year2 the year of birth of the second person
 	 * @param algorithm the algorithm used: 0 - NK-T6, 1 - Normalized NK-T6, 2 - Linear regression
+	 * @throws Exception IO problems in history
 	 */
-	private static void saveHistory(String name1, int gender1, int year1, String name2, int gender2, int preference, int year2, int algorithm) {
+	private static void saveHistory(String name1, int gender1, int year1, String name2, int gender2, int preference, int year2, int algorithm) throws Exception {
 		String query = String.format("Task 6, task6TextName1:%s;task6Toggle1:%d;task6TextYear1:%d;task6TextName2:%s;task6Toggle2:%d;task6Toggle3:%d;task6TextYear2:%d;task6Toggle4:%d",
 		 name1, gender1, year1, name2, gender2, preference, year2, algorithm);
 		try {
