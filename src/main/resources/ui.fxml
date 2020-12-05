@@ -18,6 +18,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
@@ -342,7 +343,7 @@
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
-                              <VBox layoutX="30.0" layoutY="22.0" spacing="20.0" AnchorPane.bottomAnchor="38.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="22.0">
+                              <VBox alignment="CENTER" spacing="20.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="30.0">
                                  <children>
                                     <StackPane>
                                        <children>
@@ -462,53 +463,49 @@
                                                       <Label text="Algorithm:" />
                                                    </children>
                                                 </StackPane>
-                                                <RadioButton fx:id="task6RadioNorm" mnemonicParsing="false" styleClass="label-bright" text="Normalized NK-T6">
+                                                <RadioButton fx:id="task6RadioNKT6" mnemonicParsing="false" selected="true" styleClass="label-bright" text="NK-T6">
                                                    <toggleGroup>
                                                       <ToggleGroup fx:id="task6Toggle4" />
-                                                   </toggleGroup>
-                                                </RadioButton>
+                                                   </toggleGroup></RadioButton>
+                                                <RadioButton fx:id="task6RadioNorm" mnemonicParsing="false" styleClass="label-bright" text="Normalized NK-T6" toggleGroup="$task6Toggle4" />
                                                 <RadioButton fx:id="task6RadioLinear" mnemonicParsing="false" styleClass="label-bright" text="Linear Regression" toggleGroup="$task6Toggle4" />
-                                                <RadioButton fx:id="task6RadioNKT6" mnemonicParsing="false" selected="true" styleClass="label-bright" text="NK-T6" toggleGroup="$task6Toggle4" />
                                              </children>
                                           </HBox>
                                        </children></StackPane>
-                                    <HBox>
-                                       <children>
-                                          <StackPane>
+                                    <BorderPane>
+                                       <center>
+                                          <StackPane BorderPane.alignment="CENTER">
+                                             <children>
+                                                <Label fx:id="task6TextResult" styleClass="label-bright" text="Your score of compatibility is" visible="false" />
+                                                <ProgressBar fx:id="task6ProgressBar" prefWidth="286.0" progress="0.0" visible="false" />
+                                             </children>
+                                          </StackPane>
+                                       </center>
+                                       <right>
+                                          <StackPane BorderPane.alignment="CENTER">
+                                             <children>
+                                                <PieChart fx:id="task6PieChartResult" labelsVisible="false" legendVisible="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="75.0" prefWidth="75.0" styleClass="table-view" />
+                                             </children>
+                                          </StackPane>
+                                       </right>
+                                       <left>
+                                          <StackPane BorderPane.alignment="CENTER">
                                              <children>
                                                 <VBox spacing="10.0" StackPane.alignment="CENTER">
                                                    <children>
                                                       <StackPane>
                                                          <children>
-                                                            <Button fx:id="task6ButtonReport" mnemonicParsing="false" onAction="#doTask6" text="Generate Score" />
-                                                         </children>
-                                                      </StackPane>
-                                                      <StackPane>
-                                                         <children>
-                                                            <Button fx:id="task6ButtonCancel" mnemonicParsing="false" text="Cancel" />
+                                                            <Button fx:id="task6ButtonCancel" mnemonicParsing="false" text="Cancel" visible="false" />
                                                          </children>
                                                       </StackPane>
                                                    </children>
                                                 </VBox>
+                                                <Button fx:id="task6ButtonReport" mnemonicParsing="false" onAction="#doTask6" text="Generate Score" />
                                              </children>
                                           </StackPane>
-                                          <StackPane HBox.hgrow="ALWAYS">
-                                             <children>
-                                                <Label fx:id="task6TextResult" styleClass="label-bright" text="Your score of compatibility is" visible="false" />
-                                                <StackPane visible="false">
-                                                   <StackPane.margin>
-                                                      <Insets />
-                                                   </StackPane.margin>
-                                                   <children>
-                                                      <ProgressBar fx:id="task6ProgressBar" prefWidth="286.0" progress="0.0" visible="false" />
-                                                   </children>
-                                                </StackPane>
-                                             </children>
-                                          </StackPane>
-                                          <PieChart fx:id="task6PieChartResult" labelsVisible="false" legendVisible="false" minHeight="-Infinity" minWidth="-Infinity" prefHeight="75.0" prefWidth="75.0" styleClass="table-view" HBox.hgrow="NEVER" />
-                                       </children>
-                                    </HBox>
-                                    <LineChart fx:id="task6LineChartResult" legendSide="RIGHT" prefHeight="221.0" prefWidth="659.0" styleClass="table-view" visible="false" VBox.vgrow="ALWAYS">
+                                       </left>
+                                    </BorderPane>
+                                    <LineChart fx:id="task6LineChartResult" legendSide="RIGHT" prefHeight="250.0" styleClass="table-view" visible="false" VBox.vgrow="NEVER">
                                       <xAxis>
                                         <NumberAxis forceZeroInRange="false" label="Year" lowerBound="1880.0" side="BOTTOM" upperBound="2019.0" />
                                       </xAxis>
@@ -550,7 +547,7 @@
                                           </HBox>
                                        </children>
                                     </StackPane>
-                                    <TableView fx:id="historyTableView" prefHeight="291.0" prefWidth="719.0" />
+                                    <TableView fx:id="historyTableView" VBox.vgrow="ALWAYS" />
                                  </children>
                               </VBox>
                               <TextArea fx:id="historyText" layoutX="24.0" layoutY="123.0" prefHeight="234.0" prefWidth="670.0" visible="false" />
