@@ -63,8 +63,7 @@ public class Activity1Query {
 	 */
 	public static ArrayList<YearRecords> executeQuery(int numRanks, int gender, int startPeriod, int endPeriod) {
 		// assume that input parameters are valid and have been verified. 
-		// can also get the top 3 results in the period range
-		// what happens when numRanks is 1000? 
+		// get the top 3 results in the period range
 		
 		ArrayList<YearRecords> yearRecordsList = new ArrayList<YearRecords>();
 		String str_gender = Constants.genders[gender];
