@@ -63,6 +63,12 @@ import java.io.FileNotFoundException;
 
 
 
+/**
+ * Controller of JavaFx.
+ * 
+ * @author James, Alex, Amrutavarsh
+ *
+ */
 public class Controller implements Initializable{
 
     @FXML

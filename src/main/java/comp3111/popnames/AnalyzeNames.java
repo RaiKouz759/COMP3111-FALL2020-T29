@@ -4,6 +4,7 @@ import org.apache.commons.csv.*;
 import edu.duke.*;
 
 /**
+ * A helper class storing helper functions for name analysis.
  * @author James, Codebase
  *
  */
