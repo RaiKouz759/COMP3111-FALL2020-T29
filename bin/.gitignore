@@ -5,3 +5,16 @@
 build
 /.classpath
 /main/
+/.DS_Store
+/.gitattributes
+/.project
+/README.md
+/build.gradle
+/gradlew
+/gradlew.bat
+/settings.gradle
+/.settings/
+/gradle/
+/libs/
+/src/
+/test/
