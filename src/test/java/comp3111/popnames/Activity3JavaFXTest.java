@@ -67,8 +67,8 @@ public class Activity3JavaFXTest extends ApplicationTest {
 		assertTrue(table.getColumns().get(1).getCellObservableValue(2).getValue().equals("1944"));
 		assertTrue(table.getColumns().get(2).getCellObservableValue(2).getValue().equals("4"));
 		assertTrue(table.getColumns().get(3).getCellObservableValue(2).getValue().equals("1943"));
-		assertTrue(table.getColumns().get(4).getCellObservableValue(1).getValue().equals("3"));
-		assertTrue(table.getColumns().get(5).getCellObservableValue(1).getValue().equals("DOWN"));
+		assertTrue(table.getColumns().get(4).getCellObservableValue(2).getValue().equals("3"));
+		assertTrue(table.getColumns().get(5).getCellObservableValue(2).getValue().equals("DOWN"));
 	}
 	
 	@Test
@@ -89,7 +89,7 @@ public class Activity3JavaFXTest extends ApplicationTest {
 		clickOn("#tabReport3");
 		topN.setText("4");
 		clickOn("#t3_f");
-		start.setText("1840");
+		start.setText("1943");
 		end.setText("2020");
 		clickOn("#task3_report");
 		FxAssert.verifyThat("OK", NodeMatchers.isVisible());
