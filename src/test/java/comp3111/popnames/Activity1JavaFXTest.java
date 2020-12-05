@@ -63,6 +63,7 @@ public class Activity1JavaFXTest extends ApplicationTest {
 		start.setText("1880");
 		end.setText("1882");
 		clickOn("#task1Button");
+		sleep(50);
 		FxAssert.verifyThat("OK", NodeMatchers.isVisible());
 		Node dialogPane = lookup(".dialog-pane").query();
 		from(dialogPane).lookup((Text t) -> t.getText().startsWith("Please enter an N")).query();
